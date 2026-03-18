@@ -1,10 +1,10 @@
 package seedu.duke;
+import seedu.duke.RecordType.Record;
 
 import java.time.DateTimeException;
 import java.time.YearMonth;
 
 import seedu.duke.RecordType.*;
-import seedu.duke.RecordType.Record;
 
 public class Parser {
 
@@ -28,6 +28,10 @@ public class Parser {
                 return null;
             }
             return new FindCommand(split[1]);
+        case "show":
+            return new ShowCommand(Integer.parseInt(split[1]));
+        case "list":
+            return new ListCommand();
 
         case "project":
             r = parseProject(split);

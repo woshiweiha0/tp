@@ -1,16 +1,19 @@
 package seedu.duke;
 
 public class ShowCommand extends Command{
-
-    public ShowCommand(){
-
+    int index;
+    public ShowCommand(int index){
+        this.index = index;
     }
-    public static void printRecord(RecordList records, int index){
-        System.out.println(records.getRecord(index));
+
+    public static void listRecord(RecordList records){
+        for (Record record : records){
+            System.out.println(record);
+        }
     }
 
     @Override
     public void execute(RecordList list) {
-
+        System.out.println(list.getRecord(index));
     }
 }
