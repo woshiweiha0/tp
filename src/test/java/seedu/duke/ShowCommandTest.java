@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.YearMonth;
 
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
 public class ShowCommandTest {
 

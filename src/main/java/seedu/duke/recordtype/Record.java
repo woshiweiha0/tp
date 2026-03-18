@@ -1,4 +1,4 @@
-package seedu.duke.RecordType;
+package seedu.duke.recordtype;
 
 import java.time.YearMonth;
 
@@ -31,5 +31,5 @@ public class Record {
         this.title = description;
     }
 
-    public String getRecordType() {return recordType;}
+    public String getRecordType() { return recordType; }
 }

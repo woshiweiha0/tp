@@ -3,8 +3,10 @@ package seedu.duke;
 import java.time.DateTimeException;
 import java.time.YearMonth;
 
-import seedu.duke.RecordType.*;
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Cca;
+import seedu.duke.recordtype.Experience;
+import seedu.duke.recordtype.Project;
+import seedu.duke.recordtype.Record;
 
 public class Parser {
 

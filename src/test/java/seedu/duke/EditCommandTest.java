@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.YearMonth;
-import seedu.duke.RecordType.*;
-import seedu.duke.RecordType.Record;
+
+import seedu.duke.recordtype.Record;
 
 public class EditCommandTest {
 
