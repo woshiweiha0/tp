@@ -59,8 +59,10 @@ public class FindCommandTest {
         FindCommand findCommand = new FindCommand("java");
         findCommand.execute(recordList);
 
+        String dashedLine = "--------------------";
         String lineSeparator = System.lineSeparator();
-        String expectedOutput = "--------------------" + lineSeparator
+        String expectedOutput =
+                dashedLine + lineSeparator
                 + "Matching records:" + lineSeparator
                 + "1. [R] Java project | role: Developer | tech: Java"
                 + " | from: 2026-01 | to: 2026-03" + lineSeparator
@@ -69,6 +71,10 @@ public class FindCommandTest {
                 + "3. [R] Full stack Java app | role: Developer | tech: Java"
                 + " | from: 2026-01 | to: 2026-03" + lineSeparator
                 + "--------------------" + lineSeparator;
+                + "1. [R] Java project | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
+                + "2. [R] Python internship | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
+                + "3. [R] Full stack Java app | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
+                + dashedLine + lineSeparator;
 
         assertEquals(expectedOutput, outputStream.toString());
     }

@@ -1,3 +1,3 @@
-project Capo CLI /role Developer /tech Java /from 2026-01 /to 2026-03
 experience Google /role “SWE Intern” /tech “JavaScript” /from 2025-12 /to 2026-02
 cca Google /role “SWE Intern” /tech “JavaScript” /from 2025-12 /to 2026-02
+project Capo CLI /role Developer /tech Java /from 2026-01 /to 2026-03

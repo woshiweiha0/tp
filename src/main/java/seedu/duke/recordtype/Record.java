@@ -11,6 +11,12 @@ public class Record {
     protected String recordType;
 
     public Record(String title, String role, String tech, YearMonth from, YearMonth to) {
+        assert title != null && !title.isEmpty()
+                : "Title must not be null or empty";
+        assert from != null;
+        assert to != null;
+        assert !to.isBefore(from);
+
         this.title = title;
         this.role = role;
         this.tech = tech;
