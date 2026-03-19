@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import seedu.duke.recordtype.Record;
+
 public class ListCommand extends Command{
     public ListCommand(){
     }

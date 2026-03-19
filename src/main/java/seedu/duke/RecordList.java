@@ -2,10 +2,10 @@ package seedu.duke;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
-public class RecordList implements Iterable<seedu.duke.RecordType.Record> {
-    private final ArrayList<seedu.duke.RecordType.Record> list;
+public class RecordList implements Iterable<seedu.duke.recordtype.Record> {
+    private final ArrayList<seedu.duke.recordtype.Record> list;
     private int size;
 
     public RecordList() {
@@ -18,7 +18,7 @@ public class RecordList implements Iterable<seedu.duke.RecordType.Record> {
         size++;
     }
 
-    public seedu.duke.RecordType.Record getRecord(int index) {
+    public seedu.duke.recordtype.Record getRecord(int index) {
         return list.get(index);
     }
 

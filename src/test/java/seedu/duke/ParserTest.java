@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import seedu.duke.RecordType.*;
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
 public class ParserTest {
     @Test

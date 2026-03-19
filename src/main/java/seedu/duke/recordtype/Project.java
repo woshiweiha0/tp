@@ -1,4 +1,4 @@
-package seedu.duke.RecordType;
+package seedu.duke.recordtype;
 
 import java.time.YearMonth;
 

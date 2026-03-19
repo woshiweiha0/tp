@@ -5,12 +5,11 @@ import java.time.YearMonth;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import seedu.duke.RecordType.Project;
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
 public class AddCommandTest {
     @Test
-    public void AddedToList(){
+    public void addedToList(){
         RecordList list = new RecordList();
         Record record = new Record(
                 "Resumake CLI",

@@ -1,6 +1,6 @@
 package seedu.duke;
 
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
 public class AddCommand extends Command{
     private final Record r;

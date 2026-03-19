@@ -9,7 +9,7 @@ import java.time.YearMonth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import seedu.duke.RecordType.Record;
+import seedu.duke.recordtype.Record;
 
 public class FindCommandTest {
     private final PrintStream originalOut = System.out;

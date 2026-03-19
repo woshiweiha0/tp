@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import seedu.duke.recordtype.Record;
+
 public class ShowCommand extends Command{
     int index;
     public ShowCommand(int index){
@@ -10,6 +12,10 @@ public class ShowCommand extends Command{
         for (Record record : records){
             System.out.println(record);
         }
+    }
+
+    public static void printRecord(RecordList records, int index) {
+        System.out.println(records.getRecord(index));
     }
 
     @Override
