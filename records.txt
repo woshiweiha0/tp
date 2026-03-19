@@ -1,0 +1,1 @@
+project Capo CLI /role Developer /tech Java /from 2026-01 /to 2026-03
