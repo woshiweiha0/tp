@@ -10,6 +10,7 @@ import seedu.duke.recordtype.Record;
 
 public class Parser {
 
+
     public static Command parse(String userInput) {
         String trimmedInput = userInput.trim();
         Record r;
@@ -46,6 +47,16 @@ public class Parser {
         case "cca":
             r = parseCca(split);
             return new AddCommand(r);
+            
+        case "delete":
+            if (split.length < 2) {
+                return null;
+            }
+            try {
+                return new DeleteCommand(Integer.parseInt(split[1]));
+            } catch (NumberFormatException e) {
+                return null;
+            }
 
         default:
             return null;

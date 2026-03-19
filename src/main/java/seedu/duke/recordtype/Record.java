@@ -27,9 +27,34 @@ public class Record {
         return title;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public String getTech() {
+        return tech;
+    }
+
+    public YearMonth getFrom() {
+        return from;
+    }
+
+    public YearMonth getTo() {
+        return to;
+    }
+
     public void setDescription(String description) {
         this.title = description;
     }
 
     public String getRecordType() { return recordType; }
+
+    @Override
+    public String toString() {
+        return "[" + recordType + "] " + title
+                + " | role: " + role
+                + " | tech: " + tech
+                + " | from: " + from
+                + " | to: " + to;
+    }
 }
