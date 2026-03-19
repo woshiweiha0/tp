@@ -2,6 +2,9 @@ package seedu.duke;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Resumake {
     private RecordList list;
@@ -40,6 +43,13 @@ public class Resumake {
     }
 
     public static void main(String[] args) {
+        Logger rootLogger = Logger.getLogger("");
+        boolean isDebugLoggingEnabled = Boolean.parseBoolean(System.getProperty("debugLogs", "false"));
+        Level logLevel = isDebugLoggingEnabled ? Level.INFO : Level.OFF;
+        rootLogger.setLevel(logLevel);
+        for (Handler handler : rootLogger.getHandlers()) {
+            handler.setLevel(logLevel);
+        }
         new Resumake().run();
     }
 }
