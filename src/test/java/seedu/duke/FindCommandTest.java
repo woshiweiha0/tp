@@ -62,9 +62,12 @@ public class FindCommandTest {
         String lineSeparator = System.lineSeparator();
         String expectedOutput = "--------------------" + lineSeparator
                 + "Matching records:" + lineSeparator
-                + "1. [R] Java project | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
-                + "2. [R] Python internship | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
-                + "3. [R] Full stack Java app | role: Developer | tech: Java | from: 2026-01 | to: 2026-03" + lineSeparator
+                + "1. [R] Java project | role: Developer | tech: Java"
+                + " | from: 2026-01 | to: 2026-03" + lineSeparator
+                + "2. [R] Python internship | role: Developer | tech: Java"
+                + " | from: 2026-01 | to: 2026-03" + lineSeparator
+                + "3. [R] Full stack Java app | role: Developer | tech: Java"
+                + " | from: 2026-01 | to: 2026-03" + lineSeparator
                 + "--------------------" + lineSeparator;
 
         assertEquals(expectedOutput, outputStream.toString());

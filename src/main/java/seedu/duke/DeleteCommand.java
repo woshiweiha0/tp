@@ -4,6 +4,7 @@ public class DeleteCommand extends Command {
     private final int userIndex;
 
     public DeleteCommand(int userIndex) {
+        assert userIndex > 0 : "index should be more than 0";
         this.userIndex = userIndex;
     }
 

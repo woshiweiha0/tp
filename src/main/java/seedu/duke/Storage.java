@@ -28,6 +28,7 @@ public class Storage {
         if (Files.notExists(path)) {
             Files.createFile(path);
         }
+        assert Files.exists(path) : "file should exist after path creation";
 
         FileWriter fw = new FileWriter(path.toFile());
 
@@ -47,6 +48,7 @@ public class Storage {
     }
 
     public RecordList loadFromFile(String filepath) throws FileNotFoundException {
+        assert filepath != null && !filepath.isBlank() : "filepath should not be blank";
         File file = new File(filepath);
         Path path = Paths.get(filepath);
         Path directory = path.getParent();
@@ -70,6 +72,7 @@ public class Storage {
                 return list;
             }
         }
+        assert Files.exists(path) : "file should exist after path creation";
 
         Scanner sc = new Scanner(file);
         while (sc.hasNext()) {
