@@ -16,7 +16,7 @@ public class Resumake {
         list = new RecordList();
         try {
             list = storage.loadFromFile(Storage.getFilepath());
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             ui.showLoadingError();
         }
     }
