@@ -1,5 +1,7 @@
-package seedu.duke;
+package seedu.duke.Commands;
 
+import seedu.duke.RecordList;
+import seedu.duke.Ui;
 import seedu.duke.recordtype.Record;
 
 import java.util.logging.Logger;

@@ -1,8 +1,11 @@
-package seedu.duke;
+package seedu.duke.Commands;
 
 import java.util.logging.Logger;
 
-public class ShowCommand extends Command{
+import seedu.duke.RecordList;
+import seedu.duke.Ui;
+
+public class ShowCommand extends Command {
     private static final Logger logger = Logger.getLogger(ShowCommand.class.getName());
     int index;
     private final Ui ui;

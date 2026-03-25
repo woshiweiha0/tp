@@ -1,6 +1,8 @@
-package seedu.duke;
+package seedu.duke.Commands;
 
 import java.util.logging.Logger;
+
+import seedu.duke.RecordList;
 
 public class DeleteCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteCommand.class.getName());

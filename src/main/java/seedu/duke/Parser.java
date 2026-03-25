@@ -5,6 +5,14 @@ import java.time.YearMonth;
 
 import java.util.logging.Logger;
 
+import seedu.duke.Commands.AddBulletCommand;
+import seedu.duke.Commands.AddCommand;
+import seedu.duke.Commands.Command;
+import seedu.duke.Commands.DeleteCommand;
+import seedu.duke.Commands.ExitCommand;
+import seedu.duke.Commands.FindCommand;
+import seedu.duke.Commands.ListCommand;
+import seedu.duke.Commands.ShowCommand;
 import seedu.duke.recordtype.Cca;
 import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;
@@ -86,6 +94,28 @@ public class Parser {
                 logger.info("Delete command detected");
                 return new DeleteCommand(Integer.parseInt(split[1]));
             } catch (NumberFormatException e) {
+                return null;
+            }
+
+        case "addbullet":
+            if (split.length < 2) {
+                return null;
+            }
+            logger.info("Bullet command detected");
+            String[] parts = split[1].split("\\s+",2);
+            if (parts.length < 2) {
+                return null;
+            }
+            try{
+                int index = Integer.parseInt(parts[0]) - 1;
+                String bulletPart = parts[1].trim();
+                if (!bulletPart.startsWith("/")) {
+                    throw new IllegalArgumentException("Bullet must start with /");
+                }
+                String bullet = bulletPart.substring(1).trim();
+
+                return new AddBulletCommand(index,bullet);
+            }catch (NumberFormatException e) {
                 return null;
             }
 

@@ -1,9 +1,12 @@
-package seedu.duke;
+package seedu.duke.Commands;
 
 import java.util.logging.Logger;
+
+import seedu.duke.RecordList;
+import seedu.duke.Ui;
 import seedu.duke.recordtype.Record;
 
-public class ListCommand extends Command{
+public class ListCommand extends Command {
     private static final Logger logger = Logger.getLogger(ListCommand.class.getName());
     private final Ui ui;
 

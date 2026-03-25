@@ -3,6 +3,8 @@ package seedu.duke;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import seedu.duke.Commands.Command;
+
 public class Resumake {
     private RecordList list;
     private final Ui ui;

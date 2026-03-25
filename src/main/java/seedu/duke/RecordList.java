@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import seedu.duke.recordtype.Record;
 
-public class RecordList implements Iterable<seedu.duke.recordtype.Record> {
-    private final ArrayList<seedu.duke.recordtype.Record> list;
+public class RecordList implements Iterable<Record> {
+    private final ArrayList<Record> list;
     private int size;
 
     public RecordList() {
@@ -18,7 +18,7 @@ public class RecordList implements Iterable<seedu.duke.recordtype.Record> {
         size++;
     }
 
-    public seedu.duke.recordtype.Record getRecord(int index) {
+    public Record getRecord(int index) {
         return list.get(index);
     }
 

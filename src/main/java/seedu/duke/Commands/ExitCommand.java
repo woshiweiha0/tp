@@ -1,4 +1,7 @@
-package seedu.duke;
+package seedu.duke.Commands;
+
+import seedu.duke.RecordList;
+import seedu.duke.Ui;
 
 public class ExitCommand extends Command {
     private final Ui ui;

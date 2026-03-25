@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import seedu.duke.Commands.AddBulletCommand;
+import seedu.duke.Commands.AddCommand;
+import seedu.duke.Commands.Command;
+import seedu.duke.Commands.ExitCommand;
+import seedu.duke.Commands.FindCommand;
 import seedu.duke.recordtype.Record;
 
 public class ParserTest {
@@ -95,5 +100,17 @@ public class ParserTest {
         Record record = list.getRecord(0);
         assertEquals("Tennis", record.getTitle());
         assertEquals("C", record.getRecordType());
+    }
+
+    @Test
+    public void parse_bulletCommand() {
+        Command command = Parser.parse("addbullet 2 / did frontend UI");
+
+        assertInstanceOf(AddBulletCommand.class, command);
+
+        AddBulletCommand abc = (AddBulletCommand) command;
+
+        assertEquals(1,abc.getIndex());
+        assertEquals("did frontend UI", abc.getBullet());
     }
 }

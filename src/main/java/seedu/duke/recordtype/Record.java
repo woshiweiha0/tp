@@ -1,6 +1,7 @@
 package seedu.duke.recordtype;
 
 import java.time.YearMonth;
+import java.util.ArrayList;
 
 public class Record {
     protected String title;
@@ -9,6 +10,7 @@ public class Record {
     protected YearMonth from;
     protected YearMonth to;
     protected String recordType;
+    protected ArrayList<String> bullets;
 
     public Record(String title, String role, String tech, YearMonth from, YearMonth to) {
         assert title != null && !title.isEmpty()
@@ -22,6 +24,7 @@ public class Record {
         this.tech = tech;
         this.from = from;
         this.to = to;
+        this.bullets = new ArrayList<>();
         recordType = "R";
     }
 
@@ -61,6 +64,16 @@ public class Record {
 
     public String getRecordType() {
         return recordType;
+    }
+
+    public void addBullet(String bullet) {
+        assert bullet != null && !bullet.isBlank()
+                : "Bullet must not be null or blank";
+        bullets.add(bullet);
+    }
+
+    public ArrayList<String> getBullets() {
+        return bullets;
     }
 
     @Override
