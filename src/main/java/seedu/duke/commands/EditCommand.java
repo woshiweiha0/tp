@@ -11,7 +11,6 @@ public class EditCommand extends Command {
     private static final Logger logger = Logger.getLogger(EditCommand.class.getName());
 
     private final int index;
-    private final String newDescription;
     private final String newTitle;
     private final String newRole;
     private final String newTech;
@@ -21,6 +20,7 @@ public class EditCommand extends Command {
 
     public EditCommand(int index, String newTitle, String newRole, String newTech,
                        YearMonth newFrom, YearMonth newTo) {
+
         if ((newTitle == null || newTitle.isBlank())
                 && (newRole == null || newRole.isBlank())
                 && (newTech == null || newTech.isBlank())
@@ -30,9 +30,6 @@ public class EditCommand extends Command {
         }
 
         this.index = index;
-        this.newDescription = (newDescription == null || newDescription.isBlank())
-                ? null
-                : newDescription.trim();
         this.newTitle = (newTitle == null || newTitle.isBlank()) ? null : newTitle.trim();
         this.newRole = (newRole == null || newRole.isBlank()) ? null : newRole.trim();
         this.newTech = (newTech == null || newTech.isBlank()) ? null : newTech.trim();
@@ -62,6 +59,7 @@ public class EditCommand extends Command {
             Record record = list.getRecord(index);
             assert record != null : "Record at valid index should not be null";
 
+            // validate date range
             YearMonth finalFrom = (newFrom != null) ? newFrom : record.getFrom();
             YearMonth finalTo = (newTo != null) ? newTo : record.getTo();
 
@@ -69,20 +67,23 @@ public class EditCommand extends Command {
                 throw new IllegalArgumentException("End date cannot be before start date.");
             }
 
-            if (newDescription != null) {
-                record.setDescription(newDescription);
+            // apply edits
             if (newTitle != null) {
-                record.setDescription(newTitle);
+                record.setTitle(newTitle);
             }
+
             if (newRole != null) {
                 record.setRole(newRole);
             }
+
             if (newTech != null) {
                 record.setTech(newTech);
             }
+
             if (newFrom != null) {
                 record.setFrom(newFrom);
             }
+
             if (newTo != null) {
                 record.setTo(newTo);
             }
@@ -98,6 +99,7 @@ public class EditCommand extends Command {
             ui.showLine();
             ui.showError("Record index is out of range.");
             ui.showLine();
+
         } catch (IllegalArgumentException e) {
             logger.warning(e.getMessage());
             ui.showLine();
