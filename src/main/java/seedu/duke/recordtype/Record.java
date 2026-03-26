@@ -65,6 +65,13 @@ public class Record {
         this.title = description.trim();
     }
 
+    public void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title cannot be blank.");
+        }
+        this.title = title.trim();
+    }
+
     public void setFrom(YearMonth from) {
         if (from == null) {
             throw new IllegalArgumentException("Start date cannot be null.");
