@@ -161,6 +161,22 @@ public class Parser {
             } catch (NumberFormatException e) {
                 return null;
             }
+        case "deletebullet":
+            if (split.length < 2) {
+                return null;
+            }
+            logger.info("Delete bullet command detected");
+            String[] deleteBulletParts = split[1].trim().split("\\s+");
+            if (deleteBulletParts.length != 2) {
+                return null;
+            }
+            try {
+                int recordIndex = Integer.parseInt(deleteBulletParts[0]);
+                int bulletIndex = Integer.parseInt(deleteBulletParts[1]);
+                return new DeleteCommand(recordIndex, bulletIndex);
+            } catch (NumberFormatException e) {
+                return null;
+            }
 
         case "addbullet":
             if (split.length < 2) {
@@ -184,11 +200,11 @@ public class Parser {
                 return null;
             }
 
-            case "edit":
-                if (split.length < 2) {
-                    return null;
-                }
-                return parseEditCommand(split[1]);
+        case "edit":
+            if (split.length < 2) {
+                return null;
+            }
+            return parseEditCommand(split[1]);
 
         case "movebullet":
             if (split.length < 2) {

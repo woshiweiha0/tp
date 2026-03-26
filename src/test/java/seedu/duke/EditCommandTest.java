@@ -23,7 +23,7 @@ public class EditCommandTest {
         );
         recordList.add(record);
 
-        EditCommand editCommand = new EditCommand(0, "New description");
+        EditCommand editCommand = new EditCommand(0, "New description", null, null);
         editCommand.execute(recordList);
 
         assertEquals("New description", record.getTitle());
@@ -49,7 +49,7 @@ public class EditCommandTest {
         recordList.add(firstRecord);
         recordList.add(secondRecord);
 
-        EditCommand editCommand = new EditCommand(1, "Updated second record");
+        EditCommand editCommand = new EditCommand(1, "Updated second record", null, null);
         editCommand.execute(recordList);
 
         assertEquals("First record", firstRecord.getTitle());
@@ -69,7 +69,7 @@ public class EditCommandTest {
                 )
         );
 
-        EditCommand editCommand = new EditCommand(0, "Edited record one");
+        EditCommand editCommand = new EditCommand(0, "Edited record one", null, null);
         editCommand.execute(recordList);
 
         assertEquals(1, recordList.getSize());

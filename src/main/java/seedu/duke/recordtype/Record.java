@@ -95,6 +95,13 @@ public class Record {
         bullets.add(bullet);
     }
 
+    public String deleteBullet(int bulletIndex) {
+        if (bulletIndex < 0 || bulletIndex >= bullets.size()) {
+            throw new IndexOutOfBoundsException("Bullet index is out of range.");
+        }
+        return bullets.remove(bulletIndex);
+    }
+
     public void moveBullet(int fromIndex, int toIndex) {
         if (fromIndex < 0 || fromIndex >= bullets.size()) {
             throw new IndexOutOfBoundsException("Source bullet index is out of range.");

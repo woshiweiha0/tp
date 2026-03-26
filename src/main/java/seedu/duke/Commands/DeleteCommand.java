@@ -3,27 +3,82 @@ package seedu.duke.Commands;
 import java.util.logging.Logger;
 
 import seedu.duke.RecordList;
+import seedu.duke.exceptions.DeleteException;
+import seedu.duke.recordtype.Record;
 
 public class DeleteCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteCommand.class.getName());
-    private final int userIndex;
+    private final int userRecordIndex;
+    private final int userBulletIndex;
+    private final boolean isDeleteBulletMode;
 
-    public DeleteCommand(int userIndex) {
-        assert userIndex > 0 : "index should be more than 0";
-        this.userIndex = userIndex;
-        logger.fine("DeleteCommand created with index=" + userIndex);
+    public DeleteCommand(int userRecordIndex) {
+        assert userRecordIndex > 0 : "index should be more than 0";
+        this.userRecordIndex = userRecordIndex;
+        this.userBulletIndex = -1;
+        this.isDeleteBulletMode = false;
+        logger.fine("DeleteCommand created for record index=" + userRecordIndex);
+    }
+
+    public DeleteCommand(int userRecordIndex, int userBulletIndex) {
+        assert userRecordIndex > 0 : "record index should be more than 0";
+        assert userBulletIndex > 0 : "bullet index should be more than 0";
+        this.userRecordIndex = userRecordIndex;
+        this.userBulletIndex = userBulletIndex;
+        this.isDeleteBulletMode = true;
+        logger.fine("DeleteCommand created for record index=" + userRecordIndex
+                + ", bullet index=" + userBulletIndex);
+    }
+
+    public boolean isDeleteBulletMode() {
+        return isDeleteBulletMode;
+    }
+
+    public int getUserRecordIndex() {
+        return userRecordIndex;
+    }
+
+    public int getUserBulletIndex() {
+        return userBulletIndex;
     }
 
     @Override
     public void execute(RecordList list) {
-        logger.info("Executing delete for index=" + userIndex);
+        assert list != null : "RecordList should not be null";
+
+        if (isDeleteBulletMode) {
+            deleteBullet(list);
+            return;
+        }
+
+        deleteRecord(list);
+    }
+
+    private void deleteRecord(RecordList list) {
+        logger.info("Executing record delete for index=" + userRecordIndex);
         try {
-            list.removeIndex(userIndex - 1);
-            logger.info("Delete succeeded for index=" + userIndex);
-            System.out.println("Deleted record " + userIndex);
+            list.removeIndex(userRecordIndex - 1);
+            logger.info("Record delete succeeded for index=" + userRecordIndex);
+            System.out.println("Deleted record " + userRecordIndex);
         } catch (IndexOutOfBoundsException e) {
-            logger.warning("Delete failed for index=" + userIndex + " (out of bounds)");
-            System.out.println("Nothing to delete.");
+            logger.warning("Record delete failed for index=" + userRecordIndex + " (out of bounds)");
+            throw new DeleteException("Nothing to delete.");
+        }
+    }
+
+    private void deleteBullet(RecordList list) {
+        logger.info("Executing bullet delete for record index=" + userRecordIndex
+                + ", bullet index=" + userBulletIndex);
+        try {
+            Record record = list.getRecord(userRecordIndex - 1);
+            record.deleteBullet(userBulletIndex - 1);
+            logger.info("Bullet delete succeeded for record index=" + userRecordIndex
+                    + ", bullet index=" + userBulletIndex);
+            System.out.println("Deleted bullet " + userBulletIndex + " from record " + userRecordIndex);
+        } catch (IndexOutOfBoundsException e) {
+            logger.warning("Bullet delete failed for record index=" + userRecordIndex
+                    + ", bullet index=" + userBulletIndex);
+            throw new DeleteException("Nothing to delete.");
         }
     }
 }

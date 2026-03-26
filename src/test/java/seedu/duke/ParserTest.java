@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import seedu.duke.Commands.AddBulletCommand;
 import seedu.duke.Commands.AddCommand;
 import seedu.duke.Commands.Command;
+import seedu.duke.Commands.DeleteCommand;
 import seedu.duke.Commands.ExitCommand;
 import seedu.duke.Commands.FindCommand;
 import seedu.duke.recordtype.Record;
@@ -112,5 +113,17 @@ public class ParserTest {
 
         assertEquals(1,abc.getIndex());
         assertEquals("did frontend UI", abc.getBullet());
+    }
+
+    @Test
+    public void parse_deleteBulletCommand() {
+        Command command = Parser.parse("deletebullet 2 3");
+
+        assertInstanceOf(DeleteCommand.class, command);
+        DeleteCommand deleteCommand = (DeleteCommand) command;
+
+        assertTrue(deleteCommand.isDeleteBulletMode());
+        assertEquals(2, deleteCommand.getUserRecordIndex());
+        assertEquals(3, deleteCommand.getUserBulletIndex());
     }
 }

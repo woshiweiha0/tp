@@ -5,7 +5,6 @@ import seedu.duke.recordtype.Cca;
 import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.YearMonth;
@@ -14,48 +13,54 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import seedu.duke.exceptions.StorageException;
 
 public class Storage {
     private static final Logger logger = Logger.getLogger(Storage.class.getName());
     private static final String filepath = "records.txt";
     private final Ui ui = new Ui();
 
-    public void saveToFile(RecordList list) throws IOException {
+    public void saveToFile(RecordList list) {
         logger.info("Saving records to file: " + filepath);
         Path path = Paths.get(filepath);
 
-        Path directory = path.getParent();
-        if (directory != null && !Files.exists(directory)) {
-            Files.createDirectories(directory);
-            logger.fine("Created storage directory: " + directory);
-        }
-
-        if (Files.notExists(path)) {
-            Files.createFile(path);
-            logger.fine("Created storage file: " + filepath);
-        }
-        assert Files.exists(path) : "file should exist after path creation";
-
-        FileWriter fw = new FileWriter(path.toFile());
-
-        for (Record record : list) {
-            String keyword = getKeyword(record.getRecordType());
-            if (keyword == null) {
-                logger.warning("Skipping unknown record type: " + record.getRecordType());
-                continue;
+        try {
+            Path directory = path.getParent();
+            if (directory != null && !Files.exists(directory)) {
+                Files.createDirectories(directory);
+                logger.fine("Created storage directory: " + directory);
             }
-            fw.write(keyword + " " + record.getTitle()
-                    + " /role " + record.getRole()
-                    + " /tech " + record.getTech()
-                    + " /from " + record.getFrom()
-                    + " /to " + record.getTo() + "\n");
+
+            if (Files.notExists(path)) {
+                Files.createFile(path);
+                logger.fine("Created storage file: " + filepath);
+            }
+            assert Files.exists(path) : "file should exist after path creation";
+
+            FileWriter fw = new FileWriter(path.toFile());
+
+            for (Record record : list) {
+                String keyword = getKeyword(record.getRecordType());
+                if (keyword == null) {
+                    logger.warning("Skipping unknown record type: " + record.getRecordType());
+                    continue;
+                }
+                fw.write(keyword + " " + record.getTitle()
+                        + " /role " + record.getRole()
+                        + " /tech " + record.getTech()
+                        + " /from " + record.getFrom()
+                        + " /to " + record.getTo() + "\n");
+            }
+            fw.close();
+            logger.info("Records saved successfully");
+            ui.showMessage("Records saved to file.");
+        } catch (IOException e) {
+            logger.severe("Failed to save records: " + e.getMessage());
+            throw new StorageException("Failed to save records to file.", e);
         }
-        logger.info("Records saved successfully");
-        ui.showMessage("Records saved to file.");
-        fw.close();
     }
 
-    public RecordList loadFromFile(String filepath) throws FileNotFoundException {
+    public RecordList loadFromFile(String filepath) {
         logger.info("Loading records from file: " + filepath);
         assert filepath != null && !filepath.isBlank() : "filepath should not be blank";
         File file = new File(filepath);
@@ -69,8 +74,7 @@ public class Storage {
                 logger.fine("Created storage directory: " + directory);
             } catch (IOException e) {
                 logger.severe("Error creating the directory: " + e.getMessage());
-                ui.showError("Error creating the directory.");
-                return list;
+                throw new StorageException("Error creating the directory.", e);
             }
         }
 
@@ -80,33 +84,37 @@ public class Storage {
                 logger.fine("Created storage file: " + filepath);
             } catch (IOException e) {
                 logger.severe("Error creating the file: " + e.getMessage());
-                ui.showError("Error creating the file.");
-                return list;
+                throw new StorageException("Error creating the file.", e);
             }
         }
         assert Files.exists(path) : "file should exist after path creation";
 
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine().strip();
+        try {
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().strip();
 
-            if (line.isEmpty()) {
-                continue;
-            }
-
-            try {
-                Record record = parseRecord(line);
-                if (record != null) {
-                    list.add(record);
-                } else {
-                    logger.warning("Skipping invalid record line: " + line);
+                if (line.isEmpty()) {
+                    continue;
                 }
-            } catch (RuntimeException e) {
-                logger.warning("Unexpected error while loading line: " + line
-                        + " | Reason: " + e.getMessage());
+
+                try {
+                    Record record = parseRecord(line);
+                    if (record != null) {
+                        list.add(record);
+                    } else {
+                        logger.warning("Skipping invalid record line: " + line);
+                    }
+                } catch (RuntimeException e) {
+                    logger.warning("Unexpected error while loading line: " + line
+                            + " | Reason: " + e.getMessage());
+                }
             }
+            sc.close();
+        } catch (IOException e) {
+            logger.severe("Failed to load records: " + e.getMessage());
+            throw new StorageException("Failed to load records from file.", e);
         }
-        sc.close();
         logger.info("Records loaded successfully");
         ui.showMessage("Loaded records from file.");
 
