@@ -4,7 +4,7 @@ import java.time.YearMonth;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.duke.Commands.DeleteCommand;
+import seedu.duke.commands.DeleteCommand;
 import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;

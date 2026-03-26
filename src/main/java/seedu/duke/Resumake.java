@@ -4,7 +4,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import seedu.duke.Commands.Command;
+import seedu.duke.commands.Command;
 import seedu.duke.exceptions.ResumakeException;
 
 public class Resumake {

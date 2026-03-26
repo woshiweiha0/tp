@@ -5,17 +5,17 @@ import java.time.YearMonth;
 
 import java.util.logging.Logger;
 
-import seedu.duke.Commands.EditBulletCommand;
-import seedu.duke.Commands.AddBulletCommand;
-import seedu.duke.Commands.MoveBulletCommand;
-import seedu.duke.Commands.AddCommand;
-import seedu.duke.Commands.Command;
-import seedu.duke.Commands.DeleteCommand;
-import seedu.duke.Commands.ExitCommand;
-import seedu.duke.Commands.FindCommand;
-import seedu.duke.Commands.ListCommand;
-import seedu.duke.Commands.ShowCommand;
-import seedu.duke.Commands.EditCommand;
+import seedu.duke.commands.EditBulletCommand;
+import seedu.duke.commands.AddBulletCommand;
+import seedu.duke.commands.MoveBulletCommand;
+import seedu.duke.commands.AddCommand;
+import seedu.duke.commands.Command;
+import seedu.duke.commands.DeleteCommand;
+import seedu.duke.commands.ExitCommand;
+import seedu.duke.commands.FindCommand;
+import seedu.duke.commands.ListCommand;
+import seedu.duke.commands.ShowCommand;
+import seedu.duke.commands.EditCommand;
 import seedu.duke.recordtype.Cca;
 import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;

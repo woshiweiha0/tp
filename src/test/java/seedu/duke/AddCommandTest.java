@@ -5,7 +5,7 @@ import java.time.YearMonth;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import seedu.duke.Commands.AddCommand;
+import seedu.duke.commands.AddCommand;
 import seedu.duke.recordtype.Record;
 
 public class AddCommandTest {

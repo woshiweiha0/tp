@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import seedu.duke.Commands.AddBulletCommand;
-import seedu.duke.Commands.AddCommand;
-import seedu.duke.Commands.Command;
-import seedu.duke.Commands.DeleteCommand;
-import seedu.duke.Commands.ExitCommand;
-import seedu.duke.Commands.FindCommand;
+import seedu.duke.commands.AddBulletCommand;
+import seedu.duke.commands.AddCommand;
+import seedu.duke.commands.Command;
+import seedu.duke.commands.DeleteCommand;
+import seedu.duke.commands.ExitCommand;
+import seedu.duke.commands.FindCommand;
 import seedu.duke.recordtype.Record;
-import seedu.duke.Commands.EditBulletCommand;
+import seedu.duke.commands.EditBulletCommand;
 
 public class ParserTest {
     @Test

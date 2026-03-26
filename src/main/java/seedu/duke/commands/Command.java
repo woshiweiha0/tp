@@ -1,4 +1,4 @@
-package seedu.duke.Commands;
+package seedu.duke.commands;
 
 import seedu.duke.RecordList;
 import seedu.duke.exceptions.ResumakeException;

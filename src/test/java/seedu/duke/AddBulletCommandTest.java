@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.YearMonth;
 
-import seedu.duke.Commands.AddBulletCommand;
+import seedu.duke.commands.AddBulletCommand;
 import seedu.duke.recordtype.Record;
 
 public class AddBulletCommandTest {

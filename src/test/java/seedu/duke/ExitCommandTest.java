@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import seedu.duke.Commands.ExitCommand;
+import seedu.duke.commands.ExitCommand;
 
 public class ExitCommandTest {
     @Test

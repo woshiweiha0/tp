@@ -4,7 +4,7 @@ import java.time.YearMonth;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.duke.Commands.EditBulletCommand;
+import seedu.duke.commands.EditBulletCommand;
 import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
