@@ -5,16 +5,16 @@ import java.time.YearMonth;
 
 import java.util.logging.Logger;
 
-import seedu.duke.Commands.AddBulletCommand;
-import seedu.duke.Commands.MoveBulletCommand;
-import seedu.duke.Commands.AddCommand;
-import seedu.duke.Commands.Command;
-import seedu.duke.Commands.DeleteCommand;
-import seedu.duke.Commands.ExitCommand;
-import seedu.duke.Commands.FindCommand;
-import seedu.duke.Commands.ListCommand;
-import seedu.duke.Commands.ShowCommand;
-import seedu.duke.Commands.EditCommand;
+import seedu.duke.commands.AddBulletCommand;
+import seedu.duke.commands.MoveBulletCommand;
+import seedu.duke.commands.AddCommand;
+import seedu.duke.commands.Command;
+import seedu.duke.commands.DeleteCommand;
+import seedu.duke.commands.ExitCommand;
+import seedu.duke.commands.FindCommand;
+import seedu.duke.commands.ListCommand;
+import seedu.duke.commands.ShowCommand;
+import seedu.duke.commands.EditCommand;
 import seedu.duke.recordtype.Cca;
 import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;
@@ -168,6 +168,7 @@ public class Parser {
             } catch (NumberFormatException e) {
                 return null;
             }
+
         case "list":
             logger.info("List command detected");
             return new ListCommand();
@@ -195,7 +196,7 @@ public class Parser {
             logger.info("Add CCA command detected");
             r = parseCca(split);
             return new AddCommand(r);
-            
+
         case "delete":
             if (split.length < 2) {
                 return null;
@@ -212,28 +213,27 @@ public class Parser {
                 return null;
             }
             logger.info("Bullet command detected");
-            String[] parts = split[1].split("\\s+",2);
+            String[] parts = split[1].split("\\s+", 2);
             if (parts.length < 2) {
                 return null;
             }
-            try{
+            try {
                 int index = Integer.parseInt(parts[0]) - 1;
                 String bulletPart = parts[1].trim();
                 if (!bulletPart.startsWith("/")) {
                     throw new IllegalArgumentException("Bullet must start with /");
                 }
                 String bullet = bulletPart.substring(1).trim();
-
-                return new AddBulletCommand(index,bullet);
-            }catch (NumberFormatException e) {
+                return new AddBulletCommand(index, bullet);
+            } catch (NumberFormatException e) {
                 return null;
             }
 
-            case "edit":
-                if (split.length < 2) {
-                    return null;
-                }
-                return parseEditCommand(split[1]);
+        case "edit":
+            if (split.length < 2) {
+                return null;
+            }
+            return parseEditCommand(split[1]);
 
         case "movebullet":
             if (split.length < 2) {
@@ -264,17 +264,17 @@ public class Parser {
 
     private static Project parseProject(String[] split) {
         ParsedFields fields = parseTimedRecordFields(split);
-        return new Project(fields.title,fields.role,fields.tech,fields.from,fields.to);
+        return new Project(fields.title, fields.role, fields.tech, fields.from, fields.to);
     }
 
     private static Experience parseExperience(String[] split) {
         ParsedFields fields = parseTimedRecordFields(split);
-        return new Experience(fields.title,fields.role,fields.tech,fields.from,fields.to);
+        return new Experience(fields.title, fields.role, fields.tech, fields.from, fields.to);
     }
 
     private static Cca parseCca(String[] split) {
         ParsedFields fields = parseTimedRecordFields(split);
-        return new Cca(fields.title,fields.role,fields.tech,fields.from,fields.to);
+        return new Cca(fields.title, fields.role, fields.tech, fields.from, fields.to);
     }
 
     private static ParsedFields parseTimedRecordFields(String[] split) {
@@ -292,7 +292,8 @@ public class Parser {
 
         if (roleIndex == -1 || techIndex == -1 || fromIndex == -1 || toIndex == -1) {
             throw new IllegalArgumentException(
-                    "Invalid format. Expected: \"title\" /role \"role\" /tech \"tech\" /from yyyy-MM /to yyyy-MM"
+                    "Invalid format. Expected: \"title\" /role \"role\" /tech \"tech\" "
+                            + "/from yyyy-MM /to yyyy-MM"
             );
         }
 
@@ -300,10 +301,10 @@ public class Parser {
             throw new IllegalArgumentException("Fields are in the wrong order.");
         }
 
-        String titlePart = args.substring(0,roleIndex).trim();
-        String rolePart = args.substring(roleIndex+5,techIndex).trim();
-        String techPart = args.substring(techIndex+5, fromIndex).trim();
-        String fromPart = args.substring(fromIndex+5,toIndex).trim();
+        String titlePart = args.substring(0, roleIndex).trim();
+        String rolePart = args.substring(roleIndex + 5, techIndex).trim();
+        String techPart = args.substring(techIndex + 5, fromIndex).trim();
+        String fromPart = args.substring(fromIndex + 5, toIndex).trim();
         String toPart = args.substring(toIndex + 3).trim();
 
         logger.fine("Parsed title: " + titlePart);
@@ -311,11 +312,11 @@ public class Parser {
         YearMonth from = parseYearMonth(fromPart, "from");
         YearMonth to = parseYearMonth(toPart, "to");
 
-        if (to.isBefore(from)){
+        if (to.isBefore(from)) {
             throw new IllegalArgumentException("End data cannot be before start date");
         }
 
-        return new ParsedFields(titlePart,rolePart,techPart,from,to);
+        return new ParsedFields(titlePart, rolePart, techPart, from, to);
     }
 
     private static YearMonth parseYearMonth(String input, String fieldName) {
