@@ -172,7 +172,12 @@ public class Parser {
 
         case "list":
             logger.info("List command detected");
-            return new ListCommand();
+
+            if (split.length == 1){
+                return new ListCommand();
+            } else {
+                return new ListCommand(split[1]);
+            }
 
         case "project":
             if (split.length < 2) {

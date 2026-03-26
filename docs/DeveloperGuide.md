@@ -8,17 +8,26 @@
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
+Main components
+- Resumake: The main which launches the app.
+- UI: The interface which helps to display all messages in User interface.
+- Parser: Helps to parse user input and returns the correct command.
+- Storage: Helps us Store the data in a record txt.
 
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+Resumake targets students in universities who are looking for internships or full-time positions.
+It serves as a way to consolidate their projects, CCAs, and experiences, and generates a ready made
+sample resume that they can use for their job interviews and applications.
 
 ### Value proposition
 
 ResuMake manages and organises project experiences to use for job-ready resume content. 
 It is optimized for students and early-career applicants who want to quickly store, edit, and organize projects, experience, and achievements through a fast CLI workflow. 
 It provides structured formatting, bullet management, and storage that plain notes lack, without the friction of form-heavy resume builders.
+It helps users who do not have time to think thoroughly on how their resume should look like
+Or if they need a resume ready in short notice.
 
 ## User Stories
 

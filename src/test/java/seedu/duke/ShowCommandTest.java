@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -33,6 +34,9 @@ public class ShowCommandTest {
 
         System.setOut(originalOut);
 
-        assertEquals(records.getRecord(0) + System.lineSeparator(), output.toString());
+        String expected = records.getRecord(0) + System.lineSeparator()
+                + "  (no bullets)" + System.lineSeparator();
+
+        assertEquals(expected, output.toString());
     }
 }

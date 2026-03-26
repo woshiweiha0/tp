@@ -1,43 +1,68 @@
 package seedu.duke.commands;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import seedu.duke.RecordList;
 import seedu.duke.Ui;
+import seedu.duke.recordtype.Record;
 
 public class ShowCommand extends Command {
     private static final Logger logger = Logger.getLogger(ShowCommand.class.getName());
-    int index;
+    private final int index;
     private final Ui ui;
-    public ShowCommand(int index){
+
+    public ShowCommand(int index) {
         this.index = index - 1;
         this.ui = new Ui();
     }
 
     public static void printRecord(RecordList records, int index) {
-        System.out.println(records.getRecord(index));
+        Record record = records.getRecord(index);
+        System.out.println(record);
+
+        ArrayList<String> bullets = record.getBullets();
+        if (bullets.isEmpty()) {
+            System.out.println("  (no bullets)");
+        } else {
+            System.out.println("  Bullets:");
+            for (int i = 0; i < bullets.size(); i++) {
+                System.out.println("  " + (i + 1) + ". " + bullets.get(i));
+            }
+        }
     }
 
     @Override
     public void execute(RecordList list) {
         logger.info("Executing ShowCommand with Index " + index);
 
-        //Assert preconditions
         assert list != null : "RecordList should not be null";
 
         try {
-            // Ensures index int is within bounds
             if (index < 0 || index >= list.getSize()) {
                 throw new IndexOutOfBoundsException("Invalid record index: " + (index + 1)
                         + "\nRecord List Size: " + list.getSize());
             }
-            System.out.println("Showing record " + (index + 1) + "\n" + list.getRecord(index));
+
+            Record record = list.getRecord(index);
+            System.out.println("Showing record " + (index + 1));
+            System.out.println(record);
+
+            ArrayList<String> bullets = record.getBullets();
+            if (bullets.isEmpty()) {
+                System.out.println("  (no bullets)");
+            } else {
+                System.out.println("  Bullets:");
+                for (int i = 0; i < bullets.size(); i++) {
+                    System.out.println("  " + (i + 1) + ". " + bullets.get(i));
+                }
+            }
+
         } catch (Exception e) {
             logger.warning("Error executing ShowCommand: " + e.getMessage());
             System.out.println("Error: " + e.getMessage());
         }
 
         ui.showLine();
-
     }
 }

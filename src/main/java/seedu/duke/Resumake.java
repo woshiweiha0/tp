@@ -1,9 +1,5 @@
 package seedu.duke;
 
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import seedu.duke.commands.Command;
 import seedu.duke.exceptions.ResumakeException;
 

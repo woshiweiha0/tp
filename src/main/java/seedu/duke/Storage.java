@@ -45,11 +45,25 @@ public class Storage {
                     logger.warning("Skipping unknown record type: " + record.getRecordType());
                     continue;
                 }
-                fw.write(keyword + " " + record.getTitle()
-                        + " /role " + record.getRole()
-                        + " /tech " + record.getTech()
-                        + " /from " + record.getFrom()
-                        + " /to " + record.getTo() + "\n");
+
+                StringBuilder line = new StringBuilder();
+                line.append(keyword).append(" ").append(record.getTitle())
+                        .append(" /role ").append(record.getRole())
+                        .append(" /tech ").append(record.getTech())
+                        .append(" /from ").append(record.getFrom())
+                        .append(" /to ").append(record.getTo());
+
+                if (!record.getBullets().isEmpty()) {
+                    line.append(" /bullets ");
+                    for (int i = 0; i < record.getBullets().size(); i++) {
+                        line.append(record.getBullets().get(i));
+                        if (i < record.getBullets().size() - 1) {
+                            line.append(" ;; ");
+                        }
+                    }
+                }
+
+                fw.write(line + "\n");
             }
             fw.close();
             logger.info("Records saved successfully");
@@ -147,15 +161,25 @@ public class Storage {
         int techIndex = args.indexOf("/tech");
         int fromIndex = args.indexOf("/from");
         int toIndex = args.indexOf("/to");
+        int bulletsIndex = args.indexOf("/bullets");
 
         if (roleIndex == -1 || techIndex == -1 || fromIndex == -1 || toIndex == -1) {
             logger.warning("Invalid record line (missing required field(s)): " + line);
             return null;
         }
 
-        if (!(roleIndex < techIndex && techIndex < fromIndex && fromIndex < toIndex)) {
-            logger.warning("Invalid record line (fields are in wrong order): " + line);
-            return null;
+        boolean hasBullets = bulletsIndex != -1;
+
+        if (hasBullets) {
+            if (!(roleIndex < techIndex && techIndex < fromIndex && fromIndex < toIndex && toIndex < bulletsIndex)) {
+                logger.warning("Invalid record line (fields are in wrong order): " + line);
+                return null;
+            }
+        } else {
+            if (!(roleIndex < techIndex && techIndex < fromIndex && fromIndex < toIndex)) {
+                logger.warning("Invalid record line (fields are in wrong order): " + line);
+                return null;
+            }
         }
 
         try {
@@ -163,7 +187,16 @@ public class Storage {
             String role = args.substring(roleIndex + 5, techIndex).trim();
             String tech = args.substring(techIndex + 5, fromIndex).trim();
             String fromPart = args.substring(fromIndex + 5, toIndex).trim();
-            String toPart = args.substring(toIndex + 3).trim();
+
+            String toPart;
+            String bulletsPart = "";
+
+            if (hasBullets) {
+                toPart = args.substring(toIndex + 3, bulletsIndex).trim();
+                bulletsPart = args.substring(bulletsIndex + 8).trim();
+            } else {
+                toPart = args.substring(toIndex + 3).trim();
+            }
 
             if (title.isEmpty() || role.isEmpty() || tech.isEmpty()
                     || fromPart.isEmpty() || toPart.isEmpty()) {
@@ -179,17 +212,33 @@ public class Storage {
                 return null;
             }
 
+            Record record;
             switch (keyword) {
             case "project":
-                return new Project(title, role, tech, from, to);
+                record = new Project(title, role, tech, from, to);
+                break;
             case "experience":
-                return new Experience(title, role, tech, from, to);
+                record = new Experience(title, role, tech, from, to);
+                break;
             case "cca":
-                return new Cca(title, role, tech, from, to);
+                record = new Cca(title, role, tech, from, to);
+                break;
             default:
                 logger.warning("Unknown record keyword while parsing: " + keyword);
                 return null;
             }
+
+            if (!bulletsPart.isEmpty()) {
+                String[] bullets = bulletsPart.split("\\s*;;\\s*");
+                for (String bullet : bullets) {
+                    if (!bullet.isBlank()) {
+                        record.addBullet(bullet.trim());
+                    }
+                }
+            }
+
+            return record;
+
         } catch (RuntimeException e) {
             logger.warning("Failed to parse record line: " + line + " | Reason: " + e.getMessage());
             return null;
