@@ -5,6 +5,7 @@ import java.time.YearMonth;
 
 import java.util.logging.Logger;
 
+import seedu.duke.Commands.EditBulletCommand;
 import seedu.duke.Commands.AddBulletCommand;
 import seedu.duke.Commands.MoveBulletCommand;
 import seedu.duke.Commands.AddCommand;
@@ -223,6 +224,31 @@ public class Parser {
                 int toBulletIndex = Integer.parseInt(moveParts[2]) - 1;
 
                 return new MoveBulletCommand(recordIndex, fromBulletIndex, toBulletIndex);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+
+        case "editbullet":
+            if (split.length < 2) {
+                return null;
+            }
+
+            String[] editBulletParts = split[1].trim().split("\\s+", 3);
+            if (editBulletParts.length < 3) {
+                return null;
+            }
+
+            try {
+                int recordIndex = Integer.parseInt(editBulletParts[0]);
+                int bulletIndex = Integer.parseInt(editBulletParts[1]);
+                String bulletPart = editBulletParts[2].trim();
+
+                if (!bulletPart.startsWith("/")) {
+                    return null;
+                }
+
+                String newBullet = bulletPart.substring(1).trim();
+                return new EditBulletCommand(recordIndex, bulletIndex, newBullet);
             } catch (NumberFormatException e) {
                 return null;
             }

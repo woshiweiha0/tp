@@ -14,6 +14,7 @@ import seedu.duke.Commands.DeleteCommand;
 import seedu.duke.Commands.ExitCommand;
 import seedu.duke.Commands.FindCommand;
 import seedu.duke.recordtype.Record;
+import seedu.duke.Commands.EditBulletCommand;
 
 public class ParserTest {
     @Test
@@ -125,5 +126,17 @@ public class ParserTest {
         assertTrue(deleteCommand.isDeleteBulletMode());
         assertEquals(2, deleteCommand.getUserRecordIndex());
         assertEquals(3, deleteCommand.getUserBulletIndex());
+    }
+
+    @Test
+    public void parse_editBulletCommand() {
+        Command command = Parser.parse("editbullet 2 3 / updated frontend UI");
+
+        assertInstanceOf(EditBulletCommand.class, command);
+        EditBulletCommand editBulletCommand = (EditBulletCommand) command;
+
+        assertEquals(2, editBulletCommand.getUserRecordIndex());
+        assertEquals(3, editBulletCommand.getUserBulletIndex());
+        assertEquals("updated frontend UI", editBulletCommand.getNewBullet());
     }
 }

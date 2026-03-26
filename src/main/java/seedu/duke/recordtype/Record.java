@@ -119,6 +119,18 @@ public class Record {
         bullets.add(toIndex, bulletToMove);
     }
 
+    public void editBullet(int bulletIndex, String newBullet) {
+        if (bulletIndex < 0 || bulletIndex >= bullets.size()) {
+            throw new IndexOutOfBoundsException("Bullet index is out of range.");
+        }
+
+        if (newBullet == null || newBullet.isBlank()) {
+            throw new IllegalArgumentException("Bullet cannot be blank.");
+        }
+
+        bullets.set(bulletIndex, newBullet.trim());
+    }
+
     public ArrayList<String> getBullets() {
         return bullets;
     }
