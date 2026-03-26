@@ -8,14 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import seedu.duke.commands.AddBulletCommand;
 import seedu.duke.commands.AddCommand;
 import seedu.duke.commands.Command;
-import seedu.duke.commands.DeleteCommand;
 import seedu.duke.commands.ExitCommand;
 import seedu.duke.commands.FindCommand;
+import seedu.duke.commands.EditCommand;
 import seedu.duke.recordtype.Record;
 import seedu.duke.commands.EditBulletCommand;
 
