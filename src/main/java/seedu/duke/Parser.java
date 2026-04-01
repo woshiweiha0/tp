@@ -14,6 +14,7 @@ import seedu.duke.commands.Command;
 import seedu.duke.commands.DeleteCommand;
 import seedu.duke.commands.ExitCommand;
 import seedu.duke.commands.FindCommand;
+import seedu.duke.commands.FindBulletCommand;
 import seedu.duke.commands.ListCommand;
 import seedu.duke.commands.ShowCommand;
 import seedu.duke.commands.EditCommand;
@@ -235,6 +236,12 @@ public class Parser {
                 throw new ResumakeException("Please follow the correct format");
             }
             return new FindCommand(split[1]);
+
+        case "findbullet":
+            if (split.length < 2 || split[1].trim().isEmpty()) {
+                return null;
+            }
+            return new FindBulletCommand(split[1]);
 
         case "show":
             if (split.length < 2) {

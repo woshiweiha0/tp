@@ -14,6 +14,7 @@ import seedu.duke.commands.AddCommand;
 import seedu.duke.commands.Command;
 import seedu.duke.commands.ExitCommand;
 import seedu.duke.commands.FindCommand;
+import seedu.duke.commands.FindBulletCommand;
 import seedu.duke.commands.EditCommand;
 import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
@@ -49,8 +50,18 @@ public class ParserTest {
     }
 
     @Test
-    public void parse_findWithoutKeyword_returnsNull() throws ResumakeException {
+    public void parse_findWithoutKeyword_throwExceptions() throws ResumakeException {
         assertThrows(ResumakeException.class, () -> Parser.parse("find"));
+      
+    public void parse_findBulletInput_returnsFindBulletCommand() {
+        Command command = Parser.parse("findbullet persistent");
+        assertInstanceOf(FindBulletCommand.class, command);
+        assertEquals("persistent", ((FindBulletCommand) command).getKeyword());
+    }
+
+    @Test
+    public void parse_findBulletWithoutKeyword_throwExceptions() throw ResumakeException{
+        assertThrows(ResumakeException.class, () -> Parser.parse("findbullet"));
     }
 
     @Test
