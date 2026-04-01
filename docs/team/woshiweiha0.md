@@ -6,6 +6,58 @@
 
 Given below are my contributions to the project.
 
+---
+
+## New Feature: Find Command
+
+**What it does:**  
+Allows users to search records by keyword using `find KEYWORD`.
+It matches against title, role, tech stack, and date fields.
+
+**Justification:**  
+As the number of records grows, manual scanning becomes slow and error-prone.
+This feature improves usability by helping users quickly retrieve relevant records.
+
+**Highlights:**
+- Added keyword-based matching workflow for records.
+- Included user-facing output for both matched and no-match cases.
+- Added validation and error handling for invalid/missing keyword input.
+
+---
+
+## New Feature: FindBullet Command
+
+**What it does:**  
+Allows users to search bullet points across all records using `findbullet KEYWORD`.
+For each matching record, only matching bullets are shown.
+
+**Justification:**  
+Resume bullets often contain the most important achievements.
+This feature helps users locate specific impact statements quickly without opening records one by one.
+
+**Highlights:**
+- Implemented bullet-level keyword search across all records.
+- Included record index display in output to align with list numbering.
+
+---
+
+## New Feature: MoveBullet Command
+
+**What it does:**  
+Allows users to reorder bullets within a record using
+`movebullet RECORD_INDEX FROM_BULLET_INDEX TO_BULLET_INDEX`.
+
+**Justification:**  
+Bullet ordering affects resume quality and emphasis.
+This feature lets users prioritize stronger achievements without rewriting bullets.
+
+**Highlights:**
+- Added support for moving bullets by index within the same record.
+- Implemented bounds checking and graceful handling of invalid indices.
+- Added tests to verify forward/backward moves and no-op behavior.
+
+---
+
 ## Summary of contributions
 
 ### Code contributed
