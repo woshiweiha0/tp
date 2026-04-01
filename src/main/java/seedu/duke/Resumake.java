@@ -3,11 +3,23 @@ package seedu.duke;
 import seedu.duke.commands.Command;
 import seedu.duke.exceptions.ResumakeException;
 
+/**
+ * Main entry point of the Resumake application.
+ * <p>
+ * This class is responsible for initializing core components such as
+ * {@code Ui}, {@code Storage}, and {@code RecordList}, and managing the
+ * main execution loop of the application.
+ */
 public class Resumake {
     private RecordList list;
     private final Ui ui;
     private final Storage storage;
 
+    /**
+     * Constructs a Resumake instance and initializes core components.
+     * Attempts to load existing records from storage.
+     * If loading fails, an error message is displayed.
+     */
     public Resumake() {
         ui = new Ui();
         storage = new Storage();
@@ -19,6 +31,13 @@ public class Resumake {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * <p>
+     * Continuously reads user input, parses it into commands,
+     * executes commands, and saves updates to storage until an exit
+     * command is issued.
+     */
     public void run() {
         ui.greetings();
         boolean isExit = false;
@@ -39,6 +58,11 @@ public class Resumake {
         }
     }
 
+    /**
+     * Starts the Resumake application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Resumake().run();
     }

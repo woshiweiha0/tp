@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import seedu.duke.commands.AddCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 public class AddCommandTest {
     @Test
-    public void addedToList(){
+    public void addedToList() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Record(
                 "Resumake CLI",

@@ -6,13 +6,24 @@ import seedu.duke.Ui;
 
 import java.util.logging.Logger;
 
+/**
+ * Represents a command that addds a bullet point to a specific record
+ */
 public class AddBulletCommand extends Command {
+
     private static final Logger logger = Logger.getLogger(AddBulletCommand.class.getName());
 
     private final int index;
     private final String bullet;
     private final Ui ui;
 
+    /**
+     * Creates an AddBulletCommand with the specified record index and bullet
+     *
+     * @param index Index of the record (must be non-negative)
+     * @param bullet Bullet point content (must not be null or blank)
+     * @throws IllegalArgumentException if index is negative or bullet is null/blank
+     */
     public AddBulletCommand(int index, String bullet) {
         if (index < 0) {
             throw new IllegalArgumentException("Record index must be non-negative.");
@@ -33,14 +44,30 @@ public class AddBulletCommand extends Command {
                 + ", bullet=" + this.bullet);
     }
 
+    /**
+     * Returns the index of hte record associated with this command
+     *
+     * @return the record index (0-based).
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Returns the bullet point to be added
+     *
+     * @return the bullet string
+     */
     public String getBullet() {
         return bullet;
     }
 
+    /**
+     * Executes the command by adding the bullet to the specified record
+     * Displays success or error messages via the UI.
+     *
+     * @param list The Record List containing all records.
+     */
     @Override
     public void execute(RecordList list) {
         assert list != null : "RecordList should not be null";
