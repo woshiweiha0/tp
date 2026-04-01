@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import seedu.duke.commands.AddBulletCommand;
 import seedu.duke.commands.AddCommand;
@@ -304,5 +305,53 @@ public class ParserTest {
     @Test
     public void parseMovebulletCommandExtraArguments() {
         assertNull(Parser.parse("movebullet 1 2 3 4"));
+    }
+
+    @Test
+    public void parse_editInvalidIndex_returnsNull() {
+        assertNull(Parser.parse("edit x New Title"));
+    }
+
+    @Test
+    public void parse_editBlankRole_returnsNull() {
+        assertNull(Parser.parse("edit 1 /role   "));
+    }
+
+    @Test
+    public void parse_editBlankTech_returnsNull() {
+        assertNull(Parser.parse("edit 1 /tech   "));
+    }
+
+    @Test
+    public void parse_editInvalidFromDate_returnsNull() {
+        assertNull(Parser.parse("edit 1 /from 2026/01"));
+    }
+
+    @Test
+    public void parse_editInvalidToDate_returnsNull() {
+        assertNull(Parser.parse("edit 1 /to march"));
+    }
+
+    @Test
+    public void parse_editToBeforeFrom_returnsNull() {
+        assertNull(Parser.parse("edit 1 /from 2026-05 /to 2026-04"));
+    }
+
+    @Test
+    public void parse_addbulletMissingSlash_throwsException() {
+        assertThrows(IllegalArgumentException.class, () ->
+                Parser.parse("addbullet 1 missing slash"));
+    }
+
+    @Test
+    public void parse_editbulletBlankNewBullet_returnsEditBulletCommand() {
+        Command command = Parser.parse("editbullet 1 1 /   ");
+        assertInstanceOf(EditBulletCommand.class, command);
+    }
+
+    @Test
+    public void parse_addbulletMissingBulletText_throwsException() {
+        assertThrows(IllegalArgumentException.class, () ->
+                Parser.parse("addbullet 1 /"));
     }
 }
