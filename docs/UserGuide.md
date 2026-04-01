@@ -53,6 +53,49 @@ Resumake runs in the terminal and saves your data locally in `records.txt` so re
 
 ---
 
+### Add a record : `project` \ `experience` \ `cca`
+
+Creates a new record in Resumake
+
+Format:
+`project/ experience/ cca TITLE /role ROLE /tech TECH /from STARTDATE /to ENDDATE`
+
+Example:
+```text
+experience Google /role SWE Intern /tech JavaScript /from 2025-12 /to 2026-02
+```
+
+Expected output:
+```text
+--------------------
+[E] Google added
+--------------------
+```
+---
+
+### Adding bullet to record : `addbullet`
+
+Adds a resume bullet to an existing record
+
+Format: 
+`addbullet RECORD_INDEX / BULLET_TEXT`
+
+Example:
+```text
+addbullet 1 / Implemented persistent storage with file IO
+```
+
+Expected output (example):
+```text
+--------------------
+Matching records:
+[E] Google | role: SWE Intern | tech: JavaScript | from: 2025-12 | to: 2026-02
+  Bullets:
+  1. Implemented persistent storage with file IO
+--------------------
+```
+---
+
 ### Finding records by keyword : `find`
 
 Finds records whose title, role, tech, start date, or end date contains the keyword.
@@ -95,8 +138,6 @@ Bullets:
 
   1. Implemented persistent storage with file IO
 ```
-
----
 
 ### Moving a bullet : `movebullet`
 
