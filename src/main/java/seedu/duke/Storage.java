@@ -126,7 +126,7 @@ public class Storage {
         try {
             Scanner sc = new Scanner(file);
 
-            // Load user from first line
+// Load user from first line
             if (sc.hasNextLine()) {
                 String firstLine = sc.nextLine().strip();
                 String[] parts = firstLine.split("\\|");
@@ -135,15 +135,13 @@ public class Storage {
                         User.loadFrom(parts[0], Integer.parseInt(parts[1]), parts[2]);
                         logger.info("User loaded from file.");
                     } catch (NumberFormatException e) {
-                        logger.warning("Invalid user data, prompting for input.");
-                        User.getInstance(); // triggers userInit()
+                        logger.warning("Invalid user data in file.");
                     }
                 } else {
-                    logger.warning("No valid user data found, prompting for input.");
-                    User.getInstance();
+                    logger.warning("No valid user data found in first line.");
                 }
             } else {
-                User.getInstance();
+                logger.warning("File is empty. No user loaded.");
             }
 
             while (sc.hasNextLine()) {
