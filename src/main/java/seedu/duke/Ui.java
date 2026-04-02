@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import java.util.Scanner;
+import java.util.NoSuchElementException;
 
 /**
  * Handles user interaction by managing input and displaying output messages.
@@ -50,7 +51,17 @@ public class Ui {
      * @return The user input as a string.
      */
     public String readCommand() {
-        return scanner.nextLine();
+        if (scanner.hasNextLine()) {
+            return scanner.nextLine();
+        }
+
+        // Fallback for environments/tests that replace System.in after this Ui instance was created.
+        Scanner fallbackScanner = new Scanner(System.in);
+        if (fallbackScanner.hasNextLine()) {
+            return fallbackScanner.nextLine();
+        }
+
+        throw new NoSuchElementException("No line found");
     }
 
     /**
