@@ -126,7 +126,7 @@ public class Storage {
         try {
             Scanner sc = new Scanner(file);
 
-// Load user from first line
+            // Load user from first line
             if (sc.hasNextLine()) {
                 String firstLine = sc.nextLine().strip();
                 String[] parts = firstLine.split("\\|");
