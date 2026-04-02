@@ -6,10 +6,11 @@ import seedu.duke.exceptions.ResumakeException;
 
 public class User {
     private static User instance;
+    private static final Ui ui = new Ui();
+
     private String name;
     private int number;
     private String email;
-    private static final Ui ui = new Ui();
 
     private User(String name, int number, String email) {
         this.name = name;
