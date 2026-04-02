@@ -1,5 +1,5 @@
 --------------------
-Welcome to Resumake
+Welcome to ResuMake
 --------------------
 Hello, what is your name?
 Hello what is your number?
