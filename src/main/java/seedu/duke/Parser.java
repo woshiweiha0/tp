@@ -36,7 +36,7 @@ public class Parser {
      * @param args The argument string following the "edit" keyword.
      * @return An {@code EditCommand} if parsing is successful or {@code null} if invalid.
      */
-    private static Command parseEditCommand(String args) throws ResumakeException{
+    private static Command parseEditCommand(String args, Ui ui) throws ResumakeException{
         logger.info("Edit command detected");
         logger.fine(() -> "Parsing edit command args: " + args);
 
@@ -193,7 +193,7 @@ public class Parser {
                     + ", from=" + newFrom
                     + ", to=" + newTo);
 
-            return new EditCommand(index, newTitle, newRole, newTech, newFrom, newTo);
+            return new EditCommand(index, newTitle, newRole, newTech, newFrom, newTo, ui);
 
         } catch (NumberFormatException e) {
             logger.warning("Edit command failed: invalid record index");
@@ -213,9 +213,14 @@ public class Parser {
      * @throws ResumakeException If a parsing-related error occurs.
      */
     public static Command parse(String userInput) throws ResumakeException {
+        return parse(userInput, new Ui());
+    }
+
+    public static Command parse(String userInput, Ui ui) throws ResumakeException {
         logger.info("Parsing input: " + userInput);
 
         String trimmedInput = userInput.trim();
+        Ui effectiveUi = ui == null ? new Ui() : ui;
         Record r;
 
         if (trimmedInput.isEmpty()) {
@@ -230,19 +235,19 @@ public class Parser {
         switch (keyword) {
         case "bye":
             logger.info("Exit command detected");
-            return new ExitCommand();
+            return new ExitCommand(effectiveUi);
 
         case "find":
             if (split.length < 2 || split[1].trim().isEmpty()) {
                 throw new ResumakeException("Please follow the correct format");
             }
-            return new FindCommand(split[1]);
+            return new FindCommand(split[1], effectiveUi);
 
         case "findbullet":
             if (split.length < 2 || split[1].trim().isEmpty()) {
                 throw new ResumakeException("Please follow the correct format");
             }
-            return new FindBulletCommand(split[1]);
+            return new FindBulletCommand(split[1], effectiveUi);
 
         case "show":
             if (split.length < 2) {
@@ -250,7 +255,7 @@ public class Parser {
             }
             try {
                 logger.info("Show command detected");
-                return new ShowCommand(Integer.parseInt(split[1]));
+                return new ShowCommand(Integer.parseInt(split[1]), effectiveUi);
             } catch (NumberFormatException e) {
                 throw new ResumakeException("Please follow the correct format");
             }
@@ -259,9 +264,9 @@ public class Parser {
             logger.info("List command detected");
 
             if (split.length == 1){
-                return new ListCommand();
+                return new ListCommand(effectiveUi);
             } else {
-                return new ListCommand(split[1]);
+                return new ListCommand(split[1], effectiveUi);
             }
 
         case "project":
@@ -270,7 +275,7 @@ public class Parser {
             }
             logger.info("Add project command detected");
             r = parseProject(split);
-            return new AddCommand(r);
+            return new AddCommand(r, effectiveUi);
 
         case "experience":
             if (split.length < 2) {
@@ -278,7 +283,7 @@ public class Parser {
             }
             logger.info("Add experience command detected");
             r = parseExperience(split);
-            return new AddCommand(r);
+            return new AddCommand(r, effectiveUi);
 
         case "cca":
             if (split.length < 2) {
@@ -286,7 +291,7 @@ public class Parser {
             }
             logger.info("Add CCA command detected");
             r = parseCca(split);
-            return new AddCommand(r);
+            return new AddCommand(r, effectiveUi);
 
         case "delete":
             if (split.length < 2) {
@@ -331,7 +336,7 @@ public class Parser {
                     throw new ResumakeException("Bullet must start with /");
                 }
                 String bullet = bulletPart.substring(1).trim();
-                return new AddBulletCommand(index, bullet);
+                return new AddBulletCommand(index, bullet, effectiveUi);
             } catch (NumberFormatException e) {
                 throw new ResumakeException("Please follow the correct format");
             }
@@ -340,7 +345,7 @@ public class Parser {
             if (split.length < 2) {
                 throw new ResumakeException("Please follow the correct format");
             }
-            return parseEditCommand(split[1]);
+            return parseEditCommand(split[1], effectiveUi);
 
         case "movebullet":
             if (split.length < 2) {
@@ -358,7 +363,7 @@ public class Parser {
                 int fromBulletIndex = Integer.parseInt(moveParts[1]) - 1;
                 int toBulletIndex = Integer.parseInt(moveParts[2]) - 1;
 
-                return new MoveBulletCommand(recordIndex, fromBulletIndex, toBulletIndex);
+                return new MoveBulletCommand(recordIndex, fromBulletIndex, toBulletIndex, effectiveUi);
             } catch (NumberFormatException e) {
                 throw new ResumakeException("Please follow the correct format");
             }
@@ -389,14 +394,14 @@ public class Parser {
             }
 
         case "sort":
-            return new SortCommand();
+            return new SortCommand(effectiveUi);
 
         case "generate":
-            return new GenerateCommand();
+            return new GenerateCommand(effectiveUi);
 
         case "edituser":
             String field = split[1].trim(); // "name", "number", or "email"
-            return new EditUserCommand(field);
+            return new EditUserCommand(field, effectiveUi);
 
         default:
             logger.warning("Unknown command: " + keyword);

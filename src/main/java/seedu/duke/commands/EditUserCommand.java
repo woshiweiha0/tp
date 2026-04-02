@@ -7,15 +7,20 @@ import seedu.duke.exceptions.ResumakeException;
 
 public class EditUserCommand extends Command {
     private final String field;
+    private final Ui ui;
 
     public EditUserCommand(String field) {
+        this(field, new Ui());
+    }
+
+    public EditUserCommand(String field, Ui ui) {
         this.field = field;
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     @Override
     public void execute(RecordList list) throws ResumakeException {
         User user = User.getInstance();
-        Ui ui = new Ui();
 
         ui.showMessage("Current " + field + ": " + getCurrentValue(user));
         ui.showMessage("Enter new " + field + ":");

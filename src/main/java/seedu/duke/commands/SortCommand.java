@@ -10,10 +10,14 @@ import seedu.duke.exceptions.ResumakeException;
 
 public class SortCommand extends Command{
     private static final Logger logger = Logger.getLogger(SortCommand.class.getName());
-    private final Ui ui = new Ui();
+    private final Ui ui;
 
     public SortCommand(){
+        this(new Ui());
+    }
 
+    public SortCommand(Ui ui) {
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     @Override

@@ -21,7 +21,15 @@ import seedu.duke.exceptions.ResumakeException;
 public class Storage {
     private static final Logger logger = Logger.getLogger(Storage.class.getName());
     private static final String filepath = "records.txt";
-    private final Ui ui = new Ui();
+    private final Ui ui;
+
+    public Storage() {
+        this(new Ui());
+    }
+
+    public Storage(Ui ui) {
+        this.ui = ui == null ? new Ui() : ui;
+    }
 
     /**
      * Saves all records to the default storage file.

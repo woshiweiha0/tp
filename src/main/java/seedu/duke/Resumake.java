@@ -22,7 +22,7 @@ public class Resumake {
      */
     public Resumake() {
         ui = new Ui();
-        storage = new Storage();
+        storage = new Storage(ui);
         list = new RecordList();
     }
 
@@ -44,7 +44,7 @@ public class Resumake {
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
-                Command c = Parser.parse(fullCommand);
+                Command c = Parser.parse(fullCommand, ui);
                 if (c == null) {
                     ui.showError("Unknown command.");
                     continue;

@@ -13,12 +13,19 @@ public class ListCommand extends Command {
     private final String type;
 
     public ListCommand(){
-        this.type = "all";
-        this.ui = new Ui();
+        this("all", new Ui());
     }
 
     public ListCommand(String type){
-        this.ui = new Ui();
+        this(type, new Ui());
+    }
+
+    public ListCommand(Ui ui) {
+        this("all", ui);
+    }
+
+    public ListCommand(String type, Ui ui) {
+        this.ui = ui == null ? new Ui() : ui;
         this.type = type;
     }
 

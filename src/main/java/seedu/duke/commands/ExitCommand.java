@@ -7,7 +7,11 @@ public class ExitCommand extends Command {
     private final Ui ui;
 
     public ExitCommand() {
-        this.ui = new Ui();
+        this(new Ui());
+    }
+
+    public ExitCommand(Ui ui) {
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     @Override

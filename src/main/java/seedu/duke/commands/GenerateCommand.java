@@ -17,7 +17,11 @@ public class GenerateCommand extends Command {
     private final Ui ui;
 
     public GenerateCommand() {
-        this.ui = new Ui();
+        this(new Ui());
+    }
+
+    public GenerateCommand(Ui ui) {
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     @Override

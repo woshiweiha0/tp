@@ -13,7 +13,7 @@ public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
 
     private final Record r;
-    private final Ui ui = new Ui();
+    private final Ui ui;
 
     /**
      * Creates an AddCommnad with the specified record.
@@ -21,6 +21,10 @@ public class AddCommand extends Command {
      * @param r The record to be added (must not be null)
      */
     public AddCommand(Record r) throws ResumakeException {
+        this(r, new Ui());
+    }
+
+    public AddCommand(Record r, Ui ui) throws ResumakeException {
         if (r == null) {
             throw new ResumakeException("Record cannot be null");
         }
@@ -28,6 +32,7 @@ public class AddCommand extends Command {
             throw new ResumakeException("Record title cannot be empty");
         }
         this.r = r;
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     /**

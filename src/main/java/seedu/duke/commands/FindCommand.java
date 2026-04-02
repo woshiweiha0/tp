@@ -24,6 +24,10 @@ public class FindCommand extends Command {
      * @throws IllegalArgumentException if the keyword is null or blank.
      */
     public FindCommand(String keyword) {
+        this(keyword, new Ui());
+    }
+
+    public FindCommand(String keyword, Ui ui) {
         if (keyword == null) {
             throw new IllegalArgumentException("Keyword cannot be null");
         }
@@ -34,7 +38,7 @@ public class FindCommand extends Command {
         }
 
         this.keyword = trimmedKeyword;
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
 
         assert this.ui != null : "Ui should be initialized";
         assert this.keyword != null && !this.keyword.isBlank() : "Keyword should not be blank";

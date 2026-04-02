@@ -41,7 +41,7 @@ public class Ui {
      */
     public void greetings() {
         showLine();
-        System.out.println("Welcome to Resumake");
+        System.out.println("Welcome to ResuMake");
         showLine();
     }
 

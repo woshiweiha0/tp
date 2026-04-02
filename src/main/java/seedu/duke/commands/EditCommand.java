@@ -56,6 +56,11 @@ public class EditCommand extends Command {
 
     public EditCommand(int index, String newTitle, String newRole, String newTech,
                        YearMonth newFrom, YearMonth newTo) {
+        this(index, newTitle, newRole, newTech, newFrom, newTo, new Ui());
+    }
+
+    public EditCommand(int index, String newTitle, String newRole, String newTech,
+                       YearMonth newFrom, YearMonth newTo, Ui ui) {
 
         if ((newTitle == null || newTitle.isBlank())
                 && (newRole == null || newRole.isBlank())
@@ -71,7 +76,7 @@ public class EditCommand extends Command {
         this.newTech = (newTech == null || newTech.isBlank()) ? null : newTech.trim();
         this.newFrom = newFrom;
         this.newTo = newTo;
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
 
         assert index >= 0 : "EditCommand index should be 0-based and non-negative";
         assert this.ui != null : "Ui should be initialized";

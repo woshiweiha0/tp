@@ -13,8 +13,12 @@ public class ShowCommand extends Command {
     private final Ui ui;
 
     public ShowCommand(int index) {
+        this(index, new Ui());
+    }
+
+    public ShowCommand(int index, Ui ui) {
         this.index = index - 1;
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
     }
 
     public static void printRecord(RecordList records, int index) {

@@ -31,7 +31,7 @@ public class UiTest {
 
         String lineSeparator = System.lineSeparator();
         String expectedOutput = "--------------------" + lineSeparator
-                + "Welcome to Resumake" + lineSeparator
+                + "Welcome to ResuMake" + lineSeparator
                 + "--------------------" + lineSeparator;
         assertEquals(expectedOutput, outputStream.toString());
     }

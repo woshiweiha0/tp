@@ -17,7 +17,7 @@ ResuMake runs in the terminal and stores data in `records.txt`.
 1. Ensure you have Java 17 installed.
 2. Place the jar file in a folder.
 3. Navigate to that folder in the terminal and run `java -jar ResuMake.jar`.
-4. On startup, ResuMake prints `Loaded records from file.` and `Welcome to Resumake`.
+4. On startup, ResuMake first prints `Welcome to ResuMake`, then prints `Loaded records from file.`.
 5. If user details are not loaded from file, it will prompt:
    - `Hello, what is your name?`
    - `Hello what is your number?`

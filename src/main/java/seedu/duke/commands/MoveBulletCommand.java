@@ -26,10 +26,14 @@ public class MoveBulletCommand extends Command {
      * @param toBulletIndex the 0-based target bullet index
      */
     public MoveBulletCommand(int recordIndex, int fromBulletIndex, int toBulletIndex) {
+        this(recordIndex, fromBulletIndex, toBulletIndex, new Ui());
+    }
+
+    public MoveBulletCommand(int recordIndex, int fromBulletIndex, int toBulletIndex, Ui ui) {
         this.recordIndex = recordIndex;
         this.fromBulletIndex = fromBulletIndex;
         this.toBulletIndex = toBulletIndex;
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
 
         assert this.ui != null : "Ui should be initialized";
     }

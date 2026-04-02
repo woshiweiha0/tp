@@ -25,6 +25,10 @@ public class FindBulletCommand extends Command {
      * @throws IllegalArgumentException if the keyword is null or blank.
      */
     public FindBulletCommand(String keyword) {
+        this(keyword, new Ui());
+    }
+
+    public FindBulletCommand(String keyword, Ui ui) {
         if (keyword == null) {
             throw new IllegalArgumentException("Keyword cannot be null");
         }
@@ -35,7 +39,7 @@ public class FindBulletCommand extends Command {
         }
 
         this.keyword = trimmedKeyword;
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
 
         assert this.ui != null : "Ui should be initialized";
         assert this.keyword != null && !this.keyword.isBlank() : "Keyword should not be blank";

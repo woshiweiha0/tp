@@ -25,6 +25,10 @@ public class AddBulletCommand extends Command {
      * @throws IllegalArgumentException if index is negative or bullet is null/blank
      */
     public AddBulletCommand(int index, String bullet) {
+        this(index, bullet, new Ui());
+    }
+
+    public AddBulletCommand(int index, String bullet, Ui ui) {
         if (index < 0) {
             throw new IllegalArgumentException("Record index must be non-negative.");
         }
@@ -34,7 +38,7 @@ public class AddBulletCommand extends Command {
 
         this.index = index;
         this.bullet = bullet.trim();
-        this.ui = new Ui();
+        this.ui = ui == null ? new Ui() : ui;
 
         assert this.index >= 0 : "Record index should be 0-based and non-negative";
         assert !this.bullet.isBlank() : "Bullet should not be blank after trimming";
