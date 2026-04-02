@@ -1,5 +1,9 @@
 package seedu.duke;
 
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import seedu.duke.commands.Command;
 import seedu.duke.exceptions.ResumakeException;
 
@@ -67,6 +71,13 @@ public class Resumake {
      * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
+        Logger rootLogger = Logger.getLogger("");
+        boolean enableLogs = Boolean.parseBoolean(System.getProperty("debugLogs", "false"));
+        Level logLevel = enableLogs ? Level.INFO : Level.OFF;
+        rootLogger.setLevel(logLevel);
+        for (Handler handler : rootLogger.getHandlers()) {
+            handler.setLevel(logLevel);
+        }
         new Resumake().run();
     }
 }

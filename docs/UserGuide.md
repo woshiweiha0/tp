@@ -356,6 +356,8 @@ Deletes a record by index.
 Format:
 `delete RECORD_INDEX`
 
+- `RECORD_INDEX` must be >= 1 and within the current list size.
+
 Example:
 ```text
 delete 1
@@ -375,6 +377,8 @@ Deletes one bullet from a specific record.
 
 Format:
 `deletebullet RECORD_INDEX BULLET_INDEX`
+
+- Use `show RECORD_INDEX` first to confirm bullet numbering before deleting.
 
 Example:
 ```text
@@ -476,6 +480,9 @@ Records saved to file.
 **Q: I edited/deleted the wrong item. Can I undo it?**
 **A:** There is no undo command currently. Use `edit`/`editbullet` to manually fix, or restore from a backup of `records.txt`.
 
+**Q: Why do `delete`/`deletebullet` sometimes show index errors?**
+**A:** The index is out of range or not 1-based; run `list` or `show` first and retry with the displayed index.
+
 ---
 
 ## Command Summary
@@ -511,3 +518,4 @@ records.txt
 ```
 
 Records are loaded on startup and written after each executed command.
+Successful delete commands are persisted immediately to `records.txt`.
