@@ -1,1 +1,1 @@
-list|88888888|888@gmail.com
+USER|John|123|John@gmail.com

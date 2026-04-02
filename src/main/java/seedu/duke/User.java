@@ -1,7 +1,6 @@
 package seedu.duke;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 import seedu.duke.exceptions.ResumakeException;
 
@@ -20,19 +19,17 @@ public class User {
     }
 
     public static void userInit() {
-        Scanner sc = new Scanner(System.in);
         ui.showMessage("Hello, what is your name?");
-        String name = sc.nextLine();
+        String name = ui.readCommand();
         ui.showMessage("Hello what is your number?");
         int number = 0;
         try {
-            number = sc.nextInt();
-            sc.nextLine();
+            number = Integer.parseInt(ui.readCommand());
         } catch (InputMismatchException e){
             ui.showMessage("Please enter a number");
         }
         ui.showMessage("Finally, what is your email?");
-        String email = sc.nextLine();
+        String email = ui.readCommand();
 
         instance = new User(name, number, email);
     }

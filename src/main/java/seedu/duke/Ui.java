@@ -9,13 +9,13 @@ import java.util.Scanner;
  * and printing formatted messages to the console.
  */
 public class Ui {
-    private final Scanner scanner;
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Constructs a Ui object and initializes the input scanner.
      */
     public Ui() {
-        this.scanner = new Scanner(System.in);
+
     }
 
 

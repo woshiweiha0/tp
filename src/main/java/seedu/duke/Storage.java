@@ -50,9 +50,16 @@ public class Storage {
 
             // Save User on the first line
             User user = User.getInstance();
-            fw.write(user.getName() + "|" + user.getNumber() + "|" + user.getEmail() + "\n");
+            if (user != null) {
+                fw.write("USER|" + user.getName() + "|" + user.getNumber() + "|" + user.getEmail() + "\n");
+            }
 
             for (Record record : list) {
+                if (record == null) {
+                    logger.warning("Skipping null record.");
+                    continue;
+                }
+
                 String keyword = getKeyword(record.getRecordType());
                 if (keyword == null) {
                     logger.warning("Skipping unknown record type: " + record.getRecordType());
@@ -132,9 +139,9 @@ public class Storage {
                 if(firstLine.startsWith("USER|")) {
 
                     String[] parts = firstLine.split("\\|");
-                    if (parts.length == 3) {
+                    if (parts.length == 4) {
                         try {
-                            User.loadFrom(parts[0], Integer.parseInt(parts[1]), parts[2]);
+                            User.loadFrom(parts[1], Integer.parseInt(parts[2]), parts[3]);
                             logger.info("User loaded from file.");
                         } catch (NumberFormatException e) {
                             logger.warning("Invalid user data in file.");
@@ -182,6 +189,7 @@ public class Storage {
         }
         logger.info("Records loaded successfully");
         ui.showMessage("Loaded records from file.");
+        ui.showLine();
 
         return list;
     }
