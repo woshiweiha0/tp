@@ -1,0 +1,63 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Architecture Class Diagram
+
+class Resumake {
+  -list: RecordList
+  -ui: Ui
+  -storage: Storage
+  +run(): void
+  +main(args: String[]): void
+}
+
+class Ui {
+  +readCommand(): String
+  +showMessage(message: String): void
+  +showError(message: String): void
+}
+
+class Parser {
+  {static} +parse(userInput: String, ui: Ui): Command
+}
+
+class Storage {
+  -filepath: String
+  +saveToFile(list: RecordList): void
+  +loadFromFile(filepath: String): RecordList
+  {static} +getFilepath(): String
+}
+
+class RecordList {
+  -list: ArrayList<Record>
+  -size: int
+  +add(record: Record): void
+  +getRecord(index: int): Record
+  +removeIndex(index: int): void
+  +sort(comparator): void
+}
+
+abstract class Command {
+  +execute(list: RecordList): void
+  +isExit(): boolean
+}
+
+class Record {
+  #title: String
+  #role: String
+  #tech: String
+  #from: YearMonth
+  #to: YearMonth
+  #recordType: String
+}
+
+Resumake *-- Ui
+Resumake *-- Storage
+Resumake *-- RecordList
+Resumake ..> Parser
+Parser ..> Command
+Storage ..> RecordList
+RecordList o-- "*" Record
+
+@enduml

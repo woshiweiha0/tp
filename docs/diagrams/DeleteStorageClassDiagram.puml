@@ -1,0 +1,55 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Delete and Storage Class Diagram
+
+abstract class Command {
+  +execute(list: RecordList): void
+}
+
+class DeleteCommand {
+  -userRecordIndex: int
+  -userBulletIndex: int
+  -isDeleteBulletMode: boolean
+  +DeleteCommand(userRecordIndex: int)
+  +DeleteCommand(userRecordIndex: int, userBulletIndex: int)
+  +execute(list: RecordList): void
+  -deleteRecord(list: RecordList): void
+  -deleteBullet(list: RecordList): void
+}
+
+class Parser {
+  {static} +parse(userInput: String, ui: Ui): Command
+}
+
+class Storage {
+  -filepath: String
+  +saveToFile(list: RecordList): void
+  +loadFromFile(filepath: String): RecordList
+  -parseRecord(line: String): Record
+  -getKeyword(recordType: String): String
+}
+
+class RecordList {
+  +getRecord(index: int): Record
+  +removeIndex(index: int): void
+}
+
+class Record {
+  +deleteBullet(bulletIndex: int): String
+  +addBullet(bullet: String): void
+}
+
+class ResumakeException
+
+Command <|-- DeleteCommand
+Parser ..> DeleteCommand : creates
+DeleteCommand ..> RecordList : mutates
+DeleteCommand ..> Record : deleteBullet()
+DeleteCommand ..> ResumakeException : throws
+Storage ..> RecordList : save/load
+Storage ..> Record : parse/add bullets
+Storage ..> ResumakeException : throws
+
+@enduml

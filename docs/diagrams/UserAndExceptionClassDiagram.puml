@@ -1,0 +1,54 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title User and Exception Class Diagram
+
+class User {
+  -instance: User
+  -name: String
+  -number: int
+  -email: String
+  +getInstance(): User
+  +userInit(): void
+  +loadFrom(name: String, number: int, email: String): void
+  +editField(field: String, value: String): void
+  +getName(): String
+  +getNumber(): Integer
+  +getEmail(): String
+}
+
+class EditUserCommand {
+  -field: String
+  +execute(list: RecordList): void
+}
+
+class GenerateCommand {
+  +execute(list: RecordList): void
+}
+
+class Storage {
+  +saveToFile(list: RecordList): void
+  +loadFromFile(filepath: String): RecordList
+}
+
+class Resumake {
+  +run(): void
+}
+
+class ResumakeException
+class Ui
+class RecordList
+
+EditUserCommand ..> User
+GenerateCommand ..> User
+Storage ..> User : persist/load
+User ..> Ui : prompt input
+Resumake ..> Storage
+Resumake ..> RecordList
+Resumake ..> ResumakeException : handles
+EditUserCommand ..> ResumakeException : throws
+GenerateCommand ..> ResumakeException : throws
+Storage ..> ResumakeException : throws
+
+@enduml

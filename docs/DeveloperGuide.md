@@ -6,13 +6,58 @@
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+This section summarizes the key class-level structure of ResuMake.
 
 Main components
 - Resumake: The main which launches the app.
 - UI: The interface which helps to display all messages in User interface.
 - Parser: Helps to parse user input and returns the correct command.
 - Storage: Helps us Store the data in a record txt.
+
+### Architecture class diagram
+
+![Architecture Class Diagram](images/ArchitectureClassDiagram.png)
+
+The architecture centers around `Resumake`, which coordinates `Ui`, `Parser`, `Storage`, and `RecordList`.
+`Parser` maps input into `Command` objects, and `Storage` persists `RecordList` data.
+
+### Record hierarchy class diagram
+
+![Record Hierarchy Class Diagram](images/RecordHierarchyClassDiagram.png)
+
+`Record` is the base abstraction for resume entries and is extended by `Project`, `Experience`, and `Cca`.
+Bullets are managed inside `Record`, while `RecordList` provides collection-level operations.
+
+### Delete and storage class diagram
+
+![Delete and Storage Class Diagram](images/DeleteStorageClassDiagram.png)
+
+This diagram focuses on your implemented feature area:
+- `Parser` creates `DeleteCommand` for `delete` and `deletebullet`.
+- `DeleteCommand` updates `RecordList` (record deletion) or `Record` (bullet deletion).
+- `Storage` handles persistence through `saveToFile` and `loadFromFile`.
+
+### Command hierarchy class diagram
+
+![Command Hierarchy Class Diagram](images/CommandHierarchyClassDiagram.png)
+
+This diagram shows all concrete command classes that extend the `Command` base class.
+It summarizes the command-oriented architecture used by `Parser`.
+
+### Bullet and edit feature class diagram
+
+![Bullet and Edit Feature Class Diagram](images/BulletAndEditClassDiagram.png)
+
+This diagram captures the classes used in bullet and record editing features:
+`AddBulletCommand`, `EditBulletCommand`, `MoveBulletCommand`, `EditCommand`, and `DeleteCommand`.
+It also shows how these commands interact with `RecordList`, `Record`, and `ResumakeException`.
+
+### User and exception class diagram
+
+![User and Exception Class Diagram](images/UserAndExceptionClassDiagram.png)
+
+This diagram focuses on user profile and exception interactions across `User`,
+`EditUserCommand`, `GenerateCommand`, `Storage`, and `Resumake`.
 
 ## Product scope
 ### Target user profile

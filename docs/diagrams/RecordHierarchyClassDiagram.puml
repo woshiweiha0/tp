@@ -1,0 +1,46 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Record Hierarchy Class Diagram
+
+class Record {
+  #title: String
+  #role: String
+  #tech: String
+  #from: YearMonth
+  #to: YearMonth
+  #recordType: String
+  #bullets: ArrayList<String>
+  +containsKeyword(keyword: String): boolean
+  +addBullet(bullet: String): void
+  +deleteBullet(bulletIndex: int): String
+  +editBullet(bulletIndex: int, newBullet: String): void
+  +moveBullet(fromIndex: int, toIndex: int): void
+  +toString(): String
+}
+
+class Project {
+  +Project(title: String, role: String, tech: String, from: YearMonth, to: YearMonth)
+}
+
+class Experience {
+  +Experience(title: String, role: String, tech: String, from: YearMonth, to: YearMonth)
+}
+
+class Cca {
+  +Cca(title: String, role: String, tech: String, from: YearMonth, to: YearMonth)
+}
+
+class RecordList {
+  -list: ArrayList<Record>
+  +add(record: Record): void
+  +getRecord(index: int): Record
+}
+
+Record <|-- Project
+Record <|-- Experience
+Record <|-- Cca
+RecordList o-- "*" Record
+
+@enduml

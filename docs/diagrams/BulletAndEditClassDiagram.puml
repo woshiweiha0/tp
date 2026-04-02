@@ -1,0 +1,86 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Bullet and Edit Feature Class Diagram
+
+abstract class Command
+
+class AddBulletCommand {
+  -index: int
+  -bullet: String
+  +execute(list: RecordList): void
+}
+
+class EditBulletCommand {
+  -userRecordIndex: int
+  -userBulletIndex: int
+  -newBullet: String
+  +execute(list: RecordList): void
+}
+
+class MoveBulletCommand {
+  -recordIndex: int
+  -fromBulletIndex: int
+  -toBulletIndex: int
+  +execute(list: RecordList): void
+}
+
+class EditCommand {
+  -index: int
+  -newTitle: String
+  -newRole: String
+  -newTech: String
+  -newFrom: YearMonth
+  -newTo: YearMonth
+  +execute(list: RecordList): void
+}
+
+class DeleteCommand {
+  -userRecordIndex: int
+  -userBulletIndex: int
+  -isDeleteBulletMode: boolean
+  +execute(list: RecordList): void
+}
+
+class RecordList {
+  +getRecord(index: int): Record
+  +removeIndex(index: int): void
+}
+
+class Record {
+  +setTitle(title: String): void
+  +setRole(role: String): void
+  +setTech(tech: String): void
+  +setFrom(from: YearMonth): void
+  +setTo(to: YearMonth): void
+  +addBullet(bullet: String): void
+  +editBullet(bulletIndex: int, newBullet: String): void
+  +moveBullet(fromIndex: int, toIndex: int): void
+  +deleteBullet(bulletIndex: int): String
+}
+
+class ResumakeException
+
+Command <|-- AddBulletCommand
+Command <|-- EditBulletCommand
+Command <|-- MoveBulletCommand
+Command <|-- EditCommand
+Command <|-- DeleteCommand
+
+AddBulletCommand ..> RecordList
+EditBulletCommand ..> RecordList
+MoveBulletCommand ..> RecordList
+EditCommand ..> RecordList
+DeleteCommand ..> RecordList
+
+AddBulletCommand ..> Record
+EditBulletCommand ..> Record
+MoveBulletCommand ..> Record
+EditCommand ..> Record
+DeleteCommand ..> Record
+
+DeleteCommand ..> ResumakeException : throws
+EditBulletCommand ..> ResumakeException : throws
+
+@enduml

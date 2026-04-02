@@ -1,0 +1,42 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Command Hierarchy Class Diagram
+
+abstract class Command {
+  +execute(list: RecordList): void
+  +isExit(): boolean
+}
+
+class AddCommand
+class AddBulletCommand
+class DeleteCommand
+class EditCommand
+class EditBulletCommand
+class EditUserCommand
+class ExitCommand
+class FindCommand
+class FindBulletCommand
+class GenerateCommand
+class ListCommand
+class MoveBulletCommand
+class ShowCommand
+class SortCommand
+
+Command <|-- AddCommand
+Command <|-- AddBulletCommand
+Command <|-- DeleteCommand
+Command <|-- EditCommand
+Command <|-- EditBulletCommand
+Command <|-- EditUserCommand
+Command <|-- ExitCommand
+Command <|-- FindCommand
+Command <|-- FindBulletCommand
+Command <|-- GenerateCommand
+Command <|-- ListCommand
+Command <|-- MoveBulletCommand
+Command <|-- ShowCommand
+Command <|-- SortCommand
+
+@enduml
