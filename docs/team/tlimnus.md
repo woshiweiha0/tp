@@ -12,6 +12,8 @@ e also supporting a default mode that lists all records. During execution, the c
 This feature improves usability by helping users quickly view only the subset of records they want to work with instead of scanning the entire 
 database every time. In a resume-building application, users often need to focus on one category at a time, for example viewing only project entries when updating a technical portfolio. Adding input validation also makes the command more robust, since it prevents invalid filters from silently failing or producing confusing output.
 
+---
+
 ## New Feature: Generate Resume
 
 ### What it does
@@ -28,6 +30,8 @@ This feature is useful because it organises the user’s stored records into str
 - Reuses ShowCommand instead of duplicating display logic, which improves modularity.
 - Uses an internal mapping from full category names to stored type identifiers.
 - Produces cleaner output for users by separating each section with divider lines.
+
+---
 
 ## New Feature: Sort
 
@@ -51,6 +55,8 @@ Sorting improves the overall manageability of the record list. As the number of 
 - Sorts directly at the RecordList level, making the feature efficient and simple to invoke.
 - Improves downstream commands by keeping records in a consistent order.
 - Includes logging statements to aid debugging and trace execution flow.
+
+---
 
 ## New Feature Individual record display 
 

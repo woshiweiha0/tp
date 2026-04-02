@@ -48,6 +48,10 @@ public class Storage {
 
             FileWriter fw = new FileWriter(path.toFile());
 
+            // Save User on the first line
+            User user = User.getInstance();
+            fw.write(user.getName() + "|" + user.getNumber() + "|" + user.getEmail() + "\n");
+
             for (Record record : list) {
                 String keyword = getKeyword(record.getRecordType());
                 if (keyword == null) {
@@ -121,6 +125,27 @@ public class Storage {
 
         try {
             Scanner sc = new Scanner(file);
+
+            // Load user from first line
+            if (sc.hasNextLine()) {
+                String firstLine = sc.nextLine().strip();
+                String[] parts = firstLine.split("\\|");
+                if (parts.length == 3) {
+                    try {
+                        User.loadFrom(parts[0], Integer.parseInt(parts[1]), parts[2]);
+                        logger.info("User loaded from file.");
+                    } catch (NumberFormatException e) {
+                        logger.warning("Invalid user data, prompting for input.");
+                        User.getInstance(); // triggers userInit()
+                    }
+                } else {
+                    logger.warning("No valid user data found, prompting for input.");
+                    User.getInstance();
+                }
+            } else {
+                User.getInstance();
+            }
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().strip();
 

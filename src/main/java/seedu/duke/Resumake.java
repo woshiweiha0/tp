@@ -14,7 +14,6 @@ public class Resumake {
     private RecordList list;
     private final Ui ui;
     private final Storage storage;
-    private final User user;
 
     /**
      * Constructs a Resumake instance and initializes core components.
@@ -25,7 +24,6 @@ public class Resumake {
         ui = new Ui();
         storage = new Storage();
         list = new RecordList();
-        user = new User("foo", 2, "fee");
         try {
             list = storage.loadFromFile(Storage.getFilepath());
         } catch (Exception e) {

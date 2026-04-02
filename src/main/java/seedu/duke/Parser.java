@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import seedu.duke.commands.EditBulletCommand;
 import seedu.duke.commands.AddBulletCommand;
+import seedu.duke.commands.EditUserCommand;
 import seedu.duke.commands.GenerateCommand;
 import seedu.duke.commands.MoveBulletCommand;
 import seedu.duke.commands.AddCommand;
@@ -392,6 +393,10 @@ public class Parser {
 
         case "generate":
             return new GenerateCommand();
+
+        case "edituser":
+            String field = split[1].trim(); // "name", "number", or "email"
+            return new EditUserCommand(field);
 
         default:
             logger.warning("Unknown command: " + keyword);
