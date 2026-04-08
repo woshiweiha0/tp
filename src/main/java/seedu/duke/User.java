@@ -174,7 +174,7 @@ public class User {
 
             boolean isWrapped =
                     (first == '"' && last == '"') ||
-                            (first == '“' && last == '”') ||
+                            (first == '\u201C' && last == '\u201D') ||
                             (first == '\'' && last == '\'');
 
             if (!isWrapped) {
