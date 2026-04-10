@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.time.YearMonth;
 
@@ -22,6 +23,11 @@ import seedu.duke.commands.EditBulletCommand;
 import seedu.duke.commands.MoveBulletCommand;
 
 public class ParserTest {
+    @BeforeEach
+    public void setUp() {
+        User.loadFrom("John", 91234567, "john@example.com");
+    }
+
     @Test
     public void parse_byeInput_returnsExitCommand() throws ResumakeException {
         Command command = Parser.parse("bye");
@@ -382,7 +388,7 @@ public class ParserTest {
 
     @Test
     public void parse_addbulletMissingBulletText_throwsException() throws ResumakeException {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(ResumakeException.class, () ->
                 Parser.parse("addbullet 1 /"));
     }
 }
