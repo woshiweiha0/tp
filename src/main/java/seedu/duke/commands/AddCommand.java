@@ -52,7 +52,7 @@ public class AddCommand extends Command {
         //Assert preconditions
         assert list != null : "RecordList should not be null";
         assert r != null : "Record should not be null";
-        assert r.getTitle() != null && !r.getTitle().isEmpty()
+        assert r.getTitle() != null && !r.getTitle().trim().isEmpty()
                 : "Record Title should not be empty";
 
         logger.fine("Adding record: " + r.getTitle());
