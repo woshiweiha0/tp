@@ -55,6 +55,11 @@ public class AddCommand extends Command {
         assert r.getTitle() != null && !r.getTitle().trim().isEmpty()
                 : "Record Title should not be empty";
 
+        if (list.contains(r)) {
+            logger.warning("Duplicate record detected: " + r.getTitle());
+            throw new ResumakeException("Duplicate record: an identical record already exists");
+        }
+
         logger.fine("Adding record: " + r.getTitle());
 
         list.add(r);

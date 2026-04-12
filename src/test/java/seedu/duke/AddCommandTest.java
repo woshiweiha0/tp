@@ -102,4 +102,31 @@ public class AddCommandTest {
             System.setOut(originalOut);
         }
     }
+
+    @Test
+    public void execute_duplicateRecord_throwsResumakeException() throws ResumakeException {
+        RecordList list = new RecordList();
+        Record record = new Record(
+                "Internship",
+                "Developer",
+                "Java",
+                YearMonth.parse("2026-01"),
+                YearMonth.parse("2026-03")
+        );
+
+        AddCommand firstCommand = new AddCommand(record, new Ui());
+        firstCommand.execute(list);
+
+        Record duplicate = new Record(
+                "Internship",
+                "Developer",
+                "Java",
+                YearMonth.parse("2026-01"),
+                YearMonth.parse("2026-03")
+        );
+        AddCommand secondCommand = new AddCommand(duplicate, new Ui());
+
+        assertThrows(ResumakeException.class, () -> secondCommand.execute(list));
+        assertEquals(1, list.getSize());
+    }
 }

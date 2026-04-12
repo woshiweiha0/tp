@@ -1,12 +1,15 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
 
 import java.time.YearMonth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class RecordTest {
 
@@ -146,5 +149,47 @@ public class RecordTest {
                 YearMonth.parse("2026-01"),
                 YearMonth.parse("2026-03")
         ));
+    }
+
+    @Test
+    public void equals_sameFields_returnsTrue() {
+        Record first = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        Record second = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        assertEquals(first, second);
+    }
+
+    @Test
+    public void equals_differentRole_returnsFalse() {
+        Record first = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        Record second = new Project(
+                "Parser",
+                "Lead Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        assertNotEquals(first,second);
     }
 }

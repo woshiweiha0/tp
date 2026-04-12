@@ -2,6 +2,7 @@ package seedu.duke.recordtype;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class Record {
@@ -258,5 +259,29 @@ public class Record {
                 + " | tech: " + tech
                 + " | from: " + from
                 + " | to: " + to;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Record)) {
+            return false;
+        }
+
+        Record other = (Record) obj;
+        return Objects.equals(title, other.title)
+                && Objects.equals(role, other.role)
+                && Objects.equals(tech, other.tech)
+                && Objects.equals(from, other.from)
+                && Objects.equals(to, other.to)
+                && Objects.equals(recordType, other.recordType)
+                && Objects.equals(bullets, other.bullets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, role, tech, from, to, recordType, bullets);
     }
 }

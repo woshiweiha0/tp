@@ -55,4 +55,8 @@ public class RecordList implements Iterable<Record> {
     public void sort(Comparator<Record> comparator) {
         list.sort(comparator);
     }
+
+    public boolean contains(Record record) {
+        return list.contains(record);
+    }
 }
