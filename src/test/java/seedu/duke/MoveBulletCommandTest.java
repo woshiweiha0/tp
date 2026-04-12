@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.duke.commands.MoveBulletCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
 
@@ -22,7 +23,7 @@ public class MoveBulletCommandTest {
         System.setOut(originalOut);
     }
 
-    private Record createRecordWithThreeBullets() {
+    private Record createRecordWithThreeBullets() throws ResumakeException {
         Record record = new Project("Capo CLI", "Developer", "Java",
                 YearMonth.parse("2026-01"), YearMonth.parse("2026-03"));
         record.addBullet("A");
@@ -32,7 +33,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_moveBulletForward_success() {
+    public void execute_moveBulletForward_success() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -47,7 +48,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_moveBulletBackward_success() {
+    public void execute_moveBulletBackward_success() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -62,7 +63,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_moveBulletSameIndex_noChange() {
+    public void execute_moveBulletSameIndex_noChange() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -77,7 +78,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_invalidRecordIndex_noMutation() {
+    public void execute_invalidRecordIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -92,7 +93,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_negativeRecordIndex_noMutation() {
+    public void execute_negativeRecordIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -107,7 +108,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_invalidFromBulletIndex_noMutation() {
+    public void execute_invalidFromBulletIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -122,7 +123,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void execute_invalidToBulletIndex_noMutation() {
+    public void execute_invalidToBulletIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
@@ -151,7 +152,7 @@ public class MoveBulletCommandTest {
     }
 
     @Test
-    public void constructor_nullUi_executesNormally() {
+    public void constructor_nullUi_executesNormally() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);

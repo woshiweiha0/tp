@@ -3,6 +3,7 @@ package seedu.duke.commands;
 import seedu.duke.RecordList;
 import seedu.duke.recordtype.Record;
 import seedu.duke.Ui;
+import seedu.duke.exceptions.ResumakeException;
 
 import java.util.logging.Logger;
 
@@ -73,7 +74,7 @@ public class AddBulletCommand extends Command {
      * @param list The Record List containing all records.
      */
     @Override
-    public void execute(RecordList list) {
+    public void execute(RecordList list) throws ResumakeException {
         assert list != null : "RecordList should not be null";
 
         logger.info(() -> "Executing AddBulletCommand for record index=" + index);
@@ -95,15 +96,11 @@ public class AddBulletCommand extends Command {
 
         } catch (IndexOutOfBoundsException e) {
             logger.warning(() -> "AddBulletCommand failed: record index out of range: " + index);
-            ui.showLine();
-            ui.showError("Record index is out of range.");
-            ui.showLine();
+            throw new ResumakeException("Record index is out of range.");
 
         } catch (IllegalArgumentException e) {
             logger.warning(() -> "AddBulletCommand failed: " + e.getMessage());
-            ui.showLine();
-            ui.showError(e.getMessage());
-            ui.showLine();
+            throw new ResumakeException(e.getMessage());
         }
     }
 }

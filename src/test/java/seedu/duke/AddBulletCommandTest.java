@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.YearMonth;
 
 import seedu.duke.commands.AddBulletCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 public class AddBulletCommandTest {
@@ -17,7 +18,7 @@ public class AddBulletCommandTest {
     }
 
     @Test
-    public void addBulletToProjectTest() {
+    public void addBulletToProjectTest() throws ResumakeException {
         RecordList list = new RecordList();
         seedu.duke.recordtype.Record record = new Record(
                 "Resumake CLI",
@@ -36,7 +37,7 @@ public class AddBulletCommandTest {
     }
 
     @Test
-    public void addBullet_existingBullets_appendsToEnd() {
+    public void addBullet_existingBullets_appendsToEnd() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -63,7 +64,7 @@ public class AddBulletCommandTest {
     }
 
     @Test
-    public void addBullet_invalidRecordIndex_noMutation() {
+    public void addBullet_invalidRecordIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -75,8 +76,27 @@ public class AddBulletCommandTest {
         list.add(record);
 
         AddBulletCommand command = new AddBulletCommand(1, "Bullet");
-        command.execute(list);
+        assertThrows(ResumakeException.class, () -> command.execute(list));
 
         assertEquals(0, record.getBullets().size());
+    }
+
+    @Test
+    public void addBullet_duplicateBullet_throwsResumakeException() throws ResumakeException {
+        RecordList list = new RecordList();
+        Record record = new Record(
+                "Resumake CLI",
+                "Developer",
+                "Java",
+                YearMonth.parse("2026-01"),
+                YearMonth.parse("2026-03")
+        );
+        record.addBullet("Implemented parser logic");
+        list.add(record);
+
+        AddBulletCommand command = new AddBulletCommand(0, "Implemented parser logic");
+
+        assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals(1, record.getBullets().size());
     }
 }

@@ -220,7 +220,7 @@ public class Storage {
      * @param line Raw storage line.
      * @return Parsed record, or null if the line is invalid.
      */
-    private Record parseRecord(String line) {
+    private Record parseRecord(String line) throws ResumakeException{
         assert line != null : "line should not be null";
 
         String trimmed = line.trim();

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import seedu.duke.exceptions.ResumakeException;
+
 public class Record {
     private static final Logger logger = Logger.getLogger(Record.class.getName());
 
@@ -158,7 +160,7 @@ public class Record {
         return recordType;
     }
 
-    public void addBullet(String bullet) {
+    public void addBullet(String bullet) throws ResumakeException {
         assert bullets != null : "Bullets list should not be null";
 
         logger.fine("Attempting to add bullet to record: " + title);
@@ -168,7 +170,13 @@ public class Record {
             throw new IllegalArgumentException("Bullet must not be null or blank");
         }
 
-        bullets.add(bullet.trim());
+        String trimmedBullet = bullet.trim();
+        if (bullets.contains(trimmedBullet)) {
+            logger.warning("addBullet failed: duplicate bullet");
+            throw new ResumakeException("Duplicate bullet: an identical bullet already exists");
+        }
+
+        bullets.add(trimmedBullet);
         logger.info("Bullet added successfully to record: " + title);
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.duke.commands.FindBulletCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
 
@@ -29,7 +30,7 @@ public class FindBulletCommandTest {
         System.setOut(originalOut);
     }
 
-    private RecordList createRecordListWithBullets() {
+    private RecordList createRecordListWithBullets() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Project(
                 "Capo CLI",
@@ -45,7 +46,7 @@ public class FindBulletCommandTest {
     }
 
     @Test
-    public void execute_matchingBullet_printsRecordAndMatchingBulletsOnly() {
+    public void execute_matchingBullet_printsRecordAndMatchingBulletsOnly() throws ResumakeException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -64,7 +65,7 @@ public class FindBulletCommandTest {
     }
 
     @Test
-    public void execute_caseInsensitiveMatch_printsMatchingBullet() {
+    public void execute_caseInsensitiveMatch_printsMatchingBullet() throws ResumakeException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -77,7 +78,7 @@ public class FindBulletCommandTest {
     }
 
     @Test
-    public void execute_noMatchingBullets_printsNoMatchMessage() {
+    public void execute_noMatchingBullets_printsNoMatchMessage() throws ResumakeException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -119,7 +120,7 @@ public class FindBulletCommandTest {
     }
 
     @Test
-    public void execute_nullRecordInList_throwsAssertionError() {
+    public void execute_nullRecordInList_throwsAssertionError() throws ResumakeException {
         RecordList list = new RecordList();
         list.add(null);
 
@@ -139,7 +140,7 @@ public class FindBulletCommandTest {
     }
 
     @Test
-    public void execute_containsNullBullet_skipsNullBulletAndPrintsMatch() {
+    public void execute_containsNullBullet_skipsNullBulletAndPrintsMatch() throws ResumakeException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
