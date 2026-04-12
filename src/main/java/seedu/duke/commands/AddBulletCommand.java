@@ -3,6 +3,7 @@ package seedu.duke.commands;
 import seedu.duke.RecordList;
 import seedu.duke.recordtype.Record;
 import seedu.duke.Ui;
+import seedu.duke.exceptions.ResumakeException;
 
 import java.util.logging.Logger;
 
@@ -24,16 +25,16 @@ public class AddBulletCommand extends Command {
      * @param bullet Bullet point content (must not be null or blank)
      * @throws IllegalArgumentException if index is negative or bullet is null/blank
      */
-    public AddBulletCommand(int index, String bullet) {
+    public AddBulletCommand(int index, String bullet) throws ResumakeException {
         this(index, bullet, new Ui());
     }
 
-    public AddBulletCommand(int index, String bullet, Ui ui) {
+    public AddBulletCommand(int index, String bullet, Ui ui) throws ResumakeException{
         if (index < 0) {
-            throw new IllegalArgumentException("Record index must be non-negative.");
+            throw new ResumakeException("Record index must be non-negative.");
         }
         if (bullet == null || bullet.trim().isEmpty()) {
-            throw new IllegalArgumentException("Bullet cannot be blank.");
+            throw new ResumakeException("Bullet cannot be blank.");
         }
 
         this.index = index;
@@ -73,7 +74,7 @@ public class AddBulletCommand extends Command {
      * @param list The Record List containing all records.
      */
     @Override
-    public void execute(RecordList list) {
+    public void execute(RecordList list) throws ResumakeException {
         assert list != null : "RecordList should not be null";
 
         logger.info(() -> "Executing AddBulletCommand for record index=" + index);
@@ -95,15 +96,11 @@ public class AddBulletCommand extends Command {
 
         } catch (IndexOutOfBoundsException e) {
             logger.warning(() -> "AddBulletCommand failed: record index out of range: " + index);
-            ui.showLine();
-            ui.showError("Record index is out of range.");
-            ui.showLine();
+            throw new ResumakeException("Record index is out of range.");
 
         } catch (IllegalArgumentException e) {
             logger.warning(() -> "AddBulletCommand failed: " + e.getMessage());
-            ui.showLine();
-            ui.showError(e.getMessage());
-            ui.showLine();
+            throw new ResumakeException(e.getMessage());
         }
     }
 }

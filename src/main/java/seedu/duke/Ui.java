@@ -1,5 +1,6 @@
 package seedu.duke;
 
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
 
@@ -10,7 +11,8 @@ import java.util.NoSuchElementException;
  * and printing formatted messages to the console.
  */
 public class Ui {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static InputStream inputStream = System.in;
+    private static Scanner scanner = new Scanner(inputStream);
 
     /**
      * Constructs a Ui object and initializes the input scanner.
@@ -37,6 +39,13 @@ public class Ui {
     }
 
     /**
+     * Displays the command input prompt.
+     */
+    public void showPrompt() {
+        System.out.print("> ");
+    }
+
+    /**
      * Displays the greeting message when the application starts.
      */
     public void greetings() {
@@ -56,9 +65,12 @@ public class Ui {
         }
 
         // Fallback for environments/tests that replace System.in after this Ui instance was created.
-        Scanner fallbackScanner = new Scanner(System.in);
-        if (fallbackScanner.hasNextLine()) {
-            return fallbackScanner.nextLine();
+        if (inputStream != System.in) {
+            inputStream = System.in;
+            scanner = new Scanner(inputStream);
+            if (scanner.hasNextLine()) {
+                return scanner.nextLine();
+            }
         }
 
         throw new NoSuchElementException("No line found");

@@ -38,7 +38,7 @@ public class EditBulletCommandTest {
     }
 
     @Test
-    public void execute_editBullet_invalidBulletIndexThrowsResumakeException() {
+    public void execute_editBullet_invalidBulletIndexThrowsResumakeException() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Project("Capo CLI", "Developer", "Java",
                 YearMonth.parse("2026-01"), YearMonth.parse("2026-03"));
@@ -51,7 +51,7 @@ public class EditBulletCommandTest {
     }
 
     @Test
-    public void execute_editBullet_blankBulletThrowsResumakeException() {
+    public void execute_editBullet_blankBulletThrowsResumakeException() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Project("Capo CLI", "Developer", "Java",
                 YearMonth.parse("2026-01"), YearMonth.parse("2026-03"));
@@ -81,7 +81,7 @@ public class EditBulletCommandTest {
     }
 
     @Test
-    public void execute_invalidRecordIndexThrowsResumakeException() {
+    public void execute_invalidRecordIndexThrowsResumakeException() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Project("Capo CLI", "Developer", "Java",
                 YearMonth.parse("2026-01"), YearMonth.parse("2026-03"));
@@ -94,7 +94,7 @@ public class EditBulletCommandTest {
     }
 
     @Test
-    public void execute_blankBullet_originalBulletUnchanged() {
+    public void execute_blankBullet_originalBulletUnchanged() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = new Project("Capo CLI", "Developer", "Java",
                 YearMonth.parse("2026-01"), YearMonth.parse("2026-03"));

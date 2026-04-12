@@ -337,8 +337,10 @@ public class Parser {
                 }
                 String bullet = bulletPart.substring(1).trim();
                 return new AddBulletCommand(index, bullet, effectiveUi);
-            } catch (IllegalArgumentException e) {
+            } catch (NumberFormatException e) {
                 throw new ResumakeException("Please follow the correct format");
+            } catch (ResumakeException e) {
+                throw e;
             }
 
         case "edit":
@@ -365,7 +367,7 @@ public class Parser {
 
                 return new MoveBulletCommand(recordIndex, fromBulletIndex, toBulletIndex, effectiveUi);
             } catch (NumberFormatException e) {
-                throw new ResumakeException("Please follow the correct format");
+                throw new ResumakeException("Error: " + e.getMessage());
             }
 
         case "editbullet":
@@ -390,7 +392,7 @@ public class Parser {
                 String newBullet = bulletPart.substring(1).trim();
                 return new EditBulletCommand(recordIndex, bulletIndex, newBullet);
             } catch (NumberFormatException e) {
-                throw new ResumakeException("Please follow the correct format");
+                throw new ResumakeException("Error: " + e.getMessage());
             }
 
         case "sort":

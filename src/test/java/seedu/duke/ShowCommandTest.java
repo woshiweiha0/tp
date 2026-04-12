@@ -11,6 +11,7 @@ import java.io.PrintStream;
 import java.time.YearMonth;
 
 import seedu.duke.commands.ShowCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 public class ShowCommandTest {
@@ -44,7 +45,7 @@ public class ShowCommandTest {
     }
 
     @Test
-    void printRecord_withBullets_printsBullets() {
+    void printRecord_withBullets_printsBullets() throws ResumakeException {
         RecordList records = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -113,7 +114,7 @@ public class ShowCommandTest {
     }
 
     @Test
-    void execute_validIndexWithBullets_printsBullets() {
+    void execute_validIndexWithBullets_printsBullets() throws ResumakeException {
         RecordList records = new RecordList();
         Record record = new Record(
                 "Resumake CLI",

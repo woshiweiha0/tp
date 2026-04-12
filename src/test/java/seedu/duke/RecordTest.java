@@ -1,12 +1,16 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.duke.exceptions.ResumakeException;
+import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
 
 import java.time.YearMonth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class RecordTest {
 
@@ -88,7 +92,7 @@ public class RecordTest {
     }
 
     @Test
-    public void addBullet_validBullet_addsBullet() {
+    public void addBullet_validBullet_addsBullet() throws ResumakeException {
         Record record = createRecord();
         record.addBullet("Implemented parser");
         assertEquals(1, record.getBullets().size());
@@ -96,7 +100,7 @@ public class RecordTest {
     }
 
     @Test
-    public void editBullet_validBullet_updatesBullet() {
+    public void editBullet_validBullet_updatesBullet() throws ResumakeException {
         Record record = createRecord();
         record.addBullet("Old bullet");
         record.editBullet(0, "New bullet");
@@ -104,7 +108,7 @@ public class RecordTest {
     }
 
     @Test
-    public void editBullet_blankBullet_throwsIllegalArgumentException() {
+    public void editBullet_blankBullet_throwsIllegalArgumentException() throws ResumakeException {
         Record record = createRecord();
         record.addBullet("Old bullet");
         assertThrows(IllegalArgumentException.class,
@@ -112,7 +116,7 @@ public class RecordTest {
     }
 
     @Test
-    public void deleteBullet_validIndex_removesBullet() {
+    public void deleteBullet_validIndex_removesBullet() throws ResumakeException {
         Record record = createRecord();
         record.addBullet("A");
         record.addBullet("B");
@@ -124,7 +128,7 @@ public class RecordTest {
     }
 
     @Test
-    public void moveBullet_validIndexes_movesBullet() {
+    public void moveBullet_validIndexes_movesBullet() throws ResumakeException {
         Record record = createRecord();
         record.addBullet("A");
         record.addBullet("B");
@@ -146,5 +150,47 @@ public class RecordTest {
                 YearMonth.parse("2026-01"),
                 YearMonth.parse("2026-03")
         ));
+    }
+
+    @Test
+    public void equals_sameFields_returnsTrue() {
+        Record first = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        Record second = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        assertEquals(first, second);
+    }
+
+    @Test
+    public void equals_differentRole_returnsFalse() {
+        Record first = new Project(
+                "Parser",
+                "Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        Record second = new Project(
+                "Parser",
+                "Lead Developer",
+                "Java",
+                YearMonth.parse("2025-01"),
+                YearMonth.parse("2025-03")
+        );
+
+        assertNotEquals(first,second);
     }
 }

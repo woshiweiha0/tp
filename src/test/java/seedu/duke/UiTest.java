@@ -73,6 +73,17 @@ public class UiTest {
     }
 
     @Test
+    public void showPrompt_noInput_printsPrompt() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        Ui ui = new Ui();
+
+        ui.showPrompt();
+
+        assertEquals("> ", outputStream.toString());
+    }
+
+    @Test
     public void showLoadingError_noInput_printsWrappedError() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));

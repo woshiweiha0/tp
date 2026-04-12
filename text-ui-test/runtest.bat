@@ -6,6 +6,7 @@ cd ..
 call gradlew clean shadowJar
 
 cd build\libs
+copy /Y ..\..\text-ui-test\records.txt records.txt > nul
 for /f "tokens=*" %%a in ('dir /b *.jar') do (
     set jarloc=%%a
 )

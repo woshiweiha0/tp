@@ -388,7 +388,8 @@ public class ParserTest {
 
     @Test
     public void parse_addbulletMissingBulletText_throwsException() throws ResumakeException {
-        assertThrows(ResumakeException.class, () ->
+        ResumakeException exception = assertThrows(ResumakeException.class, () ->
                 Parser.parse("addbullet 1 /"));
+        assertEquals("Bullet cannot be blank.", exception.getMessage());
     }
 }

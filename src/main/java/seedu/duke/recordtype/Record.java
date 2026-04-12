@@ -2,7 +2,10 @@ package seedu.duke.recordtype;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Logger;
+
+import seedu.duke.exceptions.ResumakeException;
 
 public class Record {
     private static final Logger logger = Logger.getLogger(Record.class.getName());
@@ -157,7 +160,7 @@ public class Record {
         return recordType;
     }
 
-    public void addBullet(String bullet) {
+    public void addBullet(String bullet) throws ResumakeException {
         assert bullets != null : "Bullets list should not be null";
 
         logger.fine("Attempting to add bullet to record: " + title);
@@ -167,7 +170,13 @@ public class Record {
             throw new IllegalArgumentException("Bullet must not be null or blank");
         }
 
-        bullets.add(bullet.trim());
+        String trimmedBullet = bullet.trim();
+        if (bullets.contains(trimmedBullet)) {
+            logger.warning("addBullet failed: duplicate bullet");
+            throw new ResumakeException("Duplicate bullet: an identical bullet already exists");
+        }
+
+        bullets.add(trimmedBullet);
         logger.info("Bullet added successfully to record: " + title);
     }
 
@@ -258,5 +267,29 @@ public class Record {
                 + " | tech: " + tech
                 + " | from: " + from
                 + " | to: " + to;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Record)) {
+            return false;
+        }
+
+        Record other = (Record) obj;
+        return Objects.equals(title, other.title)
+                && Objects.equals(role, other.role)
+                && Objects.equals(tech, other.tech)
+                && Objects.equals(from, other.from)
+                && Objects.equals(to, other.to)
+                && Objects.equals(recordType, other.recordType)
+                && Objects.equals(bullets, other.bullets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, role, tech, from, to, recordType, bullets);
     }
 }
