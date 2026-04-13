@@ -74,6 +74,26 @@ public class Parser {
             int fromIndex = fields.indexOf("/from");
             int toIndex = fields.indexOf("/to");
 
+            // Check for invalid fields (forward slashes that aren't valid flags)
+            int slashIndex = 0;
+            while ((slashIndex = fields.indexOf('/', slashIndex)) != -1) {
+                boolean isValidFlag = false;
+                if ((roleIndex != -1 && slashIndex == roleIndex)
+                        || (techIndex != -1 && slashIndex == techIndex)
+                        || (fromIndex != -1 && slashIndex == fromIndex)
+                        || (toIndex != -1 && slashIndex == toIndex)) {
+                    isValidFlag = true;
+                }
+                if (!isValidFlag) {
+                    // Extract the invalid field name
+                    String invalidField = fields.substring(slashIndex).split("\\s+")[0];
+                    logger.warning("Edit command failed: invalid field \"" + invalidField + "\" provided");
+                    throw new ResumakeException("Error: \"" + invalidField
+                            + "\" is not a valid field. Please use the following format \"edit RECORD_INDEX [NEW_TITLE] [/role NEW_ROLE] [/tech NEW_TECH] [/from YYYY-MM] [/to YYYY-MM]\".");
+                }
+                slashIndex++;
+            }
+
             String newTitle = null;
             String newRole = null;
             String newTech = null;
