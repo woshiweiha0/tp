@@ -57,7 +57,7 @@ public class EditUserCommandTest {
     }
 
     @Test
-    public void execute_editEmail_retryThenSuccess_updatesEmail() throws Exception {
+    public void executeEditEmailRetryThenSuccessUpdatesEmail() throws Exception {
         System.setIn(new ByteArrayInputStream("bad\njane@test.com\n".getBytes()));
 
         EditUserCommand cmd = new EditUserCommand("email");
@@ -67,7 +67,7 @@ public class EditUserCommandTest {
     }
 
     @Test
-    public void execute_editEmail_exhaustAttempts_throwsResumakeException() throws Exception {
+    public void executeEditEmailExhaustAttemptsThrowsResumakeException() throws Exception {
         System.setIn(new ByteArrayInputStream("bad\nbad\nbad\nbad\n".getBytes()));
 
         EditUserCommand cmd = new EditUserCommand("email");
