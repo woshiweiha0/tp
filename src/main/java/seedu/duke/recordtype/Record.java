@@ -167,7 +167,7 @@ public class Record {
 
         if (bullet == null || bullet.isBlank()) {
             logger.warning("addBullet failed: bullet is null or blank");
-            throw new IllegalArgumentException("Bullet must not be null or blank");
+            throw new ResumakeException("Bullet must not be null or blank");
         }
 
         String trimmedBullet = bullet.trim();

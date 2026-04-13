@@ -66,6 +66,33 @@ public class AddCommand extends Command {
 
         logger.info("Record added successfully: "+ r.getTitle());
 
+        ui.showMessage("Do you want to add bullet points? (y/n)");
+        String answer = ui.readCommand().trim();
+
+        if (answer.equalsIgnoreCase("y")) {
+            ui.showMessage("Enter bullet points one by one. Type \"esc\" to stop");
+
+            while (true) {
+                String bullet = ui.readCommand().trim();
+
+                if (bullet.equalsIgnoreCase("esc")) {
+                    break;
+                }
+
+                if (bullet.isBlank()) {
+                    ui.showMessage("Bullet cannot be blank");
+                    continue;
+                }
+                try {
+                    r.addBullet(bullet);
+                    ui.showMessage("Bullet added");
+                } catch (ResumakeException e) {
+                    ui.showMessage(e.getMessage());
+                }
+
+            }
+        }
+
         ui.showLine();
         System.out.println("[" + r.getRecordType() + "] "
                 + r.getTitle() + " added");
