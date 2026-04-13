@@ -484,6 +484,8 @@ edituser age
 Error: Invalid User Field. Must be name, number or email.
 ```
 
+---
+
 ### Moving a bullet : `movebullet`
 
 Moves a bullet from one position to another in the same record.
