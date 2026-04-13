@@ -74,23 +74,7 @@ This feature improves discoverability and reduces friction by showing a quick in
 
 ---
 
-## Enhancement: Refactor Ui Usage to Reduce Coupling
-
-**What it does:**  
-Refactored runtime wiring so `Ui` is injected through `Resumake` and `Parser` into command/storage flows, instead of repeatedly constructing UI dependencies inside many execution paths.
-
-**Justification:**  
-Previously, multiple components created their own UI instances. This increased coupling and made UI behavior harder to reason about and test consistently. Injecting shared UI dependencies improves maintainability and keeps I/O ownership clearer.
-
-**Highlights:**
-- Added constructor overloads to support injected `Ui` while preserving backward compatibility.
-- Updated parser execution path to pass shared `Ui` into command creation.
-- Updated storage wiring to use injected `Ui` from the app root.
-- Preserved command behavior/output format while reducing dependency duplication.
-
----
-
-## Summary of contributions
+## Summary of Contributions
 
 ### Code contributed
 
@@ -152,6 +136,6 @@ Previously, multiple components created their own UI instances. This increased c
 ### Tools
 
 - Used Java logging (`Logger`) for debugging and tracing command execution.
-- Utilized JUnit for testing parser and command behavior.
+- Utilised JUnit for testing parser and command behavior.
 - Used Gradle (`test`, `check`) for verification workflows.
 - Used GitHub Issues/PR workflow to track and coordinate enhancements.
