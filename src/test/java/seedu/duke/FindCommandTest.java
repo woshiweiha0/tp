@@ -135,6 +135,26 @@ public class FindCommandTest {
     }
 
     @Test
+    public void execute_sparseMatch_printsOriginalListIndex() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        RecordList recordList = fillRecordList();
+
+        FindCommand findCommand = new FindCommand("internship");
+        findCommand.execute(recordList);
+
+        String lineSeparator = System.lineSeparator();
+        String expectedOutput = "--------------------" + lineSeparator
+                + "Matching records:" + lineSeparator
+                + "2. [R] Python internship | role: Developer | tech: Java | from: 2026-01 | to: 2026-03"
+                + lineSeparator
+                + "--------------------" + lineSeparator;
+
+        assertEquals(expectedOutput, outputStream.toString());
+    }
+
+    @Test
     public void constructor_nullKeyword_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new FindCommand(null));
     }

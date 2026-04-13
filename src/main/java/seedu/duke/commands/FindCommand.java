@@ -76,9 +76,8 @@ public class FindCommand extends Command {
             ui.showMessage("Matching records:");
 
             boolean hasMatch = false;
-            int displayIndex = 1;
-
-            for (Record record : list) {
+            for (int index = 0; index < list.getSize(); index++) {
+                Record record = list.getRecord(index);
                 assert record != null : "Record in RecordList should not be null";
 
                 if (record == null) {
@@ -90,8 +89,7 @@ public class FindCommand extends Command {
 
                 if (record.containsKeyword(keyword)) {
                     logger.info("Match found for keyword \"" + keyword + "\": " + record.getTitle());
-                    ui.showMessage(displayIndex + ". " + record);
-                    displayIndex++;
+                    ui.showMessage((index + 1) + ". " + record);
                     hasMatch = true;
                 }
             }
