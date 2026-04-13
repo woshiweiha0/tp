@@ -106,13 +106,12 @@ public class Storage {
         }
         assert Files.exists(path) : "file should exist after path creation";
 
-        try {
-            Scanner sc = new Scanner(file);
+        try (Scanner sc = new Scanner(file)) {
 
             // Load user from first line
             if (sc.hasNextLine()) {
                 String firstLine = sc.nextLine().strip();
-                if(firstLine.startsWith("USER|")) {
+                if (firstLine.startsWith("USER|")) {
 
                     String[] parts = firstLine.split("\\|", 4);
                     if (parts.length == 4) {
@@ -129,18 +128,22 @@ public class Storage {
                     }
                 } else {
                     User.getInstance();
-                    Record record = parseRecord(firstLine);
-                    if (record != null) {
-                        list.add(record);
-                    } else {
-                        logger.warning("Skipping invalid first record line: " + firstLine);
+                    try {
+                        Record record = parseRecord(firstLine);
+                        if (record != null) {
+                            list.add(record);
+                        } else {
+                            logger.warning("Skipping invalid first record line: " + firstLine);
+                        }
+                    } catch (RuntimeException e) {
+                        logger.warning("Unexpected error while loading first record line: "
+                                + firstLine + " | Reason: " + e.getMessage());
                     }
                 }
             } else {
                 logger.warning("File is empty. No user loaded.");
                 User.getInstance();
             }
-
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().strip();
@@ -161,7 +164,6 @@ public class Storage {
                             + " | Reason: " + e.getMessage());
                 }
             }
-            sc.close();
         } catch (IOException e) {
             logger.severe("Failed to load records: " + e.getMessage());
             throw new ResumakeException("Failed to load records from file.");
@@ -334,7 +336,11 @@ public class Storage {
                 String[] bullets = bulletsPart.split("\\s*;;\\s*");
                 for (String bullet : bullets) {
                     if (!bullet.isBlank()) {
-                        record.addBullet(decodeBulletFromStorage(bullet.trim()));
+                        try {
+                            record.addBullet(decodeBulletFromStorage(bullet.trim()));
+                        } catch (ResumakeException e) {
+                            logger.warning("Skipping bullet during load: " + e.getMessage());
+                        }
                     }
                 }
             }

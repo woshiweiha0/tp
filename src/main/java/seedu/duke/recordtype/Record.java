@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import seedu.duke.User;
 import seedu.duke.exceptions.ResumakeException;
 
 public class Record {
@@ -151,8 +152,12 @@ public class Record {
             logger.warning("setTech failed: tech is blank");
             throw new IllegalArgumentException("Tech cannot be blank.");
         }
-
+        User user = User.getInstance();
+        logger.info("Removing Skill: " + this.tech);
+        user.removeSkills(this.tech);
         this.tech = tech.trim();
+        logger.info("Adding Skill: " + this.tech);
+        user.addSkills(this.tech);
         logger.info("Tech updated successfully to: " + this.tech);
     }
 
@@ -289,6 +294,6 @@ public class Record {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, role, tech, from, to, recordType, bullets);
+        return Objects.hash(title, role, tech, from, to, recordType);
     }
 }

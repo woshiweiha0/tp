@@ -75,6 +75,11 @@ public class GenerateCommand extends Command {
             int index = 1;
 
             for (Record record : list) {
+                if (record == null) {
+                    logger.warning("Encountered null record during generation, skipping");
+                    continue;
+                }
+
                 assert record != null : "Record in list should not be null";
 
                 if (record.getRecordType().equals(charType)) {

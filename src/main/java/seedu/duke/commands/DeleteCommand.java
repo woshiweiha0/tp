@@ -3,6 +3,7 @@ package seedu.duke.commands;
 import java.util.logging.Logger;
 
 import seedu.duke.RecordList;
+import seedu.duke.Ui;
 import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
@@ -14,6 +15,7 @@ public class DeleteCommand extends Command {
     private final int userRecordIndex;
     private final int userBulletIndex;
     private final boolean isDeleteBulletMode;
+    private final Ui ui;
 
     /**
      * Creates a delete command that removes a record.
@@ -21,10 +23,15 @@ public class DeleteCommand extends Command {
      * @param userRecordIndex 1-based record index from user input.
      */
     public DeleteCommand(int userRecordIndex) {
+        this(userRecordIndex, new Ui());
+    }
+
+    public DeleteCommand(int userRecordIndex, Ui ui) {
         assert userRecordIndex > 0 : "index should be more than 0";
         this.userRecordIndex = userRecordIndex;
         this.userBulletIndex = -1;
         this.isDeleteBulletMode = false;
+        this.ui = ui == null ? new Ui() : ui;
         logger.fine("DeleteCommand created for record index=" + userRecordIndex);
     }
 
@@ -35,11 +42,16 @@ public class DeleteCommand extends Command {
      * @param userBulletIndex 1-based bullet index from user input.
      */
     public DeleteCommand(int userRecordIndex, int userBulletIndex) {
+        this(userRecordIndex, userBulletIndex, new Ui());
+    }
+
+    public DeleteCommand(int userRecordIndex, int userBulletIndex, Ui ui) {
         assert userRecordIndex > 0 : "record index should be more than 0";
         assert userBulletIndex > 0 : "bullet index should be more than 0";
         this.userRecordIndex = userRecordIndex;
         this.userBulletIndex = userBulletIndex;
         this.isDeleteBulletMode = true;
+        this.ui = ui == null ? new Ui() : ui;
         logger.fine("DeleteCommand created for record index=" + userRecordIndex
                 + ", bullet index=" + userBulletIndex);
     }
@@ -100,7 +112,7 @@ public class DeleteCommand extends Command {
         try {
             list.removeIndex(userRecordIndex - 1);
             logger.info("Record delete succeeded for index=" + userRecordIndex);
-            System.out.println("Deleted record " + userRecordIndex);
+            ui.showMessage("Deleted record " + userRecordIndex);
         } catch (IndexOutOfBoundsException e) {
             logger.warning("Record delete failed for index=" + userRecordIndex + " (out of bounds)");
             throw new ResumakeException("Invalid record index.");
@@ -127,7 +139,7 @@ public class DeleteCommand extends Command {
             }
             logger.info("Bullet delete succeeded for record index=" + userRecordIndex
                     + ", bullet index=" + userBulletIndex);
-            System.out.println("Deleted bullet " + userBulletIndex + " from record " + userRecordIndex);
+            ui.showMessage("Deleted bullet " + userBulletIndex + " from record " + userRecordIndex);
         } catch (IndexOutOfBoundsException e) {
             logger.warning("Bullet delete failed for record index=" + userRecordIndex
                     + ", bullet index=" + userBulletIndex + " (record out of bounds)");

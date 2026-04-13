@@ -74,12 +74,12 @@ public class FindBulletCommand extends Command {
 
             for (Record record : list) {
                 recordDisplayIndex++;
-                assert record != null : "Record in RecordList should not be null";
-
                 if (record == null) {
                     logger.warning("Encountered null record while searching bullets");
                     continue;
                 }
+
+                assert record != null : "Record in RecordList should not be null";
 
                 ArrayList<String> bullets = record.getBullets();
                 assert bullets != null : "Bullets list should not be null";
@@ -105,9 +105,9 @@ public class FindBulletCommand extends Command {
 
                 if (matchCount > 0) {
                     hasMatch = true;
-                    System.out.println(recordDisplayIndex + ". " + record);
-                    System.out.println("Bullets:");
-                    System.out.print(bulletOutput);
+                    ui.showMessage(recordDisplayIndex + ". " + record);
+                    ui.showMessage("Bullets:");
+                    ui.showMessage(bulletOutput.toString().stripTrailing());
                 }
             }
 

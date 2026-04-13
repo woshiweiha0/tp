@@ -15,13 +15,15 @@ public class RecordList implements Iterable<Record> {
     }
 
     public void add(Record record) {
+        if (record == null) {
+            return;
+        }
+
         list.add(record);
 
-        if (record != null) {
-            String tech = record.getTech();
-            if (tech != null && !tech.trim().isEmpty()) {
-                User.getInstance().addSkills(tech);
-            }
+        String tech = record.getTech();
+        if (tech != null && !tech.trim().isEmpty()) {
+            User.getInstance().addSkills(tech);
         }
 
         size++;

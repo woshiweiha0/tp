@@ -110,8 +110,7 @@ public class AddCommand extends Command {
 
 
         ui.showLine();
-        System.out.println("[" + r.getRecordType() + "] "
-                + r.getTitle() + " added");
+        ui.showMessage("[" + r.getRecordType() + "] " + r.getTitle() + " added");
         ui.showLine();
     }
 }

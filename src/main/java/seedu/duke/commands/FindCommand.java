@@ -78,12 +78,12 @@ public class FindCommand extends Command {
             boolean hasMatch = false;
             for (int index = 0; index < list.getSize(); index++) {
                 Record record = list.getRecord(index);
-                assert record != null : "Record in RecordList should not be null";
-
                 if (record == null) {
                     logger.warning("Encountered null record while searching");
                     continue;
                 }
+
+                assert record != null : "Record in RecordList should not be null";
 
                 logger.fine("Checking record: " + record.getTitle());
 
