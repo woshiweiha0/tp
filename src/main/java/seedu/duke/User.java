@@ -35,8 +35,11 @@ public class User {
     }
 
     public static void userInit() {
+        ui.showMessage("Welcome! What is your name?");
         String name = promptForName();
+        ui.showMessage("Next, what is your number?");
         int number = promptForNumber();
+        ui.showMessage("Finally, what is your email?");
         String email = promptForEmail();
 
         instance = new User(name, number, email);
@@ -189,9 +192,8 @@ public class User {
         return skill;
     }
 
-    private static String promptForName() {
+    public static String promptForName() {
         while (true) {
-            ui.showMessage("Hello, what is your name?");
             String name = ui.readCommand().trim();
             if (!name.isBlank()) {
                 return name;
@@ -200,9 +202,8 @@ public class User {
         }
     }
 
-    private static int promptForNumber() {
+    public static int promptForNumber() {
         while (true) {
-            ui.showMessage("Hello what is your number?");
             String numberInput = ui.readCommand().trim();
             try {
                 int number = Integer.parseInt(numberInput);
@@ -216,9 +217,8 @@ public class User {
         }
     }
 
-    private static String promptForEmail() {
+    public static String promptForEmail() {
         while (true) {
-            ui.showMessage("Finally, what is your email?");
             String email = ui.readCommand().trim();
             if (isValidEmail(email)) {
                 return email;

@@ -109,7 +109,7 @@ public class Record {
         }
         if (this.to != null && from.isAfter(this.to)) {
             logger.warning("setFrom failed: start date is after end date");
-            throw new IllegalArgumentException("Start date cannot be after end date.");
+            throw new IllegalArgumentException("End date cannot be before start date.");
         }
 
         this.from = from;
@@ -167,7 +167,7 @@ public class Record {
 
         if (bullet == null || bullet.isBlank()) {
             logger.warning("addBullet failed: bullet is null or blank");
-            throw new ResumakeException("Bullet must not be null or blank");
+            throw new ResumakeException("Bullet cannot be blank.");
         }
 
         String trimmedBullet = bullet.trim();

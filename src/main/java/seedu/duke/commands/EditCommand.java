@@ -112,7 +112,7 @@ public class EditCommand extends Command {
 
         try {
             if (index < 0 || index >= list.getSize()) {
-                throw new IndexOutOfBoundsException("Record index is out of range.");
+                throw new IndexOutOfBoundsException("Invalid record index.");
             }
 
             Record record = list.getRecord(index);

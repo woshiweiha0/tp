@@ -55,7 +55,7 @@ public class Parser {
         String[] editParts = trimmedArgs.split("\\s+", 2);
         if (editParts.length < 2) {
             logger.warning("Edit command failed: missing index or fields");
-            throw new ResumakeException("Invalid record index");
+            throw new ResumakeException("Please follow the correct format");
         }
 
         try {
@@ -64,12 +64,12 @@ public class Parser {
 
             if (index < 0) {
                 logger.warning("Edit command failed: record index must be positive");
-                throw new ResumakeException("record index must be positive");
+                throw new ResumakeException("Invalid record index");
             }
 
             if (fields.isEmpty()) {
                 logger.warning("Edit command failed: no fields provided");
-                throw new ResumakeException("Edit command failed: no fields provided");
+                throw new ResumakeException("Edit command failed: no fields provided.");
             }
 
             int roleIndex = fields.indexOf("/role");
@@ -220,7 +220,7 @@ public class Parser {
             YearMonth finalTo = newTo;
             if (finalFrom != null && finalTo != null && finalTo.isBefore(finalFrom)) {
                 logger.warning("Edit command failed: end date is before start date");
-                throw new ResumakeException("End date cannot be before start date");
+                throw new ResumakeException("End date cannot be before start date.");
             }
 
             logger.fine("Parsed edit fields: index=" + index
@@ -261,7 +261,7 @@ public class Parser {
         Record r;
 
         if (trimmedInput.isEmpty()) {
-            throw new ResumakeException("Command cannot be empty");
+            throw new ResumakeException("Command cannot be empty.");
         }
 
         String[] split = trimmedInput.split("\\s+", 2);
@@ -541,7 +541,7 @@ public class Parser {
         YearMonth to = parseYearMonth(toPart, "to");
 
         if (to.isBefore(from)) {
-            throw new ResumakeException("End date cannot be before start date");
+            throw new ResumakeException("End date cannot be before start date.");
         }
 
         return new ParsedFields(titlePart, rolePart, techPart, from, to);

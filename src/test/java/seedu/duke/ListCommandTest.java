@@ -139,7 +139,7 @@ public class ListCommandTest {
 
         String result = output.toString();
         assertTrue(result.contains("Here is a list of C records."));
-        assertTrue(result.contains("1. " + cca));
+        assertTrue(result.contains("3. " + cca));
         assertFalse(result.contains(exp.toString()));
         assertFalse(result.contains(proj.toString()));
     }
@@ -173,7 +173,7 @@ public class ListCommandTest {
 
         String result = output.toString();
         assertTrue(result.contains("Here is a list of P records."));
-        assertTrue(result.contains("1. " + proj));
+        assertTrue(result.contains("2. " + proj));
         assertFalse(result.contains(exp.toString()));
         assertFalse(result.contains(cca.toString()));
     }
@@ -195,38 +195,5 @@ public class ListCommandTest {
     public void execute_nullList_throwsAssertionError() {
         ListCommand cmd = new ListCommand();
         assertThrows(AssertionError.class, () -> cmd.execute(null));
-    }
-
-    @Test
-    public void execute_filteredNumbering_startsFromOneForMatchingRecordsOnly() throws Exception {
-        RecordList list = new RecordList();
-
-        Experience exp1 = new Experience("Exp One", "Member", "Java",
-                YearMonth.of(2024, 1), YearMonth.of(2025, 1));
-        Project proj = new Project("Proj One", "Lead", "Python",
-                YearMonth.of(2023, 1), YearMonth.of(2024, 1));
-        Experience exp2 = new Experience("Exp Two", "Intern", "C",
-                YearMonth.of(2022, 1), YearMonth.of(2022, 12));
-
-        list.add(exp1);
-        list.add(proj);
-        list.add(exp2);
-
-        ListCommand cmd = new ListCommand("E");
-
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(output));
-
-        try {
-            cmd.execute(list);
-        } finally {
-            System.setOut(originalOut);
-        }
-
-        String result = output.toString();
-        assertTrue(result.contains("1. " + exp1));
-        assertTrue(result.contains("2. " + exp2));
-        assertFalse(result.contains("3. "));
     }
 }

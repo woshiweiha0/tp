@@ -64,10 +64,8 @@ public class ListCommand extends Command {
                 logger.warning("Encountered null record in list");
                 continue;
             }
-
+            indexCount += 1;
             if (type.equals("ALL") || record.getRecordType().equals(type)) {
-
-                indexCount += 1;
                 ui.showMessage(indexCount + ". " + record);
             }
         }

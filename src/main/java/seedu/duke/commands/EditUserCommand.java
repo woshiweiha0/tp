@@ -1,5 +1,9 @@
 package seedu.duke.commands;
 
+import static seedu.duke.User.promptForEmail;
+import static seedu.duke.User.promptForName;
+import static seedu.duke.User.promptForNumber;
+
 import seedu.duke.RecordList;
 import seedu.duke.Ui;
 import seedu.duke.User;
@@ -15,7 +19,7 @@ public class EditUserCommand extends Command {
 
     public EditUserCommand(String field, Ui ui) throws ResumakeException {
         if (!isValidField(field)) {
-            throw new ResumakeException("Invalid field.");
+            throw new ResumakeException("Invalid User Field. Must be name, number or email.");
         }
         this.field = field;
         this.ui = ui == null ? new Ui() : ui;
@@ -31,7 +35,7 @@ public class EditUserCommand extends Command {
 
         ui.showMessage("Current " + field + ": " + getCurrentValue(user));
         ui.showMessage("Enter new " + field + ":");
-        String newValue = ui.readCommand();
+        String newValue = promptUserField(user);
 
         user.editField(field, newValue);
         ui.showMessage("Updated " + field + " to: " + getCurrentValue(user));
@@ -49,4 +53,18 @@ public class EditUserCommand extends Command {
             return "unknown";
         }
     }
+
+    private String promptUserField(User user) {
+        switch (field.toLowerCase()) {
+        case "name":
+            return promptForName();
+        case "number":
+            return Integer.toString(promptForNumber());
+        case "email":
+            return promptForEmail();
+        default:
+            return "unknown";
+        }
+    }
+
 }
