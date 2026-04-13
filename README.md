@@ -5,12 +5,15 @@ It helps users quickly create and refine resume-ready records for projects, expe
 
 ## Features
 
-- Add timed records with structured fields (`title`, `role`, `tech`, `from`, `to`).
-- Manage bullet points (`addbullet`, `editbullet`, `movebullet`, `deletebullet`).
-- Edit and delete records (`edit`, `delete`).
-- Search by keyword across records and bullets (`find`, `findbullet`).
-- Save and load data automatically via `records.txt`.
-- Generate grouped resume output (`generate`).
+- Add timed records with structured fields (`title`, `role`, `tech`, `from`, `to`) using
+  `project`, `experience`, and `cca`.
+- Capture bullets immediately after adding a record (`y`/`n`, stop with `esc`).
+- Manage bullets with `addbullet`, `editbullet`, `movebullet`, `findbullet`, and `deletebullet`.
+- Manage records with `list`, `show`, `find`, `edit`, `delete`, `sort`, and `help`.
+- Edit user profile fields (`edituser name|number|email`) with validation and retry limits.
+- Reject duplicate records and duplicate bullets to keep content clean.
+- Auto-load and persist data in `records.txt` (skips file writes when no content changes).
+- Generate grouped resume output with user details and a derived skills section (`generate`).
 
 ## Quick Start
 
@@ -29,14 +32,22 @@ Prerequisite: Java 17.
 
 ## Common Commands
 
+- `help`
 - `project TITLE /role ROLE /tech TECH /from YYYY-MM /to YYYY-MM`
 - `experience TITLE /role ROLE /tech TECH /from YYYY-MM /to YYYY-MM`
 - `cca TITLE /role ROLE /tech TECH /from YYYY-MM /to YYYY-MM`
-- `list [E|C|P]`
+- `list [TYPE]` where `TYPE` can be `E`, `C`, or `P` (case-insensitive)
 - `show RECORD_INDEX`
+- `find KEYWORD`
+- `findbullet KEYWORD`
 - `addbullet RECORD_INDEX / BULLET_TEXT`
+- `edit RECORD_INDEX [NEW_TITLE] [/role NEW_ROLE] [/tech NEW_TECH] [/from YYYY-MM] [/to YYYY-MM]`
+- `editbullet RECORD_INDEX BULLET_INDEX / NEW_BULLET_TEXT`
+- `movebullet RECORD_INDEX FROM_BULLET_INDEX TO_BULLET_INDEX`
 - `delete RECORD_INDEX`
 - `deletebullet RECORD_INDEX BULLET_INDEX`
+- `sort`
+- `edituser FIELD`
 - `generate`
 - `bye`
 
