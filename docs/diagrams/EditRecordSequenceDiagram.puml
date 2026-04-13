@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+title Edit Record Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant EditCommand
+participant RecordList
+participant Record
+participant Ui
+participant Storage
+
+User -> Resumake: edit INDEX [fields]
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: EditCommand
+Resumake -> EditCommand: execute(list)
+EditCommand -> RecordList: getRecord(index)
+EditCommand -> Record: setTitle/setRole/setTech/setFrom/setTo
+EditCommand -> Ui: show update status
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

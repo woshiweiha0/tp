@@ -86,7 +86,13 @@ public class EditBulletCommand extends Command {
 
             logger.fine("Editing bullet in record: " + record.getTitle());
 
-            record.editBullet(userBulletIndex - 1, newBullet);
+            try {
+                record.editBullet(userBulletIndex - 1, newBullet);
+            } catch (IndexOutOfBoundsException e) {
+                logger.warning("Bullet edit failed for record index=" + userRecordIndex
+                        + ", bullet index=" + userBulletIndex + " (bullet out of bounds)");
+                throw new ResumakeException("Invalid bullet index");
+            }
 
             logger.info("Bullet edit succeeded for record index=" + userRecordIndex
                     + ", bullet index=" + userBulletIndex);
@@ -95,8 +101,8 @@ public class EditBulletCommand extends Command {
                     + " in record " + userRecordIndex);
         } catch (IndexOutOfBoundsException e) {
             logger.warning("Bullet edit failed for record index=" + userRecordIndex
-                    + ", bullet index=" + userBulletIndex);
-            throw new ResumakeException("Bullet index is out of range.");
+                    + ", bullet index=" + userBulletIndex + " (record out of bounds)");
+            throw new ResumakeException("Invalid record index");
         } catch (IllegalArgumentException e) {
             logger.warning("Bullet edit failed: " + e.getMessage());
             throw new ResumakeException(e.getMessage());

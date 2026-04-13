@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+
+title Generate Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant GenerateCommand
+participant User as UserSingleton
+participant RecordList
+participant Ui
+participant Storage
+
+User -> Resumake: generate
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: GenerateCommand
+Resumake -> GenerateCommand: execute(list)
+GenerateCommand -> UserSingleton: getInstance()
+GenerateCommand -> Ui: print user details
+GenerateCommand -> RecordList: iterate by record type
+GenerateCommand -> Ui: print grouped output + skills
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + skip if unchanged
+@enduml

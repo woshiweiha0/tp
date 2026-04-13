@@ -1,0 +1,29 @@
+@startuml
+!pragma layout smetana
+
+title Read-only Command Save-skip Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant ListCommand
+participant Storage
+participant Ui
+
+User -> Resumake: list
+Resumake -> Parser: parse("list", ui)
+Parser --> Resumake: ListCommand
+Resumake -> ListCommand: execute(list)
+ListCommand -> Ui: print records
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serializeContent(list)
+Storage -> Storage: readString(records.txt)
+
+alt serialized == existing
+    Storage -> Storage: skip write
+    note right of Storage: no "Records saved to file." message
+else serialized != existing
+    Storage -> Storage: writeString(...)
+    Storage -> Ui: show save message
+end
+@enduml

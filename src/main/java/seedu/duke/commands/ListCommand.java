@@ -26,7 +26,7 @@ public class ListCommand extends Command {
 
     public ListCommand(String type, Ui ui) {
         this.ui = ui == null ? new Ui() : ui;
-        this.type = type;
+        this.type = type.toUpperCase();
     }
 
 
@@ -41,7 +41,7 @@ public class ListCommand extends Command {
         if (!type.equals("E") &&
             !type.equals("C") &&
             !type.equals("P") &&
-            !type.equals("all")){
+            !type.equals("ALL")){
 
             throw new ResumakeException(
                     "Invalid type for list command.\n" +
@@ -56,7 +56,8 @@ public class ListCommand extends Command {
             return;
         }
 
-        System.out.println("Here is a list of " + type + " records.");
+        String displayType = type.equals("ALL") ? "all" : type;
+        System.out.println("Here is a list of " + displayType + " records.");
 
         for (Record record : list){
             if (record == null) {
@@ -64,7 +65,7 @@ public class ListCommand extends Command {
                 continue;
             }
 
-            if (type.equals("all") || record.getRecordType().equals(type)) {
+            if (type.equals("ALL") || record.getRecordType().equals(type)) {
 
                 indexCount += 1;
                 ui.showMessage(indexCount + ". " + record);

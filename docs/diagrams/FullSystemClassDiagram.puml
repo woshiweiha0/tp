@@ -1,0 +1,177 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+title Full System Class Diagram
+
+package "seedu.duke" {
+  class Resumake {
+    -list: RecordList
+    -ui: Ui
+    -storage: Storage
+    +run(): void
+    +main(args: String[]): void
+  }
+
+  class Ui {
+    +showLine(): void
+    +showMessage(message: String): void
+    +showError(message: String): void
+    +readCommand(): String
+    +greetings(): void
+  }
+
+  class Parser {
+    {static} +parse(userInput: String): Command
+    {static} +parse(userInput: String, ui: Ui): Command
+  }
+
+  class ParsedFields {
+    +title: String
+    +role: String
+    +tech: String
+    +from: YearMonth
+    +to: YearMonth
+  }
+
+  class RecordList {
+    -list: ArrayList<Record>
+    -size: int
+    +add(record: Record): void
+    +getRecord(index: int): Record
+    +removeIndex(index: int): void
+    +sort(comparator): void
+    +contains(record: Record): boolean
+    +getSize(): int
+  }
+
+  class Storage {
+    -filepath: String
+    -ui: Ui
+    +saveToFile(list: RecordList): void
+    +loadFromFile(filepath: String): RecordList
+    {static} +getFilepath(): String
+  }
+
+  class User {
+    -instance: User
+    -name: String
+    -number: int
+    -email: String
+    -skills: HashMap<String, Integer>
+    {static} +getInstance(): User
+    {static} +loadFrom(name: String, number: int, email: String): void
+    +editField(field: String, value: String): void
+    +getName(): String
+    +getNumber(): Integer
+    +getEmail(): String
+    +addSkills(skill: String): void
+    +removeSkills(skill: String): void
+    +getSkillsAsString(): String
+  }
+}
+
+package "seedu.duke.commands" {
+  abstract class Command {
+    +execute(list: RecordList): void
+    +isExit(): boolean
+  }
+
+  class AddCommand
+  class AddBulletCommand
+  class DeleteCommand
+  class EditCommand
+  class EditBulletCommand
+  class EditUserCommand
+  class ExitCommand
+  class FindCommand
+  class FindBulletCommand
+  class GenerateCommand
+  class ListCommand
+  class MoveBulletCommand
+  class ShowCommand
+  class SortCommand
+
+  Command <|-- AddCommand
+  Command <|-- AddBulletCommand
+  Command <|-- DeleteCommand
+  Command <|-- EditCommand
+  Command <|-- EditBulletCommand
+  Command <|-- EditUserCommand
+  Command <|-- ExitCommand
+  Command <|-- FindCommand
+  Command <|-- FindBulletCommand
+  Command <|-- GenerateCommand
+  Command <|-- ListCommand
+  Command <|-- MoveBulletCommand
+  Command <|-- ShowCommand
+  Command <|-- SortCommand
+}
+
+package "seedu.duke.recordtype" {
+  class Record {
+    #title: String
+    #role: String
+    #tech: String
+    #from: YearMonth
+    #to: YearMonth
+    #recordType: String
+    #bullets: ArrayList<String>
+  }
+
+  class Project
+  class Experience
+  class Cca
+
+  Record <|-- Project
+  Record <|-- Experience
+  Record <|-- Cca
+}
+
+package "seedu.duke.exceptions" {
+  class ResumakeException
+}
+
+Resumake *-- Ui
+Resumake *-- Storage
+Resumake *-- RecordList
+Resumake ..> Parser
+Resumake ..> Command
+
+Parser ..> Command : creates
+Parser ..> ParsedFields
+Parser ..> Project
+Parser ..> Experience
+Parser ..> Cca
+Parser ..> ResumakeException
+
+RecordList o-- "*" Record
+RecordList ..> User : add/remove skills
+
+Storage ..> RecordList : load/save
+Storage ..> Record : parse/serialize
+Storage ..> User : persist/load
+Storage ..> ResumakeException
+
+AddCommand ..> RecordList
+AddBulletCommand ..> RecordList
+AddBulletCommand ..> Record
+DeleteCommand ..> RecordList
+DeleteCommand ..> Record
+EditCommand ..> RecordList
+EditCommand ..> Record
+EditBulletCommand ..> RecordList
+EditBulletCommand ..> Record
+EditUserCommand ..> User
+FindCommand ..> RecordList
+FindBulletCommand ..> RecordList
+GenerateCommand ..> RecordList
+GenerateCommand ..> User
+ListCommand ..> RecordList
+MoveBulletCommand ..> RecordList
+MoveBulletCommand ..> Record
+ShowCommand ..> RecordList
+SortCommand ..> RecordList
+
+Command ..> ResumakeException
+@enduml

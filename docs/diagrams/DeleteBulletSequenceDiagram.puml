@@ -1,0 +1,23 @@
+@startuml
+!pragma layout smetana
+
+title Delete Bullet Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant DeleteCommand
+participant RecordList
+participant Record
+participant Storage
+
+User -> Resumake: deletebullet 2 1
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: DeleteCommand (bullet mode)
+Resumake -> DeleteCommand: execute(list)
+DeleteCommand -> RecordList: getRecord(1)
+DeleteCommand -> Record: deleteBullet(0)
+DeleteCommand --> Resumake: success
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

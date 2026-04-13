@@ -1,0 +1,22 @@
+@startuml
+!pragma layout smetana
+
+title Sort Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant SortCommand
+participant RecordList
+participant Ui
+participant Storage
+
+User -> Resumake: sort
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: SortCommand
+Resumake -> SortCommand: execute(list)
+SortCommand -> RecordList: sort(by title)
+SortCommand -> Ui: show sorted message
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

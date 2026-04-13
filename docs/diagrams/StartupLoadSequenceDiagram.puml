@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+
+title Startup and Load Sequence Diagram
+
+actor User
+participant Resumake
+participant Ui
+participant Storage
+participant User as UserSingleton
+participant RecordList
+
+User -> Resumake: run()
+Resumake -> Ui: greetings()
+Resumake -> Storage: loadFromFile("records.txt")
+
+alt first line starts with USER|
+    Storage -> UserSingleton: loadFrom(name, number, email)
+else no valid USER line
+    Storage -> UserSingleton: getInstance() / prompt init
+end
+
+Storage --> Resumake: RecordList
+Resumake -> Ui: readCommand() (loop starts)
+@enduml

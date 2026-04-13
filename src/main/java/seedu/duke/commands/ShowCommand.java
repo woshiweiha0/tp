@@ -92,7 +92,7 @@ public class ShowCommand extends Command {
             logger.info("Successfully executed ShowCommand for record index: " + (index + 1));
         } catch (IndexOutOfBoundsException | IllegalStateException e) {
             logger.warning("Error executing ShowCommand: " + e.getMessage());
-            ui.showMessage("Error: " + e.getMessage());
+            ui.showError("Invalid record index" + "\nRecord List Size: " + list.getSize());
         }
 
         ui.showLine();

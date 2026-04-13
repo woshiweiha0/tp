@@ -1,0 +1,22 @@
+@startuml
+!pragma layout smetana
+
+title Edit Bullet Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant EditBulletCommand
+participant RecordList
+participant Record
+participant Storage
+
+User -> Resumake: editbullet RECORD_INDEX BULLET_INDEX / TEXT
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: EditBulletCommand
+Resumake -> EditBulletCommand: execute(list)
+EditBulletCommand -> RecordList: getRecord(recordIndex-1)
+EditBulletCommand -> Record: editBullet(bulletIndex-1, text)
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+title EditUser Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant EditUserCommand
+participant Ui
+participant User as UserSingleton
+participant Storage
+
+User -> Resumake: edituser FIELD
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: EditUserCommand
+Resumake -> EditUserCommand: execute(list)
+EditUserCommand -> UserSingleton: getInstance()
+EditUserCommand -> Ui: prompt new value
+EditUserCommand -> UserSingleton: editField(field, value)
+EditUserCommand -> Ui: show updated value
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

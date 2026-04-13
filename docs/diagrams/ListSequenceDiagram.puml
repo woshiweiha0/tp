@@ -1,0 +1,27 @@
+@startuml
+!pragma layout smetana
+
+title List Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant ListCommand
+participant RecordList
+participant Ui
+participant Storage
+
+User -> Resumake: list [TYPE]
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: ListCommand
+Resumake -> ListCommand: execute(list)
+ListCommand -> RecordList: iterate records
+ListCommand -> Ui: print matching records
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare
+alt no content change
+    Storage -> Storage: skip write
+else changed
+    Storage -> Storage: write file
+end
+@enduml

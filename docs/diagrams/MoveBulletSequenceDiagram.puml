@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+title Move Bullet Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant MoveBulletCommand
+participant RecordList
+participant Record
+participant Ui
+participant Storage
+
+User -> Resumake: movebullet RECORD_INDEX FROM TO
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: MoveBulletCommand
+Resumake -> MoveBulletCommand: execute(list)
+MoveBulletCommand -> RecordList: getRecord(recordIndex)
+MoveBulletCommand -> Record: moveBullet(fromIndex, toIndex)
+MoveBulletCommand -> Ui: show move status
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml

@@ -96,7 +96,7 @@ public class AddBulletCommand extends Command {
 
         } catch (IndexOutOfBoundsException e) {
             logger.warning(() -> "AddBulletCommand failed: record index out of range: " + index);
-            throw new ResumakeException("Record index is out of range.");
+            throw new ResumakeException("Invalid record index");
 
         } catch (IllegalArgumentException e) {
             logger.warning(() -> "AddBulletCommand failed: " + e.getMessage());

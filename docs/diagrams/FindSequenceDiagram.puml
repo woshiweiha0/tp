@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+
+title Find Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant FindCommand
+participant RecordList
+participant Record
+participant Ui
+participant Storage
+
+User -> Resumake: find KEYWORD
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: FindCommand
+Resumake -> FindCommand: execute(list)
+loop for each record
+  FindCommand -> Record: containsKeyword(keyword)
+  FindCommand -> Ui: print match (if true)
+end
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + skip if unchanged
+@enduml

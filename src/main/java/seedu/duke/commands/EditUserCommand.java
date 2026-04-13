@@ -9,13 +9,20 @@ public class EditUserCommand extends Command {
     private final String field;
     private final Ui ui;
 
-    public EditUserCommand(String field) {
+    public EditUserCommand(String field) throws ResumakeException {
         this(field, new Ui());
     }
 
-    public EditUserCommand(String field, Ui ui) {
+    public EditUserCommand(String field, Ui ui) throws ResumakeException {
+        if (!isValidField(field)) {
+            throw new ResumakeException("Invalid field.");
+        }
         this.field = field;
         this.ui = ui == null ? new Ui() : ui;
+    }
+
+    private boolean isValidField(String field) {
+        return "name".equals(field) || "number".equals(field) || "email".equals(field);
     }
 
     @Override

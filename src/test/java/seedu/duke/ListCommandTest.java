@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.YearMonth;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.duke.commands.ListCommand;
@@ -18,6 +19,11 @@ import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;
 
 public class ListCommandTest {
+
+    @BeforeEach
+    public void setUpUser() {
+        User.loadFrom("Test User", 12345678, "test@example.com");
+    }
 
     @Test
     public void execute_emptyList_printsNoRecordsFound() throws Exception {

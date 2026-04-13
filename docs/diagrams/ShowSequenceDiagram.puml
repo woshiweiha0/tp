@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+title Show Command Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant ShowCommand
+participant RecordList
+participant Record
+participant Ui
+participant Storage
+
+User -> Resumake: show INDEX
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: ShowCommand
+Resumake -> ShowCommand: execute(list)
+ShowCommand -> RecordList: getRecord(index-1)
+ShowCommand -> Record: getBullets()
+ShowCommand -> Ui: print record + bullets
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + skip if unchanged
+@enduml

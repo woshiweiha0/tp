@@ -120,6 +120,7 @@ public class User {
      * @param skill The skill to be added.
      */
     public void addSkills(String skill) {
+        skill = skill.toLowerCase();
         logger.info("Adding skill: " + skill);
         skill = removeQuotes(skill);
         if (this.skills.containsKey(skill)) {
@@ -139,6 +140,7 @@ public class User {
      * @param skill The skill to be removed.
      */
     public void removeSkills(String skill){
+        skill = skill.toLowerCase();
         logger.info("Removing skill: " + skill);
         skill = removeQuotes(skill);
         if (!this.skills.containsKey(skill)) {

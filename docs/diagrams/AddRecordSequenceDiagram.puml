@@ -1,0 +1,32 @@
+@startuml
+!pragma layout smetana
+
+title Add Record and Save Sequence Diagram
+
+actor User
+participant Ui
+participant Resumake
+participant Parser
+participant AddCommand
+participant RecordList
+participant Storage
+participant User as UserSingleton
+
+User -> Ui: enter project ...
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: AddCommand
+Resumake -> AddCommand: execute(list)
+AddCommand -> RecordList: add(record)
+RecordList -> UserSingleton: addSkills(record.tech)
+AddCommand -> Ui: show success
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serializeContent(list)
+Storage -> Storage: readString(records.txt)
+
+alt content changed
+    Storage -> Storage: writeString(records.txt, serialized)
+    Storage -> Ui: show "Records saved to file."
+else content unchanged
+    Storage --> Resumake: return (skip write)
+end
+@enduml

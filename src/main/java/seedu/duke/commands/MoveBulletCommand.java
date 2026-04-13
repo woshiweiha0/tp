@@ -78,7 +78,11 @@ public class MoveBulletCommand extends Command {
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             logger.warning("MoveBulletCommand failed: " + e.getMessage());
             ui.showLine();
-            ui.showError(e.getMessage());
+            if (e instanceof IndexOutOfBoundsException && recordIndex >= 0 && recordIndex < list.getSize()) {
+                ui.showError("Invalid bullet index");
+            } else {
+                ui.showError("Invalid record index");
+            }
             ui.showLine();
         }
     }

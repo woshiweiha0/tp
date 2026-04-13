@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+title Add Bullet Sequence Diagram
+
+actor User
+participant Resumake
+participant Parser
+participant AddBulletCommand
+participant RecordList
+participant Record
+participant Ui
+participant Storage
+
+User -> Resumake: addbullet INDEX / BULLET
+Resumake -> Parser: parse(input, ui)
+Parser --> Resumake: AddBulletCommand
+Resumake -> AddBulletCommand: execute(list)
+AddBulletCommand -> RecordList: getRecord(index)
+AddBulletCommand -> Record: addBullet(text)
+AddBulletCommand -> Ui: show success
+Resumake -> Storage: saveToFile(list)
+Storage -> Storage: serialize + compare + write if changed
+@enduml
