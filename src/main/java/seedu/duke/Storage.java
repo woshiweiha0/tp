@@ -5,7 +5,6 @@ import seedu.duke.recordtype.Cca;
 import seedu.duke.recordtype.Experience;
 import seedu.duke.recordtype.Project;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.YearMonth;
 import java.nio.file.Files;
@@ -54,46 +53,14 @@ public class Storage {
             }
             assert Files.exists(path) : "file should exist after path creation";
 
-            FileWriter fw = new FileWriter(path.toFile());
-
-            // Save User on the first line
-            User user = User.getInstance();
-            if (user != null) {
-                fw.write("USER|" + user.getName() + "|" + user.getNumber() + "|" + user.getEmail() + "\n");
+            String serializedContent = serializeContent(list);
+            String existingContent = Files.readString(path);
+            if (existingContent.equals(serializedContent)) {
+                logger.info("No data changes detected. Skipping save.");
+                return;
             }
 
-            for (Record record : list) {
-                if (record == null) {
-                    logger.warning("Skipping null record.");
-                    continue;
-                }
-
-                String keyword = getKeyword(record.getRecordType());
-                if (keyword == null) {
-                    logger.warning("Skipping unknown record type: " + record.getRecordType());
-                    continue;
-                }
-
-                StringBuilder line = new StringBuilder();
-                line.append(keyword).append(" ").append(record.getTitle())
-                        .append(" /role ").append(record.getRole())
-                        .append(" /tech ").append(record.getTech())
-                        .append(" /from ").append(record.getFrom())
-                        .append(" /to ").append(record.getTo());
-
-                if (!record.getBullets().isEmpty()) {
-                    line.append(" /bullets ");
-                    for (int i = 0; i < record.getBullets().size(); i++) {
-                        line.append(record.getBullets().get(i));
-                        if (i < record.getBullets().size() - 1) {
-                            line.append(" ;; ");
-                        }
-                    }
-                }
-
-                fw.write(line + "\n");
-            }
-            fw.close();
+            Files.writeString(path, serializedContent);
             logger.info("Records saved successfully");
             ui.showMessage("Records saved to file.");
         } catch (IOException e) {
@@ -146,7 +113,7 @@ public class Storage {
                 String firstLine = sc.nextLine().strip();
                 if(firstLine.startsWith("USER|")) {
 
-                    String[] parts = firstLine.split("\\|");
+                    String[] parts = firstLine.split("\\|", 4);
                     if (parts.length == 4) {
                         try {
                             User.loadFrom(parts[1], Integer.parseInt(parts[2]), parts[3]);
@@ -212,6 +179,59 @@ public class Storage {
      */
     public static String getFilepath() {
         return filepath;
+    }
+
+    /**
+     * Serializes current user and records into storage format.
+     *
+     * @param list Current record list.
+     * @return Full file content in storage format.
+     */
+    private String serializeContent(RecordList list) {
+        StringBuilder content = new StringBuilder();
+
+        User user = User.getInstance();
+        if (user != null) {
+            content.append("USER|")
+                    .append(user.getName()).append("|")
+                    .append(user.getNumber()).append("|")
+                    .append(user.getEmail())
+                    .append("\n");
+        }
+
+        for (Record record : list) {
+            if (record == null) {
+                logger.warning("Skipping null record.");
+                continue;
+            }
+
+            String keyword = getKeyword(record.getRecordType());
+            if (keyword == null) {
+                logger.warning("Skipping unknown record type: " + record.getRecordType());
+                continue;
+            }
+
+            StringBuilder line = new StringBuilder();
+            line.append(keyword).append(" ").append(record.getTitle())
+                    .append(" /role ").append(record.getRole())
+                    .append(" /tech ").append(record.getTech())
+                    .append(" /from ").append(record.getFrom())
+                    .append(" /to ").append(record.getTo());
+
+            if (!record.getBullets().isEmpty()) {
+                line.append(" /bullets ");
+                for (int i = 0; i < record.getBullets().size(); i++) {
+                    line.append(record.getBullets().get(i));
+                    if (i < record.getBullets().size() - 1) {
+                        line.append(" ;; ");
+                    }
+                }
+            }
+
+            content.append(line).append("\n");
+        }
+
+        return content.toString();
     }
 
     /**
