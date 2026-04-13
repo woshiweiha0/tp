@@ -180,14 +180,33 @@ Read-style commands are implemented as:
 
 These commands do not mutate `RecordList`; storage now compares serialized state and skips file writes if unchanged.
 
+#### ListCommand — consistent index design
+
+`ListCommand` iterates over the full `RecordList` and increments a shared counter for every record regardless of type.
+When the type filter is active, only matching records are printed, but the counter value at that point (i.e., the record's actual position in the full list) is used as the display index.
+
+This means filtered output shows non-contiguous numbers (e.g. `1`, `3`) rather than re-numbering from `1`.
+The design is intentional: all other commands (`show`, `edit`, `delete`, etc.) address records by their full-list position, so displaying the same index avoids user confusion when the filter is removed.
+
+Type validation is performed at the start of `execute()`. An invalid type throws `ResumakeException` before any output is produced, and the accepted values are listed in the error message.
+
 ### Sorting and Resume Generation Features
 
 - `sort` is implemented by `SortCommand`, which delegates ordering to `RecordList.sort(...)`
   with a case-insensitive title comparator.
 - `generate` is implemented by `GenerateCommand`, which prints:
-  - current `User` details,
-  - records grouped by type (`Cca`, `Experience`, `Project`),
-  - skills summary from `User.getSkillsAsString()`.
+  - current `User` details (name, number, email),
+  - records grouped by type (`Cca`, `Experience`, `Project`), each displayed via `ShowCommand.showRecordWithBullets()`,
+  - a skills summary from `User.getSkillsAsString()`.
+
+#### GenerateCommand — skill tracking integration
+
+Skills are not entered by the user directly. They are accumulated automatically via `User.addSkills(String)` whenever a record's tech field is processed (called from `GenerateCommand.execute()`).
+`User` stores skills in a `HashMap<String, Integer>` where the value is a reference count.
+Adding a skill increments the count; removing one decrements it and drops the entry when the count reaches zero.
+`getSkillsAsString()` returns all keys as a comma-separated string, which `GenerateCommand` prints under the `Skills` heading.
+
+`GenerateCommand` reuses `ShowCommand.showRecordWithBullets()` to display each record, avoiding duplication of the bullet-display logic.
 
 ### User Profile and Exit Features
 
@@ -197,6 +216,16 @@ These commands do not mutate `RecordList`; storage now compares serialized state
 - User data lifecycle:
   - loaded from storage first line (`USER|...`) when available,
   - otherwise initialized interactively via `User.getInstance()`.
+
+#### EditUserCommand — retry loop design
+
+Field validation happens in two places:
+1. **Constructor** — validates that the field name itself is one of `name`, `number`, `email`. An invalid field name throws `ResumakeException` immediately, so the command never reaches execution.
+2. **`execute()`** — prompts the user for a new value and calls `User.editField(field, value)`. If that throws `ResumakeException` (e.g. blank name, non-numeric phone number, invalid email), the loop retries.
+
+The retry loop runs a maximum of `MAX_ATTEMPTS` (4) iterations. After each failure, it displays the error message and the number of remaining attempts. If all attempts are exhausted, it throws a `ResumakeException` telling the user to re-enter the `edituser` command.
+
+This design keeps `User.editField()` stateless and reusable — it simply validates and applies a single value. All retry and attempt-counting logic is contained in `EditUserCommand`.
 
 ## Sequence Diagrams
 

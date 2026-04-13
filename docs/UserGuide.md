@@ -125,19 +125,48 @@ Lists all records, or filters by type.
 Format:
 `list [TYPE]`
 
-- `TYPE` is optional.
-- Valid values: `E` (Experience), `C` (CCA), `P` (Project).
+- `TYPE` is optional. Omit it to list all records.
+- Valid values: `E` (Experience), `C` (CCA), `P` (Project). Case-insensitive (e.g. `list e` works).
+- **Indices shown are always the actual list position**, not a re-numbered sequence within the filtered results.
+  This means the number shown next to each record matches the index you would use with `show`, `edit`, `delete`, and all other commands.
 
-Example:
+Example — list all:
 ```text
-list C
+list
 ```
 
 Expected output (example):
 ```text
-Here is a list of C records.
-1. [C] Chess Club | role: President | tech: N/A | from: 2023-01 | to: 2024-01
+Here is a list of all records.
+1. [E] Google | role: SWE Intern | tech: Python | from: 2025-12 | to: 2026-02
+2. [C] Chess Club | role: President | tech: N/A | from: 2023-01 | to: 2024-01
+3. [E] Meta | role: SWE Intern | tech: Java | from: 2026-05 | to: 2026-08
 --------------------
+```
+
+Example — filter by type:
+```text
+list E
+```
+
+Expected output (example):
+```text
+Here is a list of E records.
+1. [E] Google | role: SWE Intern | tech: Python | from: 2025-12 | to: 2026-02
+3. [E] Meta | role: SWE Intern | tech: Java | from: 2026-05 | to: 2026-08
+--------------------
+```
+
+Notice that `Meta` is shown as index `3`, not `2`. This is because its position in the full list is 3, and that is the index you must use with other commands.
+
+If an invalid type is given:
+```text
+list X
+```
+```text
+Error: Invalid type for list command.
+Valid types: E: Experience, C: Cca, P: Project
+Leave blank to list all.
 ```
 
 ---
@@ -401,18 +430,58 @@ Format:
 `edituser FIELD`
 
 - `FIELD` must be `name`, `number`, or `email`.
-- You get up to 4 attempts to provide a valid new value before the command exits.
+- The current value of the field is shown before you are prompted.
+- You get up to **4 attempts** to provide a valid new value. After each failed attempt, the remaining number of tries is shown.
+- If all 4 attempts are exhausted, the command exits with an error. Run `edituser` again to retry.
 
-Example:
+Example — successful update:
 ```text
 edituser name
 ```
-
-Expected output (example):
 ```text
 Current name: Alex Tan
 Enter new name:
+Alexis Tan
 Updated name to: Alexis Tan
+```
+
+Example — failed attempts then success:
+```text
+edituser number
+```
+```text
+Current number: 91234567
+Enter new number:
+abc
+Error: Please enter a valid number. You have 3 more chances.
+Enter new number:
+98765432
+Updated number to: 98765432
+```
+
+Example — all attempts exhausted:
+```text
+Current number: 91234567
+Enter new number:
+abc
+Error: Please enter a valid number. You have 3 more chances.
+Enter new number:
+abc
+Error: Please enter a valid number. You have 2 more chances.
+Enter new number:
+abc
+Error: Please enter a valid number. You have 1 more chance.
+Enter new number:
+abc
+Error: You have exhausted all your attempts. edituser exited. If you would like to try editing the user profile, enter "edituser" again.
+```
+
+If an invalid field name is given:
+```text
+edituser age
+```
+```text
+Error: Invalid User Field. Must be name, number or email.
 ```
 
 ### Moving a bullet : `movebullet`
@@ -501,8 +570,10 @@ Records sorted alphabetically by title.
 
 ### Generating resume view : `generate`
 
-Displays a formatted resume view with user information and all records grouped by type (`Cca`, `Experience`, `Project`).
-It also shows a `Skills` section derived from saved record tech stacks.
+Displays a formatted resume view grouped into sections: your personal details, then records grouped by type (`Cca`, `Experience`, `Project`), then a `Skills` section.
+
+- Each record is shown with all its bullet points.
+- The **Skills** section is automatically derived from the `tech` fields of all stored records. You do not need to enter skills separately.
 
 Format:
 `generate`
@@ -520,16 +591,26 @@ Email: john@example.com
 --------------------
 Cca
 --------------------
-[C] Chess Club | role: President | tech: None | from: 2023-01 | to: 2024-01
+[C] Chess Club | role: President | tech: Leadership | from: 2023-01 | to: 2024-01
   Bullets:
   1. Led weekly training sessions
 --------------------
 Experience
 --------------------
-...
+[E] Google | role: SWE Intern | tech: Python | from: 2025-12 | to: 2026-02
+  (no bullets)
+--------------------
+Project
+--------------------
+[P] Resume Builder | role: Developer | tech: Java | from: 2026-01 | to: 2026-03
+  Bullets:
+  1. Built parser
+  2. Added tests
+--------------------
 Skills
 --------------------
-java, python
+leadership, python, java
+--------------------
 ```
 
 ---
