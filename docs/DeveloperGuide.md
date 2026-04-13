@@ -154,6 +154,45 @@ The bullet-editing flow is split into focused commands:
 
 Validation is enforced in both command and `Record` layers to keep data consistent.
 
+### Add, Edit, and Duplicate-Protection Features
+
+Record creation commands (`project`, `experience`, `cca`) are parsed in `Parser` and instantiated as
+`Project`, `Experience`, or `Cca`, then executed through `AddCommand`.
+
+Important behavior:
+
+- `AddCommand` rejects duplicate records using `RecordList.contains(...)`.
+- `edit` uses `EditCommand` for partial field updates (`title`, `role`, `tech`, `from`, `to`).
+- Date constraints are validated to prevent `to < from`.
+
+### View and Search Features
+
+Read-style commands are implemented as:
+
+- `list` via `ListCommand` (supports `all`, `E`, `C`, `P` filtering),
+- `show` via `ShowCommand` (record + bullets),
+- `find` via `FindCommand` (record field keyword search),
+- `findbullet` via `FindBulletCommand` (bullet-only keyword search).
+
+These commands do not mutate `RecordList`; storage now compares serialized state and skips file writes if unchanged.
+
+### Sorting and Resume Generation Features
+
+- `sort` is implemented by `SortCommand`, which delegates ordering to `RecordList.sort(...)`
+  with a case-insensitive title comparator.
+- `generate` is implemented by `GenerateCommand`, which prints:
+  - current `User` details,
+  - records grouped by type (`Cca`, `Experience`, `Project`),
+  - skills summary from `User.getSkillsAsString()`.
+
+### User Profile and Exit Features
+
+- `edituser` is implemented by `EditUserCommand` and `User.editField(...)`, supporting `name`, `number`, and `email`.
+- `bye` is implemented by `ExitCommand`; `Resumake` terminates the loop when `isExit()` returns `true`.
+- User data lifecycle:
+  - loaded from storage first line (`USER|...`) when available,
+  - otherwise initialized interactively via `User.getInstance()`.
+
 ## Sequence Diagrams
 
 This section provides full sequence coverage for runtime orchestration and every command family.
