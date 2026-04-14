@@ -46,7 +46,7 @@ Assumed user skill level:
 
 1. Ensure you have Java 17 installed.
 2. Place the jar file in a folder.
-3. Navigate to that folder in the terminal and run `java -jar ResuMake.jar`.
+3. Navigate to that folder in the terminal and run `java -jar duke.jar`.
 4. On startup, ResuMake prints `Welcome to ResuMake`.
 5. If user details are not loaded from file, it will prompt:
    - `Welcome! What is your name?`
@@ -86,6 +86,7 @@ Assumed user skill level:
 > - Record and bullet indices are 1-based in user input.
 > - Date format is `yyyy-MM`.
 > - For `project`, `experience`, and `cca`, fields must appear in this order: `/role`, `/tech`, `/from`, `/to`.
+> - Each field flag (`/role`, `/tech`, `/from`, `/to`) can appear at most once in a command.
 > - After adding a `project`, `experience`, or `cca`, ResuMake asks whether you want to add bullet points immediately.
 > - For `list TYPE`, valid values are `E`, `C`, `P` (case-insensitive, e.g. `list e` works).
 > - Duplicate records and duplicate bullets are rejected.
@@ -279,6 +280,10 @@ Shows one record and all its bullets.
 Format:
 `show RECORD_INDEX`
 
+Notes:
+- `RECORD_INDEX` must be a positive integer (`>= 1`).
+- If the index is out of range, ResuMake shows `Invalid record index.`
+
 Example:
 ```text
 show 1
@@ -383,6 +388,8 @@ Notes:
 - You can provide any combination of fields.
 - Fields not provided remain unchanged.
 - End date cannot be before start date.
+- Each field flag (`/role`, `/tech`, `/from`, `/to`) can appear at most once.
+- Field flags are parsed only when they appear as standalone tokens (preceded by whitespace), so text like `My/role` is treated as normal title text.
 
 Examples:
 ```text
@@ -670,6 +677,9 @@ bye
 
 **Q: Why do I get `Error: Please follow the correct format`?**
 **A:** The command format is invalid or incomplete. Check spelling, required parameters, and field order (for add record commands: `/role /tech /from /to`).
+
+**Q: Why do I get `Duplicate field "/role" is not allowed.`?**
+**A:** You repeated the same field flag in one command (for example, two `/role` sections). Keep each of `/role`, `/tech`, `/from`, and `/to` at most once.
 
 **Q: Can I use lowercase in `list TYPE` (for example, `list e`)?**
 **A:** Yes. `list TYPE` accepts `E`, `C`, and `P` in a case-insensitive way.

@@ -124,6 +124,16 @@ its connected `Ui`/`Storage`/`RecordList`, a singleton `User`, and sample record
 
 This keeps parsing and execution concerns separated.
 
+#### Parser field-token handling
+
+For commands that use field flags (`project`, `experience`, `cca`, `edit`), parser extraction is token-based:
+
+- Flags are recognized only as standalone tokens matched by regex (`(?:^|\\s)(/\\S+)`), not by arbitrary substring matches.
+- This avoids false positives when text contains slash fragments (for example, `My/role` inside a title).
+- Duplicate flags are rejected early with explicit errors (for example, two `/role` tokens in one command).
+
+For `show`, parser validation also enforces that the user index is strictly positive before constructing `ShowCommand`.
+
 ### Storage Format and Persistence
 
 ResuMake stores data in a flat text file (`records.txt`) with:
@@ -181,6 +191,7 @@ Important behavior:
   if `y`, it reads bullets until `esc` is entered.
 - `edit` uses `EditCommand` for partial field updates (`title`, `role`, `tech`, `from`, `to`).
 - Date constraints are validated to prevent `to < from`.
+- For add/edit field flags, each of `/role`, `/tech`, `/from`, and `/to` may appear at most once per command.
 
 ### View and Search Features
 

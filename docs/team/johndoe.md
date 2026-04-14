@@ -1,6 +1,3 @@
-# John Doe - Project Portfolio Page
+# Legacy Template Page
 
-## Overview
-
-
-### Summary of Contributions
+This file is a legacy template from the project scaffold and is not used by the current team.

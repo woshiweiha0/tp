@@ -18,7 +18,7 @@ Given below are my contributions to the project.
 
 1. **List records with optional type filter (`list`)** — Displays all records or filters by `E`, `C`, or `P`. Records are shown with their actual list-position index rather than a re-numbered sequence, so the index is always consistent with what `show`, `edit`, and `delete` expect. Accepts the filter case-insensitively and validates it with a clear error if an unsupported value is given.
 
-2. **Show individual record (`show`)** — Displays a single record by 1-based index together with all its bullet points (or a placeholder if there are none). Validates bounds before access, converts user-facing indices to internal 0-based indices in the constructor, and exposes `showRecordWithBullets()` as a static utility so `GenerateCommand` can reuse the same display logic without duplication.
+2. **Show individual record (`show`)** — Displays a single record by 1-based index together with all its bullet points (or a fallback `(no bullets)` message if there are none). Validates bounds before access, converts user-facing indices to internal 0-based indices in the constructor, and exposes `showRecordWithBullets()` as a static utility so `GenerateCommand` can reuse the same display logic without duplication.
 
 3. **Generate resume (`generate`)** — Produces a structured resume-style output: personal details first, then records grouped by type (CCA / Experience / Project) with bullets, then an auto-derived skills section. Reuses `ShowCommand.showRecordWithBullets()` and aggregates skills from the `User` singleton, keeping generation logic thin and modular.
 
