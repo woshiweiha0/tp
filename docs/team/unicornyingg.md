@@ -55,9 +55,6 @@ My main contributions focused on improving reliability in record/bullet mutation
 - Supported teammates during integration/debugging for command-flow issues (especially parser + storage related behavior).
 - Coordinated branch-sync and merge conflict handling for smoother team integration.
 
-### Contributions beyond the project team
-- No major beyond-team contributions are claimed in this PPP.
-
 ## Contributions to the Developer Guide
 - **Storage Format and Persistence**  
   Added details on the `records.txt` structure, `USER|...` parsing, Base64 bullet encoding/decoding, malformed-line skip behavior, and save-on-change write skipping.
