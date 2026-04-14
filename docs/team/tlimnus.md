@@ -30,9 +30,7 @@ Given below are my contributions to the project.
 
 7. **Standardised error messages** — Unified invalid-index error text across `DeleteCommand`, `EditBulletCommand`, `MoveBulletCommand`, `EditCommand`, `AddBulletCommand`, and `ShowCommand`.
 
-8. **Enabled JVM assertions in Gradle** — Added the `-ea` flag to `build.gradle` so `assert` statements are enforced during test runs instead of being silently skipped.
-
-9. **Comprehensive test coverage** — Wrote and expanded tests in `ListCommandTest`, `ShowCommandTest`, `GenerateCommandTest`, `UserTest`, `SortCommandTest`, and `EditUserCommandTest`.
+8. **Comprehensive test coverage** — Wrote and expanded tests in `ListCommandTest`, `ShowCommandTest`, `GenerateCommandTest`, `UserTest`, `SortCommandTest`, and `EditUserCommandTest`.
 
 ### Contributions to the User Guide (UG)
 
@@ -48,7 +46,6 @@ Given below are my contributions to the project.
 
 - Standardised error message conventions across the codebase to reduce user-facing inconsistencies.
 - Fixed the Gradle `-ea` flag to unblock CI and surface assertion failures during local test runs.
-- Contributed to team discussions on index consistency, command retry behaviour, and error message standards.
 
 ### Review/Mentoring Contributions
 
