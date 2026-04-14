@@ -72,7 +72,6 @@ public class GenerateCommand extends Command {
             ui.showLine();
 
             String charType = type.substring(0, 1);
-            int index = 1;
 
             for (Record record : list) {
                 if (record == null) {
@@ -83,7 +82,7 @@ public class GenerateCommand extends Command {
                 assert record != null : "Record in list should not be null";
 
                 if (record.getRecordType().equals(charType)) {
-                    logger.info("Printing record with index " + index + " under type " + type);
+                    logger.info("Printing record under type " + type + ": " + record.getTitle());
 
                     try {
                         showRecordWithBullets(record, ui);
@@ -94,7 +93,6 @@ public class GenerateCommand extends Command {
 
                     ui.showLine();
                 }
-                index++;
             }
         }
         ui.showMessage("Skills");

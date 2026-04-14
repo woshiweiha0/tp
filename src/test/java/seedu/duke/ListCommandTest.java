@@ -22,6 +22,8 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUpUser() {
+        User.resetInstance();
+
         User.loadFrom("Test User", 12345678, "test@example.com");
     }
 

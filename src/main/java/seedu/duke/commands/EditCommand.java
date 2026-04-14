@@ -25,6 +25,7 @@ package seedu.duke.commands;
 
 import seedu.duke.RecordList;
 import seedu.duke.Ui;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 import java.time.YearMonth;
@@ -105,31 +106,36 @@ public class EditCommand extends Command {
      */
 
     @Override
-    public void execute(RecordList list) {
+    public void execute(RecordList list) throws ResumakeException {
+        if (list == null) {
+            throw new ResumakeException("RecordList cannot be null.");
+        }
         assert list != null : "RecordList passed to EditCommand should not be null";
 
         logger.info(() -> "Executing EditCommand on record index " + index);
 
+        if (index < 0 || index >= list.getSize()) {
+            logger.warning(() -> "EditCommand failed: invalid record index " + index);
+            throw new ResumakeException("Invalid record index.");
+        }
+
+        Record record = list.getRecord(index);
+        assert record != null : "Record at valid index should not be null";
+
+        logger.fine(() -> "Before edit: " + record);
+
+        YearMonth finalFrom = (newFrom != null) ? newFrom : record.getFrom();
+        YearMonth finalTo = (newTo != null) ? newTo : record.getTo();
+
+        assert finalFrom != null : "Record from date should not be null";
+        assert finalTo != null : "Record to date should not be null";
+
+        if (finalTo.isBefore(finalFrom)) {
+            logger.warning("EditCommand failed: end date before start date");
+            throw new ResumakeException("End date cannot be before start date.");
+        }
+
         try {
-            if (index < 0 || index >= list.getSize()) {
-                throw new IndexOutOfBoundsException("Invalid record index.");
-            }
-
-            Record record = list.getRecord(index);
-            assert record != null : "Record at valid index should not be null";
-
-            logger.fine(() -> "Before edit: " + record);
-
-            YearMonth finalFrom = (newFrom != null) ? newFrom : record.getFrom();
-            YearMonth finalTo = (newTo != null) ? newTo : record.getTo();
-
-            assert finalFrom != null : "Record from date should not be null";
-            assert finalTo != null : "Record to date should not be null";
-
-            if (finalTo.isBefore(finalFrom)) {
-                throw new IllegalArgumentException("End date cannot be before start date.");
-            }
-
             if (newTitle != null) {
                 logger.fine(() -> "Updating title to: " + newTitle);
                 record.setTitle(newTitle);
@@ -162,18 +168,9 @@ public class EditCommand extends Command {
             ui.showLine();
 
             logger.info(() -> "EditCommand completed successfully for record index " + index);
-
-        } catch (IndexOutOfBoundsException e) {
-            logger.warning(() -> "EditCommand failed: invalid record index " + index);
-            ui.showLine();
-            ui.showError("Invalid record index.");
-            ui.showLine();
-
         } catch (IllegalArgumentException e) {
             logger.warning(() -> "EditCommand failed: " + e.getMessage());
-            ui.showLine();
-            ui.showError(e.getMessage());
-            ui.showLine();
+            throw new ResumakeException(e.getMessage());
         }
     }
 }

@@ -17,7 +17,7 @@ public class ExitCommand extends Command {
     @Override
     public void execute (RecordList list) {
         ui.showLine();
-        System.out.println("bye");
+        ui.showMessage("bye");
         ui.showLine();
     }
 

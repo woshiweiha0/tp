@@ -36,6 +36,8 @@ public class ResumakeTest {
 
         List<String> initialLines = List.of("USER|Test User|11111111|test@example.com");
         Files.write(recordsPath, initialLines);
+        User.resetInstance();
+
         User.loadFrom("Test User", 11111111, "test@example.com");
     }
 

@@ -2,6 +2,7 @@ package seedu.duke.commands;
 
 import seedu.duke.RecordList;
 import seedu.duke.Ui;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 import java.util.logging.Logger;
@@ -46,26 +47,28 @@ public class MoveBulletCommand extends Command {
      * @param list the {@link RecordList} containing the target record.
      */
     @Override
-    public void execute(RecordList list) {
+    public void execute(RecordList list) throws ResumakeException {
         logger.info("Executing MoveBulletCommand for recordIndex=" + recordIndex
                 + ", fromBulletIndex=" + fromBulletIndex
                 + ", toBulletIndex=" + toBulletIndex);
 
+        if (list == null) {
+            throw new ResumakeException("RecordList cannot be null.");
+        }
+
+        assert list != null : "RecordList should not be null";
+
+        if (recordIndex < 0 || recordIndex >= list.getSize()) {
+            throw new ResumakeException("Invalid record index.");
+        }
+
+        Record record = list.getRecord(recordIndex);
+        assert record != null : "Record at valid index should not be null";
+
         try {
-            if (list == null) {
-                throw new IllegalArgumentException("RecordList cannot be null.");
-            }
-
-            assert list != null : "RecordList should not be null";
-
-            if (recordIndex < 0 || recordIndex >= list.getSize()) {
-                throw new IndexOutOfBoundsException("Record index is out of range.");
-            }
-
-            Record record = list.getRecord(recordIndex);
-            assert record != null : "Record at valid index should not be null";
-
             if (fromBulletIndex == toBulletIndex) {
+                // Use record.moveBullet to validate bounds even for no-op moves.
+                record.moveBullet(fromBulletIndex, toBulletIndex);
                 ui.showLine();
                 ui.showMessage("No changes made: bullet is already at position "
                         + (fromBulletIndex + 1) + " in record " + (recordIndex + 1) + ".");
@@ -83,19 +86,12 @@ public class MoveBulletCommand extends Command {
             ui.showLine();
 
             logger.info("MoveBulletCommand completed successfully");
-
-        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             logger.warning("MoveBulletCommand failed: " + e.getMessage());
-            ui.showLine();
-            if (list == null) {
-                ui.showError(e.getMessage());
-            } else if (e instanceof IndexOutOfBoundsException
-                    && recordIndex >= 0 && recordIndex < list.getSize()) {
-                ui.showError("Invalid bullet index.");
-            } else {
-                ui.showError("Invalid record index.");
-            }
-            ui.showLine();
+            throw new ResumakeException("Invalid bullet index.");
+        } catch (IllegalArgumentException e) {
+            logger.warning("MoveBulletCommand failed: " + e.getMessage());
+            throw new ResumakeException(e.getMessage());
         }
     }
 }

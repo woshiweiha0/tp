@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.time.YearMonth;
 
 import seedu.duke.commands.EditCommand;
+import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,11 +16,13 @@ public class EditCommandTest {
 
     @BeforeEach
     public void setUp() {
+        User.resetInstance();
+
         User.loadFrom("John", 91234567, "john@example.com");
     }
 
     @Test
-    public void execute_editTitle_titleUpdated() {
+    public void execute_editTitle_titleUpdated() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -42,7 +45,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editRole_roleUpdated() {
+    public void execute_editRole_roleUpdated() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -63,7 +66,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editTech_techUpdated() {
+    public void execute_editTech_techUpdated() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -84,7 +87,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editFromAndTo_datesUpdated() {
+    public void execute_editFromAndTo_datesUpdated() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Resumake CLI",
@@ -106,7 +109,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editMultipleFields_onlyTargetRecordUpdated() {
+    public void execute_editMultipleFields_onlyTargetRecordUpdated() throws ResumakeException {
         RecordList recordList = new RecordList();
 
         Record firstRecord = new Record(
@@ -149,7 +152,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_validEdit_sizeRemainsSame() {
+    public void execute_validEdit_sizeRemainsSame() throws ResumakeException {
         RecordList recordList = new RecordList();
         recordList.add(new Record(
                 "secondRecord",
@@ -187,7 +190,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(1,
                 "New Title", null, null, null, null);
 
-        editCommand.execute(recordList);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> editCommand.execute(recordList));
+        assertEquals("Invalid record index.", ex.getMessage());
 
         assertEquals("Resumake CLI", record.getTitle());
         assertEquals("Developer", record.getRole());
@@ -198,7 +202,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_editBlankTitle_noChange() {
+    public void execute_editBlankTitle_noChange() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Old Title",
@@ -234,7 +238,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(0,
                 null, null, null, null, YearMonth.parse("2025-12"));
 
-        editCommand.execute(recordList);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> editCommand.execute(recordList));
+        assertEquals("End date cannot be before start date.", ex.getMessage());
 
         assertEquals(YearMonth.parse("2026-01"), record.getFrom());
         assertEquals(YearMonth.parse("2026-03"), record.getTo());
@@ -255,14 +260,15 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(0,
                 null, null, null, YearMonth.parse("2026-04"), null);
 
-        editCommand.execute(recordList);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> editCommand.execute(recordList));
+        assertEquals("End date cannot be before start date.", ex.getMessage());
 
         assertEquals(YearMonth.parse("2026-01"), record.getFrom());
         assertEquals(YearMonth.parse("2026-03"), record.getTo());
     }
 
     @Test
-    public void executeEditOnlyFromUpdatesFrom() {
+    public void executeEditOnlyFromUpdatesFrom() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Old Title",
@@ -283,7 +289,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void executeEditOnlyToUpdatesTo() {
+    public void executeEditOnlyToUpdatesTo() throws ResumakeException {
         RecordList recordList = new RecordList();
         Record record = new Record(
                 "Old Title",

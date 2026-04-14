@@ -13,14 +13,16 @@ import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Project;
 import seedu.duke.recordtype.Record;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MoveBulletCommandTest {
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
     public void setUp() {
+        User.resetInstance();
+
         User.loadFrom("John", 91234567, "john@example.com");
     }
 
@@ -92,13 +94,30 @@ public class MoveBulletCommandTest {
     }
 
     @Test
+    public void execute_moveBulletSameOutOfRangeIndex_throwsInvalidBulletIndex() throws ResumakeException {
+        RecordList list = new RecordList();
+        Record record = createRecordWithThreeBullets();
+        list.add(record);
+
+        MoveBulletCommand command = new MoveBulletCommand(0, 98, 98);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals("Invalid bullet index.", ex.getMessage());
+
+        assertEquals(3, record.getBullets().size());
+        assertEquals("A", record.getBullets().get(0));
+        assertEquals("B", record.getBullets().get(1));
+        assertEquals("C", record.getBullets().get(2));
+    }
+
+    @Test
     public void execute_invalidRecordIndex_noMutation() throws ResumakeException {
         RecordList list = new RecordList();
         Record record = createRecordWithThreeBullets();
         list.add(record);
 
         MoveBulletCommand command = new MoveBulletCommand(1, 0, 1);
-        command.execute(list);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals("Invalid record index.", ex.getMessage());
 
         assertEquals(3, record.getBullets().size());
         assertEquals("A", record.getBullets().get(0));
@@ -113,7 +132,8 @@ public class MoveBulletCommandTest {
         list.add(record);
 
         MoveBulletCommand command = new MoveBulletCommand(-1, 0, 1);
-        command.execute(list);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals("Invalid record index.", ex.getMessage());
 
         assertEquals(3, record.getBullets().size());
         assertEquals("A", record.getBullets().get(0));
@@ -128,7 +148,8 @@ public class MoveBulletCommandTest {
         list.add(record);
 
         MoveBulletCommand command = new MoveBulletCommand(0, -1, 1);
-        command.execute(list);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals("Invalid bullet index.", ex.getMessage());
 
         assertEquals(3, record.getBullets().size());
         assertEquals("A", record.getBullets().get(0));
@@ -143,7 +164,8 @@ public class MoveBulletCommandTest {
         list.add(record);
 
         MoveBulletCommand command = new MoveBulletCommand(0, 0, 3);
-        command.execute(list);
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(list));
+        assertEquals("Invalid bullet index.", ex.getMessage());
 
         assertEquals(3, record.getBullets().size());
         assertEquals("A", record.getBullets().get(0));
@@ -153,16 +175,10 @@ public class MoveBulletCommandTest {
 
     @Test
     public void execute_nullRecordList_noThrow() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
         MoveBulletCommand command = new MoveBulletCommand(0, 0, 1);
 
-        assertDoesNotThrow(() -> command.execute(null));
-        assertEquals("--------------------" + System.lineSeparator()
-                        + "Error: RecordList cannot be null." + System.lineSeparator()
-                        + "--------------------" + System.lineSeparator(),
-                outputStream.toString());
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> command.execute(null));
+        assertEquals("RecordList cannot be null.", ex.getMessage());
     }
 
     @Test
