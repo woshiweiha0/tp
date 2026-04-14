@@ -30,6 +30,8 @@ public class StorageTest {
         } else {
             originalRecordsContent = null;
         }
+        User.resetInstance();
+
         User.loadFrom("Default User", 11111111, "default@example.com");
     }
 
@@ -44,6 +46,8 @@ public class StorageTest {
 
     @Test
     public void saveToFile_withUserAndRecord_writesExpectedLines() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Alex", 98765432, "alex@example.com");
         Storage storage = new Storage(new SilentUi());
         RecordList list = new RecordList();
@@ -119,6 +123,8 @@ public class StorageTest {
 
     @Test
     public void loadFromFile_nonUserFirstLine_parsesAsRecord() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Existing User", 99999999, "existing@example.com");
         Storage storage = new Storage(new SilentUi());
         Path tempDir = Files.createTempDirectory("storage-test-first-line-record");
@@ -142,6 +148,8 @@ public class StorageTest {
 
     @Test
     public void loadFromFile_invalidNonUserFirstLine_skipsLineAndParsesRemaining() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Existing User", 99999999, "existing@example.com");
         Storage storage = new Storage(new SilentUi());
         Path tempDir = Files.createTempDirectory("storage-test-invalid-first-line");
@@ -165,6 +173,8 @@ public class StorageTest {
 
     @Test
     public void loadFromFile_invalidUserNumber_fallsBackToExistingUser() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Fallback User", 12345678, "fallback@example.com");
         Storage storage = new Storage(new SilentUi());
         Path tempDir = Files.createTempDirectory("storage-test-invalid-user");
@@ -191,6 +201,8 @@ public class StorageTest {
 
     @Test
     public void saveToFile_unknownRecordType_skipsUnknownRecord() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Alex", 98765432, "alex@example.com");
         Storage storage = new Storage(new SilentUi());
         RecordList list = new RecordList();
@@ -205,6 +217,8 @@ public class StorageTest {
 
     @Test
     public void saveToFile_bulletWithDelimiter_roundTripsAsSingleBullet() throws Exception {
+        User.resetInstance();
+
         User.loadFrom("Alex", 98765432, "alex@example.com");
         Storage storage = new Storage(new SilentUi());
         RecordList list = new RecordList();

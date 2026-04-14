@@ -22,6 +22,7 @@ import seedu.duke.commands.FindCommand;
 import seedu.duke.commands.FindBulletCommand;
 import seedu.duke.commands.HelpCommand;
 import seedu.duke.commands.EditCommand;
+import seedu.duke.commands.ShowCommand;
 import seedu.duke.exceptions.ResumakeException;
 import seedu.duke.recordtype.Record;
 import seedu.duke.commands.EditBulletCommand;
@@ -37,6 +38,8 @@ public class ParserTest {
 
     @BeforeEach
     public void setUp() {
+        User.resetInstance();
+
         User.loadFrom("John", 91234567, "john@example.com");
     }
 
@@ -97,6 +100,24 @@ public class ParserTest {
     @Test
     public void parse_helpWithExtraArgument_throwsException() {
         assertThrows(ResumakeException.class, () -> Parser.parse("help extra"));
+    }
+
+    @Test
+    public void parse_showValidIndex_returnsShowCommand() throws ResumakeException {
+        Command command = Parser.parse("show 1");
+        assertInstanceOf(ShowCommand.class, command);
+    }
+
+    @Test
+    public void parse_showZeroIndex_throwsException() {
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> Parser.parse("show 0"));
+        assertEquals("Record index must be positive.", ex.getMessage());
+    }
+
+    @Test
+    public void parse_showNegativeIndex_throwsException() {
+        ResumakeException ex = assertThrows(ResumakeException.class, () -> Parser.parse("show -1"));
+        assertEquals("Record index must be positive.", ex.getMessage());
     }
 
     @Test
@@ -413,6 +434,35 @@ public class ParserTest {
                 "project MyApp /role Dev /tech Java /from 2026-01 /to 2026-02 /salary 5000"));
         assertEquals("\"/salary\" is not a valid field. Please use /role, /tech, /from, and /to only.",
                 exception.getMessage());
+    }
+
+    @Test
+    public void parse_projectTitleContainingSlashToken_parsesCorrectly() throws Exception {
+        provideInput("n");
+        Command command = Parser.parse(
+                "project My/role App /role Developer /tech Java /from 2026-01 /to 2026-03");
+        assertInstanceOf(AddCommand.class, command);
+
+        RecordList list = new RecordList();
+        command.execute(list);
+
+        Record record = list.getRecord(0);
+        assertEquals("My/role App", record.getTitle());
+        assertEquals("Developer", record.getRole());
+    }
+
+    @Test
+    public void parse_projectDuplicateField_throwsException() {
+        ResumakeException exception = assertThrows(ResumakeException.class, () -> Parser.parse(
+                "project Demo /role First /role Second /tech Java /from 2026-01 /to 2026-03"));
+        assertEquals("Duplicate field \"/role\" is not allowed.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_editDuplicateField_throwsException() {
+        ResumakeException exception = assertThrows(ResumakeException.class, () -> Parser.parse(
+                "edit 1 New Title /role First /role Second"));
+        assertEquals("Duplicate field \"/role\" is not allowed.", exception.getMessage());
     }
 
     @Test

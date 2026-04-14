@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DeleteCommandTest {
     @BeforeEach
     public void setUp() {
+        User.resetInstance();
+
         User.loadFrom("John", 91234567, "john@example.com");
     }
 

@@ -64,6 +64,15 @@ public class User {
         return instance;
     }
 
+    /**
+     * Resets the singleton instance.
+     * Intended for test isolation.
+     */
+    static void resetInstance() {
+        logger.fine("Resetting user singleton instance");
+        instance = null;
+    }
+
     public void editField(String field, String value) throws ResumakeException {
         logger.fine("editField called: field=\"" + field + "\", value=\"" + value + "\"");
         switch (field.toLowerCase()) {
