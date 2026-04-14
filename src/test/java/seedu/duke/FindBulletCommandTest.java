@@ -22,6 +22,8 @@ public class FindBulletCommandTest {
 
     @BeforeEach
     public void setUp() {
+        User.resetInstance();
+
         User.loadFrom("John", 91234567, "john@example.com");
     }
 

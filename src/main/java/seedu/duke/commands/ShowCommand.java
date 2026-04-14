@@ -23,17 +23,8 @@ public class ShowCommand extends Command {
 
     public static void printRecord(RecordList records, int index) {
         Record record = records.getRecord(index);
-        System.out.println(record);
-
-        ArrayList<String> bullets = record.getBullets();
-        if (bullets.isEmpty()) {
-            System.out.println("  (no bullets)");
-        } else {
-            System.out.println("  Bullets:");
-            for (int i = 0; i < bullets.size(); i++) {
-                System.out.println("  " + (i + 1) + ". " + bullets.get(i));
-            }
-        }
+        Ui ui = new Ui();
+        showRecordWithBullets(record, ui);
     }
 
     /**
